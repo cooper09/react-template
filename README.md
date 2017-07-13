@@ -4,9 +4,9 @@ A use as-is base template for univeral use. (Is that redundant?)
 
 Includes node packages (work with most Node versions up to 8.1.4) 
 
-To build "$npm install"
+To build > "$npm install"
 
-To run "gulp"
+To run > "gulp"
 
 This will use browserfy to build a working version in the "dist" folder. All source java script and css is, of course, under "src"
 
