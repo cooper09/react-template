@@ -16,6 +16,6 @@ Comes complete with one simple component and a basic flux framework (though no f
 
 I also included an API utility in the utils folder that uses the axios node module to make REST calls, but only for those that already know what they're doing. Its not particularly well documented.
 
-If have any questions or want to make any contributions, just let me know.
+If you have any questions or want to make any contributions, just let me know.
 
 Enjoy!!
