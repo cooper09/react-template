@@ -4,7 +4,7 @@ A use as-is base template for univeral use. (Is that redundant?)
 
 Includes node packages (work with most Node versions up to 8.1.4) 
 
-To build > "$npm install"
+To build > "npm install"
 
 To run > "gulp"
 
