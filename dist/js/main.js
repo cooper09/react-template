@@ -20574,16 +20574,21 @@ var React = require('react');
 
 var ComponentOne = React.createClass({displayName: "ComponentOne",
 
+	doSomething: function (){
+		console.log("Do Something!!!");
+	},
 	render: function() {
 	/*	 if (!this.props.visible) {
 		 	console.log("componentOne is off");
           return false; 
 	} */
+
 		
 		return (
 			React.createElement("div", null, 
-				React.createElement("h1", null, " Simple functional Component")
-
+				React.createElement("h1", null, " Simple functional Component"), 
+				React.createElement("input", {type: "text", value: this.state, 
+               onChange: this.doSomething})
 			)
 			);
 	}//end render
