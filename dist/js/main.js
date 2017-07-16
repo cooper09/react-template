@@ -20580,14 +20580,21 @@ var ComponentOne = React.createClass({displayName: "ComponentOne",
 		//console.log("Submit me, baby: ", e );
 		var name = document.getElementById("name").value;
 	    var email = document.getElementById("email").value;
+		var phone = document.getElementById("phone").value;
 
 		var validEmail = validateEmail(email);
 	    console.log("validate email: "+ validEmail );
 
-		if (validEmail === true) {
+		var validPhone = validatePhone(phone);
+	    console.log("validate phone: "+ validPhone );
+
+		if ((validEmail === true) && (validPhone === true)) {
 			alert("Data has been successfully submitted...");
+		} else {
+			alert("You must enter valid email and phone number to continue.")
 		}
 
+//Validation code for Email and phone number
 		function validateEmail (email) {
 			console.log("Validate email: ", email );
 
@@ -20601,7 +20608,22 @@ var ComponentOne = React.createClass({displayName: "ComponentOne",
 				return true;
 			}
 		}//validate email 
-	},
+	//Phone Number validation
+		function validatePhone (phone) {
+			console.log("Validate phone number: ", phone );
+			var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;  
+			console.log("phoneno: ", phone.match(phoneno));	
+			var ok = phone.match(phoneno);
+			console.log("validatePhone - Are we OK: ", ok )
+			if ((ok))  { 
+				return true;  
+			}  else  {  
+				alert("You must enter a valid phone number!");  
+				return false;   
+			}   
+
+		}//validate phone
+	},//end onSubmit
 	render: function() {
 		
 		return (
@@ -20611,6 +20633,7 @@ var ComponentOne = React.createClass({displayName: "ComponentOne",
 
 					React.createElement("span", {className: "label"}, "Name: "), React.createElement("input", {type: "text", id: "name", name: "fname", className: "formfld", width: "60", required: true}), React.createElement("br", null), 
 				    React.createElement("span", {className: "label"}, "Email: "), React.createElement("input", {type: "text", id: "email", name: "email", className: "formfld", width: "60", required: true}), React.createElement("br", null), 
+					React.createElement("span", {className: "label"}, "Contact Number: "), React.createElement("input", {type: "text", id: "phone", className: "formfld"}), React.createElement("br", null), 
 					React.createElement("br", null), React.createElement("br", null), 
 					React.createElement("button", {type: "submit"}, "Submit")
 			   ), 
