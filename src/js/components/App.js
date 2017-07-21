@@ -30,11 +30,17 @@ var App = React.createClass({
 	},
 	render: function(){
 
-		//var dsps = this.state.pages.map()
+		var listOfItems = [{
+							"id": 1,
+							"text" : "This is Item One"
+		},{
+			"id": 2,
+			"text" : "This is Item Two"
+		}];
 
 		return(
 			<div>
-				<ComponentOne />
+				<ComponentOne items={listOfItems}/>
 			</div>
 		);
 	},

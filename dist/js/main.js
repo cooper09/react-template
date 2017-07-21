@@ -20551,11 +20551,17 @@ var App = React.createClass({displayName: "App",
 	},
 	render: function(){
 
-		//var dsps = this.state.pages.map()
+		var listOfItems = [{
+							"id": 1,
+							"text" : "This is Item One"
+		},{
+			"id": 2,
+			"text" : "This is Item Two"
+		}];
 
 		return(
 			React.createElement("div", null, 
-				React.createElement(ComponentOne, null)
+				React.createElement(ComponentOne, {items: listOfItems})
 			)
 		);
 	},
@@ -20572,7 +20578,10 @@ module.exports = App;
 },{"./ComponentOne.js":185,"react":183}],185:[function(require,module,exports){
 var React = require('react');
 
+var ComponentTwo = require('./ComponentTwo.js');
+
 var ComponentOne = React.createClass({displayName: "ComponentOne",
+	
 
 	doSomething: function (){
 		console.log("Do Something!!!");
@@ -20583,12 +20592,18 @@ var ComponentOne = React.createClass({displayName: "ComponentOne",
           return false; 
 	} */
 
+	console.log("list of items: ", this.props.items);
+	var items = this.props.items;
+	console.log("number of items: "+ items.length );
 		
 		return (
 			React.createElement("div", null, 
-				React.createElement("h1", null, " Simple functional Component"), 
-				React.createElement("input", {type: "text", value: this.state, 
-               onChange: this.doSomething})
+				React.createElement("h1", null, " Simple ListView"), 
+				 items.map(function(items) {
+					console.log("Are we in business!\n\n")
+					return React.createElement(ComponentTwo, {key: items.id, text: items.text})
+				}) 
+				
 			)
 			);
 	}//end render
@@ -20596,7 +20611,34 @@ var ComponentOne = React.createClass({displayName: "ComponentOne",
 
 module.exports = ComponentOne;
 
-},{"react":183}],186:[function(require,module,exports){
+},{"./ComponentTwo.js":186,"react":183}],186:[function(require,module,exports){
+var React = require('react');
+
+var ComponentTwo = React.createClass({displayName: "ComponentTwo",
+
+	doSomething: function (){
+		console.log("Do Something!!!");
+	},
+	render: function() {
+	/*	 if (!this.props.visible) {
+		 	console.log("componentOne is off");
+          return false; 
+	} */
+
+    console.log("ComponentTwo text: ", this.props.text );
+		
+		return (
+			React.createElement("div", {className: "item"}, 
+				React.createElement("h3", null, " Simple List Item"), 
+				this.props.text
+			)
+			);
+	}//end render
+});//end ComponentTwo
+
+module.exports = ComponentTwo;
+
+},{"react":183}],187:[function(require,module,exports){
 var App = require('./components/App');
 var React = require('react');
 var ReactDOM = require('react-dom');
@@ -20611,7 +20653,7 @@ ReactDOM.render(
 	document.getElementById('app')
 );
 
-},{"./components/App":184,"./utils/appAPI":187,"react":183,"react-dom":27}],187:[function(require,module,exports){
+},{"./components/App":184,"./utils/appAPI":188,"react":183,"react-dom":27}],188:[function(require,module,exports){
 //var AppActions = require('../actions/AppActions');
 var axios = require('axios');
 
@@ -20651,4 +20693,4 @@ module.exports = {
 
 }; //end exports
 
-},{"axios":1}]},{},[186]);
+},{"axios":1}]},{},[187]);
