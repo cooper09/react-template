@@ -1,5 +1,8 @@
 var React = require('react');
 
+var Gsap = require('gsap');
+var TweenMax = Gsap.TweenMax;
+
 var ComponentTwo = React.createClass({
 
 	componentDidMount: function () {
@@ -9,26 +12,28 @@ var ComponentTwo = React.createClass({
 		//TweenMax.to(node, 5, {x: 200})
 		// container click handler
 		console.log('our container click handler: ', this.props);
+		//manipulate item
+
+		//TweenMax.to(e.target)
 	},
 
-	doSomething: function (){
+	doSomething: function () {
 		console.log("Do Something!!!");
+		//console.log('our click target: ', e.target );
+		TweenMax(this, 1.5, {x: 100});
 	},
 	render: function() {
-	/*	 if (!this.props.visible) {
-		 	console.log("componentOne is off");
-          return false; 
-	} */
 
     console.log("ComponentTwo text: ", this.props.text );
 		
 		return (
-			<div className = "item" onClick={this.doSomething}>
+			<div className = "item" onClick={this.props.clickHandler}>
 				<h3 className = "header-font"> Simple List Item</h3>
 				{this.props.text}
 			</div>
-			);
+			)
 	}//end render
+
 });//end ComponentTwo
 
 module.exports = ComponentTwo;

@@ -19,6 +19,7 @@
   "dependencies": {
     "axios": "*",
     "fusioncharts": "*",
+    "gsap": "^1.20.2",
     "react": "*",
     "react-dom": "*",
     "react-fusioncharts": "*"
