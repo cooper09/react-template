@@ -5,25 +5,21 @@ var ComponentTwo = require('./ComponentTwo.js');
 var ComponentOne = React.createClass({
 	
 
-	doSomething: function (){
-		console.log("Do Something!!!");
+	handleClick: function (){
+		console.log("Component One's Clickhandler");
 	},
 	render: function() {
-	/*	 if (!this.props.visible) {
-		 	console.log("componentOne is off");
-          return false; 
-	} */
 
-	console.log("list of items: ", this.props.items);
-	var items = this.props.items;
-	console.log("number of items: "+ items.length );
+		console.log("list of items: ", this.props.items);
+		var items = this.props.items;
+		console.log("number of items: "+ items.length );
 		
 		return (
 			<div>
-				<h1> Simple ListView</h1>
+				<h1 className="header-font"> Simple ListView</h1>
 				{ items.map(function(items) {
 					console.log("Are we in business!\n\n")
-					return <ComponentTwo key={items.id} text={items.text}/>
+					return <ComponentTwo key={items.id} text={items.text} clickHandler={ this.handleClick } />
 				}) }
 				
 			</div>

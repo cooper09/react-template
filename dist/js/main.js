@@ -20583,25 +20583,21 @@ var ComponentTwo = require('./ComponentTwo.js');
 var ComponentOne = React.createClass({displayName: "ComponentOne",
 	
 
-	doSomething: function (){
-		console.log("Do Something!!!");
+	handleClick: function (){
+		console.log("Component One's Clickhandler");
 	},
 	render: function() {
-	/*	 if (!this.props.visible) {
-		 	console.log("componentOne is off");
-          return false; 
-	} */
 
-	console.log("list of items: ", this.props.items);
-	var items = this.props.items;
-	console.log("number of items: "+ items.length );
+		console.log("list of items: ", this.props.items);
+		var items = this.props.items;
+		console.log("number of items: "+ items.length );
 		
 		return (
 			React.createElement("div", null, 
-				React.createElement("h1", null, " Simple ListView"), 
+				React.createElement("h1", {className: "header-font"}, " Simple ListView"), 
 				 items.map(function(items) {
 					console.log("Are we in business!\n\n")
-					return React.createElement(ComponentTwo, {key: items.id, text: items.text})
+					return React.createElement(ComponentTwo, {key: items.id, text: items.text, clickHandler:  this.handleClick})
 				}) 
 				
 			)
@@ -20616,6 +20612,15 @@ var React = require('react');
 
 var ComponentTwo = React.createClass({displayName: "ComponentTwo",
 
+	componentDidMount: function () {
+		console.log("component mounted...");
+		var node = this.getDOMNode();
+		console.log('our Dom node: ', node );
+		//TweenMax.to(node, 5, {x: 200})
+		// container click handler
+		console.log('our container click handler: ', this.props);
+	},
+
 	doSomething: function (){
 		console.log("Do Something!!!");
 	},
@@ -20628,8 +20633,8 @@ var ComponentTwo = React.createClass({displayName: "ComponentTwo",
     console.log("ComponentTwo text: ", this.props.text );
 		
 		return (
-			React.createElement("div", {className: "item"}, 
-				React.createElement("h3", null, " Simple List Item"), 
+			React.createElement("div", {className: "item", onClick: this.doSomething}, 
+				React.createElement("h3", {className: "header-font"}, " Simple List Item"), 
 				this.props.text
 			)
 			);
