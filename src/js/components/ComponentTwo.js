@@ -30,6 +30,7 @@ var ComponentTwo = React.createClass({
 			<div className = "item" onClick={this.props.clickHandler}>
 				<h3 className = "header-font"> Simple List Item</h3>
 				{this.props.text}
+				<div className = "content">Content Goes here...</div>
 			</div>
 			)
 	}//end render

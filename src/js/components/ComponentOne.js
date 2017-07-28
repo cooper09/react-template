@@ -27,7 +27,9 @@ var ComponentOne = React.createClass({
 				console.log("Component One's Clickhandler: ", myItem[0].style.background='aqua'  );
 
 				console.log('The magic element: ', myItem[0]);
-				TweenMax.to(myItem[0], 1, {scaleY:1.5});
+				TweenMax.to( myItem[0], 1, { opacity:0, scale:0.5 });
+				//TweenMax.staggerTo(myItem[0], 1, {y:0, opacity:0, scale:0.5}, 0.1);
+
 			}
 	}//end render
 });//end ComponentOne

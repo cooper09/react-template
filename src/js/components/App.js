@@ -36,6 +36,9 @@ var App = React.createClass({
 		},{
 			"id": 2,
 			"text" : "This is Item Two"
+		},{
+			"id": 3,
+			"text" : "And this is Item Three"
 		}];
 
 		return(

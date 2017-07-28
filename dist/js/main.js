@@ -28485,6 +28485,9 @@ var App = React.createClass({displayName: "App",
 		},{
 			"id": 2,
 			"text" : "This is Item Two"
+		},{
+			"id": 3,
+			"text" : "And this is Item Three"
 		}];
 
 		return(
@@ -28533,7 +28536,9 @@ var ComponentOne = React.createClass({displayName: "ComponentOne",
 				console.log("Component One's Clickhandler: ", myItem[0].style.background='aqua'  );
 
 				console.log('The magic element: ', myItem[0]);
-				TweenMax.to(myItem[0], 1, {scaleY:1.5});
+				TweenMax.to( myItem[0], 1, { opacity:0, scale:0.5 });
+				//TweenMax.staggerTo(myItem[0], 1, {y:0, opacity:0, scale:0.5}, 0.1);
+
 			}
 	}//end render
 });//end ComponentOne
@@ -28572,7 +28577,8 @@ var ComponentTwo = React.createClass({displayName: "ComponentTwo",
 		return (
 			React.createElement("div", {className: "item", onClick: this.props.clickHandler}, 
 				React.createElement("h3", {className: "header-font"}, " Simple List Item"), 
-				this.props.text
+				this.props.text, 
+				React.createElement("div", {className: "content"}, "Content Goes here...")
 			)
 			)
 	}//end render
