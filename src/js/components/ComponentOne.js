@@ -8,14 +8,15 @@ var ComponentOne = React.createClass({
 
 		console.log("list of items: ", this.props.items);
 		var items = this.props.items;
-		console.log("number of items: "+ items.length );
+		var num = 0;
 		
 		return (
 			<div>
 				<h1 className="header-font"> Simple ListView</h1>
 				{ items.map(function(items) {
-					console.log("Are we in business!\n\n")
-					return <ComponentTwo key={items.id} text={items.text} clickHandler={ handleItemClick.bind(this) } className="item"/>
+					console.log("Item no: ", num );
+					++num;
+					return <ComponentTwo num={num} key={items.id} text={items.text} clickHandler={ handleItemClick.bind(this) } className="item"/>
 				}) }
 				
 			</div>
@@ -24,11 +25,11 @@ var ComponentOne = React.createClass({
 			function handleItemClick (){
 				var myItem = document.getElementsByClassName('item');
 
-				console.log("Component One's Clickhandler: ", myItem[0].style.background='aqua'  );
+			/*	console.log("Component One's Clickhandler: ", myItem[0].style.background='aqua'  );
 
 				console.log('The magic element: ', myItem[0]);
 				TweenMax.to( myItem[0], 1, { opacity:0, scale:0.5 });
-				//TweenMax.staggerTo(myItem[0], 1, {y:0, opacity:0, scale:0.5}, 0.1);
+				//TweenMax.staggerTo(myItem[0], 1, {y:0, opacity:0, scale:0.5}, 0.1); */
 
 			}
 	}//end render

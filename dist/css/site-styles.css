@@ -35,15 +35,7 @@ h2 {
   margin-bottom: 0.5em;
 }
 
-/* line 24, ../sass/partials/_main.sass */
+/* line 25, ../sass/partials/_main.sass */
 .header-font {
   font-family: "Open Sans", Arial, sans-serif;
-}
-
-/* line 27, ../sass/partials/_main.sass */
-.content {
-  height: 10em;
-  width: 100%;
-  background: aqua;
-  padding: 1em;
 }

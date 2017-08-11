@@ -28490,9 +28490,11 @@ var App = React.createClass({displayName: "App",
 			"text" : "And this is Item Three"
 		}];
 
+		var num = 0;
+
 		return(
 			React.createElement("div", null, 
-				React.createElement(ComponentOne, {items: listOfItems})
+				React.createElement(ComponentOne, {items: listOfItems, numItems: num})
 			)
 		);
 	},
@@ -28517,14 +28519,15 @@ var ComponentOne = React.createClass({displayName: "ComponentOne",
 
 		console.log("list of items: ", this.props.items);
 		var items = this.props.items;
-		console.log("number of items: "+ items.length );
+		var num = 0;
 		
 		return (
 			React.createElement("div", null, 
 				React.createElement("h1", {className: "header-font"}, " Simple ListView"), 
 				 items.map(function(items) {
-					console.log("Are we in business!\n\n")
-					return React.createElement(ComponentTwo, {key: items.id, text: items.text, clickHandler:  handleItemClick.bind(this), className: "item"})
+					console.log("Item no: ", num );
+					++num;
+					return React.createElement(ComponentTwo, {num: num, key: items.id, text: items.text, clickHandler:  handleItemClick.bind(this), className: "item"})
 				}) 
 				
 			)
@@ -28533,11 +28536,11 @@ var ComponentOne = React.createClass({displayName: "ComponentOne",
 			function handleItemClick (){
 				var myItem = document.getElementsByClassName('item');
 
-				console.log("Component One's Clickhandler: ", myItem[0].style.background='aqua'  );
+			/*	console.log("Component One's Clickhandler: ", myItem[0].style.background='aqua'  );
 
 				console.log('The magic element: ', myItem[0]);
 				TweenMax.to( myItem[0], 1, { opacity:0, scale:0.5 });
-				//TweenMax.staggerTo(myItem[0], 1, {y:0, opacity:0, scale:0.5}, 0.1);
+				//TweenMax.staggerTo(myItem[0], 1, {y:0, opacity:0, scale:0.5}, 0.1); */
 
 			}
 	}//end render
@@ -28554,7 +28557,7 @@ var TweenMax = Gsap.TweenMax;
 var ComponentTwo = React.createClass({displayName: "ComponentTwo",
 
 	componentDidMount: function () {
-		console.log("component mounted...");
+		console.log("component mounted: ", this.props.num );
 		var node = this.getDOMNode();
 		console.log('our Dom node: ', node );
 		//TweenMax.to(node, 5, {x: 200})
@@ -28573,15 +28576,44 @@ var ComponentTwo = React.createClass({displayName: "ComponentTwo",
 	render: function() {
 
     console.log("ComponentTwo text: ", this.props.text );
-		
+
+	var contentNum = "content" + this.props.num;
+	console.log("current Content No: ", contentNum );
+
+	// because each content item is created on the fly, each one's class name
+	// is unique. To handle this a "universal styling is applied here..."
+	var style = {
+		background: '#ccc',
+		padding: '0.5em',
+		margin: '0.5em'
+	}
+
+	var open = false;
+
 		return (
-			React.createElement("div", {className: "item", onClick: this.props.clickHandler}, 
+			React.createElement("div", {className: "item", onClick:  handleItemClick.bind(this)}, 
 				React.createElement("h3", {className: "header-font"}, " Simple List Item"), 
 				this.props.text, 
-				React.createElement("div", {className: "content"}, "Content Goes here...")
+				React.createElement("div", {className: contentNum, style: style}, "Content Goes here...")
 			)
 			)
+
+			function handleItemClick (){
+			//cooper s - use jquery to open/close each items content....
+
+				var myItem = $('.content'+ this.props.num );
+				
+				if ( open === false ) {
+					TweenMax.to( myItem, 1, { height: 100 });
+					open = true;
+				} else {
+					TweenMax.to( myItem, 1, { height: 35 });
+					open = false;
+				}
+
+			}
 	}//end render
+
 
 });//end ComponentTwo
 

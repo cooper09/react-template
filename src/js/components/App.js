@@ -41,9 +41,11 @@ var App = React.createClass({
 			"text" : "And this is Item Three"
 		}];
 
+		var num = 0;
+
 		return(
 			<div>
-				<ComponentOne items={listOfItems}/>
+				<ComponentOne items={listOfItems} numItems={num}/>
 			</div>
 		);
 	},

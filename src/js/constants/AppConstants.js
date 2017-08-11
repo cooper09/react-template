@@ -1,0 +1,4 @@
+module.exports = {
+  	CONTENT_VISIBLE: "CONTENT_VISIBLE",
+	CLOSE_WINDOW: "CLOSE_CONTENT"
+}
