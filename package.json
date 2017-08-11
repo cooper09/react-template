@@ -21,6 +21,7 @@
     "fusioncharts": "*",
     "react": "*",
     "react-dom": "*",
-    "react-fusioncharts": "*"
+    "react-fusioncharts": "*",
+    "react-script-loader": "0.0.1"
   }
 }
