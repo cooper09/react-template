@@ -20712,7 +20712,7 @@ var ComponentOne = React.createClass({displayName: "ComponentOne",
 	onScriptLoaded: function() {
 		if (!ComponentOne.getStripeToken) {
 		// Put your publishable key here
-		Stripe.setPublishableKey('pk_test_xxxx');
+		Stripe.setPublishableKey('pk_test_JLkrGpX36MXYuQ2W6wdeRiJN');
 
 		this.setState({ stripeLoading: false, stripeLoadingError: false });
 		}
@@ -20756,15 +20756,14 @@ var ComponentOne = React.createClass({displayName: "ComponentOne",
 			React.createElement("div", null, 
 				React.createElement("h1", null, " Simple Cart Component"), 
 
-			React.createElement("form", {onSubmit: this.onSubmit}, 
-				React.createElement("span", null,  this.state.paymentError), React.createElement("br", null), 
-				React.createElement("input", {type: "text", "data-stripe": "number", placeholder: "credit card number"}), React.createElement("br", null), 
-				React.createElement("input", {type: "text", "data-stripe": "exp-month", placeholder: "expiration month"}), React.createElement("br", null), 
-				React.createElement("input", {type: "text", "data-stripe": "exp-year", placeholder: "expiration year"}), React.createElement("br", null), 
-				React.createElement("input", {type: "text", "data-stripe": "cvc", placeholder: "cvc"}), React.createElement("br", null), 
-				React.createElement("input", {disabled: this.state.submitDisabled, type: "submit", value: "Purchase"})
-			)
-			
+				React.createElement("form", {onSubmit: this.onSubmit}, 
+					React.createElement("span", null,  this.state.paymentError), React.createElement("br", null), 
+					React.createElement("input", {type: "text", "data-stripe": "number", placeholder: "credit card number"}), React.createElement("br", null), 
+					React.createElement("input", {type: "text", "data-stripe": "exp-month", placeholder: "expiration month"}), React.createElement("br", null), 
+					React.createElement("input", {type: "text", "data-stripe": "exp-year", placeholder: "expiration year"}), React.createElement("br", null), 
+					React.createElement("input", {type: "text", "data-stripe": "cvc", placeholder: "cvc"}), React.createElement("br", null), 
+					React.createElement("input", {disabled: this.state.submitDisabled, type: "submit", value: "Purchase"})
+				)	
 
 			)
 			);

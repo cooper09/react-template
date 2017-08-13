@@ -20,7 +20,7 @@ var ComponentOne = React.createClass({
 	onScriptLoaded: function() {
 		if (!ComponentOne.getStripeToken) {
 		// Put your publishable key here
-		Stripe.setPublishableKey('pk_test_xxxx');
+		Stripe.setPublishableKey('pk_test_JLkrGpX36MXYuQ2W6wdeRiJN');
 
 		this.setState({ stripeLoading: false, stripeLoadingError: false });
 		}
