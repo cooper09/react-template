@@ -12,11 +12,11 @@ var ComponentOne = React.createClass({
 		
 		return (
 			<div>
-				<h1 className="header-font"> Simple ListView</h1>
+				<h1 className="header-font">TyrionHT Product Page</h1>
 				{ items.map(function(items) {
 					console.log("Item no: ", num );
 					++num;
-					return <ComponentTwo num={num} key={items.id} text={items.text} clickHandler={ handleItemClick.bind(this) } className="item"/>
+					return <ComponentTwo num={num} key={items.id} text={items.text} thumb={items.thumb} desc={items.desc} clickHandler={ handleItemClick.bind(this) } className="item"/>
 				}) }
 				
 			</div>

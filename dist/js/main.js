@@ -28481,13 +28481,19 @@ var App = React.createClass({displayName: "App",
 
 		var listOfItems = [{
 							"id": 1,
-							"text" : "This is Item One"
+							"text" : "Tyrion Business",
+							"thumb" : "img/business-thumb.jpg",
+							"desc" : "Really Cool Business Thingy"
 		},{
 			"id": 2,
-			"text" : "This is Item Two"
+			"text" : "Tyrion Finance",
+			"thumb" : "img/finance-thumb.jpg",
+			"desc" : "Really Cool Finance Thingy"
 		},{
 			"id": 3,
-			"text" : "And this is Item Three"
+			"text" : "Tyrion Health",
+			"thumb" : "img/health-thumb.jpg",
+			"desc" : "Really Cool Health Thingy"
 		}];
 
 		var num = 0;
@@ -28523,11 +28529,11 @@ var ComponentOne = React.createClass({displayName: "ComponentOne",
 		
 		return (
 			React.createElement("div", null, 
-				React.createElement("h1", {className: "header-font"}, " Simple ListView"), 
+				React.createElement("h1", {className: "header-font"}, "TyrionHT Product Page"), 
 				 items.map(function(items) {
 					console.log("Item no: ", num );
 					++num;
-					return React.createElement(ComponentTwo, {num: num, key: items.id, text: items.text, clickHandler:  handleItemClick.bind(this), className: "item"})
+					return React.createElement(ComponentTwo, {num: num, key: items.id, text: items.text, thumb: items.thumb, desc: items.desc, clickHandler:  handleItemClick.bind(this), className: "item"})
 				}) 
 				
 			)
@@ -28592,9 +28598,13 @@ var ComponentTwo = React.createClass({displayName: "ComponentTwo",
 
 		return (
 			React.createElement("div", {className: "item", onClick:  handleItemClick.bind(this)}, 
-				React.createElement("h3", {className: "header-font"}, " Simple List Item"), 
+				React.createElement("h3", {className: "header-font"}, "Item"), 
 				this.props.text, 
-				React.createElement("div", {className: contentNum, style: style}, "Content Goes here...")
+				React.createElement("div", {className: contentNum, style: style}, React.createElement("img", {src: this.props.thumb}), 
+					React.createElement("div", {className: "desc"}, this.props.desc), 
+				
+				React.createElement("div", {className: "buyBtn", onClick:  buyItem.bind(this)}, "Buy Me")
+				)
 			)
 			)
 
@@ -28610,7 +28620,10 @@ var ComponentTwo = React.createClass({displayName: "ComponentTwo",
 					TweenMax.to( myItem, 1, { height: 35 });
 					open = false;
 				}
+			}// end handleClick
 
+			function buyItem() {
+				console.log("We have a buyer!!!");
 			}
 	}//end render
 

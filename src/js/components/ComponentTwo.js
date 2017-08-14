@@ -41,9 +41,13 @@ var ComponentTwo = React.createClass({
 
 		return (
 			<div className = "item" onClick={ handleItemClick.bind(this)}>
-				<h3 className = "header-font"> Simple List Item</h3>
+				<h3 className = "header-font">Item</h3>
 				{this.props.text}
-				<div className = {contentNum} style={style}>Content Goes here...</div>
+				<div className = {contentNum} style={style}><img src={this.props.thumb}/>
+					<div className="desc">{this.props.desc}</div>
+				
+				<div className = "buyBtn" onClick={ buyItem.bind(this)}>Buy Me</div>
+				</div>
 			</div>
 			)
 
@@ -59,7 +63,10 @@ var ComponentTwo = React.createClass({
 					TweenMax.to( myItem, 1, { height: 35 });
 					open = false;
 				}
+			}// end handleClick
 
+			function buyItem() {
+				console.log("We have a buyer!!!");
 			}
 	}//end render
 

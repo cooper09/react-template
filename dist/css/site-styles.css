@@ -39,3 +39,11 @@ h2 {
 .header-font {
   font-family: "Open Sans", Arial, sans-serif;
 }
+
+/* line 28, ../sass/partials/_main.sass */
+.desc {
+  background: aqua;
+  float: right;
+  margin-left: auto;
+  margin-right: auto;
+}
