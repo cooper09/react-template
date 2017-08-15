@@ -16,7 +16,7 @@ var ComponentOne = React.createClass({
 				{ items.map(function(items) {
 					console.log("Item no: ", num );
 					++num;
-					return <ComponentTwo num={num} key={items.id} text={items.text} thumb={items.thumb} desc={items.desc} clickHandler={ handleItemClick.bind(this) } className="item"/>
+					return <ComponentTwo num={num} key={items.id} prodName={items.prodName} text={items.text} thumb={items.thumb} desc={items.desc} clickHandler={ handleItemClick.bind(this) } className="item"/>
 				}) }
 				
 			</div>

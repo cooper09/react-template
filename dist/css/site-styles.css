@@ -41,9 +41,39 @@ h2 {
 }
 
 /* line 28, ../sass/partials/_main.sass */
+.thumbimg {
+  background: red;
+  display: none;
+}
+
+/* line 32, ../sass/partials/_main.sass */
 .desc {
   background: aqua;
   float: right;
   margin-left: auto;
   margin-right: auto;
+}
+
+/* line 38, ../sass/partials/_main.sass */
+.thumbimg1 {
+  opacity: 0;
+}
+
+/* line 41, ../sass/partials/_main.sass */
+.thumbimg2 {
+  opacity: 0;
+}
+
+/* line 44, ../sass/partials/_main.sass */
+.thumbimg3 {
+  opacity: 0;
+}
+
+/* line 47, ../sass/partials/_main.sass */
+.buyBtn {
+  width: 5em;
+  height: 2em;
+  background: blue;
+  color: white;
+  padding: 0.5em;
 }

@@ -33,16 +33,19 @@ var App = React.createClass({
 		var listOfItems = [{
 							"id": 1,
 							"text" : "Tyrion Business",
+							"prodName" : "Business Item",
 							"thumb" : "img/business-thumb.jpg",
 							"desc" : "Really Cool Business Thingy"
 		},{
 			"id": 2,
 			"text" : "Tyrion Finance",
+			"prodName" : "Finance Item",
 			"thumb" : "img/finance-thumb.jpg",
 			"desc" : "Really Cool Finance Thingy"
 		},{
 			"id": 3,
 			"text" : "Tyrion Health",
+			"prodName" : "Health Item",
 			"thumb" : "img/health-thumb.jpg",
 			"desc" : "Really Cool Health Thingy"
 		}];

@@ -28482,16 +28482,19 @@ var App = React.createClass({displayName: "App",
 		var listOfItems = [{
 							"id": 1,
 							"text" : "Tyrion Business",
+							"prodName" : "Business Item",
 							"thumb" : "img/business-thumb.jpg",
 							"desc" : "Really Cool Business Thingy"
 		},{
 			"id": 2,
 			"text" : "Tyrion Finance",
+			"prodName" : "Finance Item",
 			"thumb" : "img/finance-thumb.jpg",
 			"desc" : "Really Cool Finance Thingy"
 		},{
 			"id": 3,
 			"text" : "Tyrion Health",
+			"prodName" : "Health Item",
 			"thumb" : "img/health-thumb.jpg",
 			"desc" : "Really Cool Health Thingy"
 		}];
@@ -28533,7 +28536,7 @@ var ComponentOne = React.createClass({displayName: "ComponentOne",
 				 items.map(function(items) {
 					console.log("Item no: ", num );
 					++num;
-					return React.createElement(ComponentTwo, {num: num, key: items.id, text: items.text, thumb: items.thumb, desc: items.desc, clickHandler:  handleItemClick.bind(this), className: "item"})
+					return React.createElement(ComponentTwo, {num: num, key: items.id, prodName: items.prodName, text: items.text, thumb: items.thumb, desc: items.desc, clickHandler:  handleItemClick.bind(this), className: "item"})
 				}) 
 				
 			)
@@ -28584,6 +28587,11 @@ var ComponentTwo = React.createClass({displayName: "ComponentTwo",
     console.log("ComponentTwo text: ", this.props.text );
 
 	var contentNum = "content" + this.props.num;
+	var thumbNum = "thumbimg" + this.props.num;
+	
+	var thumbMe = $('.thumbimg' + this.props.num );
+	TweenMax.to( thumbMe, 1, { display: "none" });
+
 	console.log("current Content No: ", contentNum );
 
 	// because each content item is created on the fly, each one's class name
@@ -28597,14 +28605,14 @@ var ComponentTwo = React.createClass({displayName: "ComponentTwo",
 	var open = false;
 
 		return (
-			React.createElement("div", {className: "item", onClick:  handleItemClick.bind(this)}, 
-				React.createElement("h3", {className: "header-font"}, "Item"), 
-				this.props.text, 
-				React.createElement("div", {className: contentNum, style: style}, React.createElement("img", {src: this.props.thumb}), 
-					React.createElement("div", {className: "desc"}, this.props.desc), 
-				
+			React.createElement("div", {className: "item"}, 
+				React.createElement("h3", {className: "header-font"}, this.props.text), 
+				this.props.prodName, 
+				React.createElement("div", {className: contentNum, style: style, onClick:  handleItemClick.bind(this)}, 
+					React.createElement("img", {src: this.props.thumb, className: thumbNum}), 
+					React.createElement("div", {className: "desc"}, this.props.desc)
+				), 
 				React.createElement("div", {className: "buyBtn", onClick:  buyItem.bind(this)}, "Buy Me")
-				)
 			)
 			)
 
@@ -28612,18 +28620,22 @@ var ComponentTwo = React.createClass({displayName: "ComponentTwo",
 			//cooper s - use jquery to open/close each items content....
 
 				var myItem = $('.content'+ this.props.num );
+				var myThumb = $('.thumbimg' + this.props.num );
 				
 				if ( open === false ) {
 					TweenMax.to( myItem, 1, { height: 100 });
+					TweenMax.to( myThumb, 1, { opacity: 1 });
 					open = true;
 				} else {
 					TweenMax.to( myItem, 1, { height: 35 });
+					TweenMax.to( myThumb, 0.3, { opacity: 0 });
 					open = false;
 				}
 			}// end handleClick
 
 			function buyItem() {
 				console.log("We have a buyer!!!");
+				alert("Bring it on!!");
 			}
 	}//end render
 

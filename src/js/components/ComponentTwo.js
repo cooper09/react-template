@@ -27,6 +27,11 @@ var ComponentTwo = React.createClass({
     console.log("ComponentTwo text: ", this.props.text );
 
 	var contentNum = "content" + this.props.num;
+	var thumbNum = "thumbimg" + this.props.num;
+	
+	var thumbMe = $('.thumbimg' + this.props.num );
+	TweenMax.to( thumbMe, 1, { display: "none" });
+
 	console.log("current Content No: ", contentNum );
 
 	// because each content item is created on the fly, each one's class name
@@ -40,14 +45,14 @@ var ComponentTwo = React.createClass({
 	var open = false;
 
 		return (
-			<div className = "item" onClick={ handleItemClick.bind(this)}>
-				<h3 className = "header-font">Item</h3>
-				{this.props.text}
-				<div className = {contentNum} style={style}><img src={this.props.thumb}/>
+			<div className = "item">
+				<h3 className = "header-font">{this.props.text}</h3>
+				{this.props.prodName}
+				<div className = {contentNum} style={style} onClick={ handleItemClick.bind(this)}>
+					<img src={this.props.thumb}  className={thumbNum}/>
 					<div className="desc">{this.props.desc}</div>
-				
-				<div className = "buyBtn" onClick={ buyItem.bind(this)}>Buy Me</div>
 				</div>
+				<div className = "buyBtn" onClick={ buyItem.bind(this)}>Buy Me</div>
 			</div>
 			)
 
@@ -55,18 +60,22 @@ var ComponentTwo = React.createClass({
 			//cooper s - use jquery to open/close each items content....
 
 				var myItem = $('.content'+ this.props.num );
+				var myThumb = $('.thumbimg' + this.props.num );
 				
 				if ( open === false ) {
 					TweenMax.to( myItem, 1, { height: 100 });
+					TweenMax.to( myThumb, 1, { opacity: 1 });
 					open = true;
 				} else {
 					TweenMax.to( myItem, 1, { height: 35 });
+					TweenMax.to( myThumb, 0.3, { opacity: 0 });
 					open = false;
 				}
 			}// end handleClick
 
 			function buyItem() {
 				console.log("We have a buyer!!!");
+				alert("Bring it on!!");
 			}
 	}//end render
 
