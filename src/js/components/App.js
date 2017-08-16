@@ -35,19 +35,19 @@ var App = React.createClass({
 							"text" : "Tyrion Business",
 							"prodName" : "Business Item",
 							"thumb" : "img/business-thumb.jpg",
-							"desc" : "Really Cool Business Thingy"
+							"desc" : "Lorem ipsum dolor sit amet, sunt in culpa qui officia deserunt mollit anim id est laborum."
 		},{
 			"id": 2,
 			"text" : "Tyrion Finance",
 			"prodName" : "Finance Item",
 			"thumb" : "img/finance-thumb.jpg",
-			"desc" : "Really Cool Finance Thingy"
+			"desc" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et "
 		},{
 			"id": 3,
 			"text" : "Tyrion Health",
 			"prodName" : "Health Item",
 			"thumb" : "img/health-thumb.jpg",
-			"desc" : "Really Cool Health Thingy"
+			"desc" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit laborum."
 		}];
 
 		var num = 0;

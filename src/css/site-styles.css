@@ -32,48 +32,50 @@ h2 {
   background: gray;
   padding: 1em;
   cursor: pointer;
-  margin-bottom: 0.5em;
+  margin-bottom: 1em;
 }
 
-/* line 25, ../sass/partials/_main.sass */
+/* line 27, ../sass/partials/_main.sass */
 .header-font {
   font-family: "Open Sans", Arial, sans-serif;
 }
 
-/* line 28, ../sass/partials/_main.sass */
+/* line 30, ../sass/partials/_main.sass */
 .thumbimg {
   background: red;
   display: none;
 }
 
-/* line 32, ../sass/partials/_main.sass */
+/* line 34, ../sass/partials/_main.sass */
 .desc {
   background: aqua;
   float: right;
-  margin-left: auto;
-  margin-right: auto;
+  width: 66.10169%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
 }
-
-/* line 38, ../sass/partials/_main.sass */
-.thumbimg1 {
-  opacity: 0;
+@media (max-width: 651px) {
+  /* line 34, ../sass/partials/_main.sass */
+  .desc {
+    width: 100%;
+    float: left;
+    margin-right: 1.69492%;
+  }
 }
 
 /* line 41, ../sass/partials/_main.sass */
-.thumbimg2 {
-  opacity: 0;
-}
-
-/* line 44, ../sass/partials/_main.sass */
-.thumbimg3 {
-  opacity: 0;
-}
-
-/* line 47, ../sass/partials/_main.sass */
 .buyBtn {
   width: 5em;
   height: 2em;
   background: blue;
   color: white;
   padding: 0.5em;
+}
+
+@media (max-width: 651px) {
+  /* line 48, ../sass/partials/_main.sass */
+  .content1, .content2, .content3 {
+    height: 200px;
+  }
 }

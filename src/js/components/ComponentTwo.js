@@ -29,8 +29,7 @@ var ComponentTwo = React.createClass({
 	var contentNum = "content" + this.props.num;
 	var thumbNum = "thumbimg" + this.props.num;
 	
-	var thumbMe = $('.thumbimg' + this.props.num );
-	TweenMax.to( thumbMe, 1, { display: "none" });
+	TweenMax.to( thumbNum, 1, { display: "none"  });
 
 	console.log("current Content No: ", contentNum );
 

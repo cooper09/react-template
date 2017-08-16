@@ -28484,19 +28484,19 @@ var App = React.createClass({displayName: "App",
 							"text" : "Tyrion Business",
 							"prodName" : "Business Item",
 							"thumb" : "img/business-thumb.jpg",
-							"desc" : "Really Cool Business Thingy"
+							"desc" : "Lorem ipsum dolor sit amet, sunt in culpa qui officia deserunt mollit anim id est laborum."
 		},{
 			"id": 2,
 			"text" : "Tyrion Finance",
 			"prodName" : "Finance Item",
 			"thumb" : "img/finance-thumb.jpg",
-			"desc" : "Really Cool Finance Thingy"
+			"desc" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et "
 		},{
 			"id": 3,
 			"text" : "Tyrion Health",
 			"prodName" : "Health Item",
 			"thumb" : "img/health-thumb.jpg",
-			"desc" : "Really Cool Health Thingy"
+			"desc" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit laborum."
 		}];
 
 		var num = 0;
@@ -28589,8 +28589,7 @@ var ComponentTwo = React.createClass({displayName: "ComponentTwo",
 	var contentNum = "content" + this.props.num;
 	var thumbNum = "thumbimg" + this.props.num;
 	
-	var thumbMe = $('.thumbimg' + this.props.num );
-	TweenMax.to( thumbMe, 1, { display: "none" });
+	TweenMax.to( thumbNum, 1, { display: "none"  });
 
 	console.log("current Content No: ", contentNum );
 
