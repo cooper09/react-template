@@ -28596,7 +28596,6 @@ var ComponentTwo = React.createClass({displayName: "ComponentTwo",
 	// because each content item is created on the fly, each one's class name
 	// is unique. To handle this a "universal styling is applied here..."
 	var style = {
-		background: '#ccc',
 		padding: '0.5em',
 		margin: '0.5em'
 	}
@@ -28609,16 +28608,16 @@ var ComponentTwo = React.createClass({displayName: "ComponentTwo",
 				this.props.prodName, 
 				React.createElement("div", {className: contentNum, style: style, onClick:  handleItemClick.bind(this)}, 
 					React.createElement("img", {src: this.props.thumb, className: thumbNum}), 
-					React.createElement("div", {className: "desc"}, this.props.desc)
-				), 
-				React.createElement("div", {className: "buyBtn", onClick:  buyItem.bind(this)}, "Buy Me")
+					React.createElement("div", {className: "desc"}, this.props.desc), 
+					React.createElement("div", {className: "buyBtn", onClick:  buyItem.bind(this)}, React.createElement("center", null, "Buy Me"))
+				)
 			)
 			)
 
 			function handleItemClick (){
 			//cooper s - use jquery to open/close each items content....
-
-				var myItem = $('.content'+ this.props.num );
+				console.log("Here we go...");
+			/*	var myItem = $('.content'+ this.props.num );
 				var myThumb = $('.thumbimg' + this.props.num );
 				
 				if ( open === false ) {
@@ -28629,7 +28628,7 @@ var ComponentTwo = React.createClass({displayName: "ComponentTwo",
 					TweenMax.to( myItem, 1, { height: 35 });
 					TweenMax.to( myThumb, 0.3, { opacity: 0 });
 					open = false;
-				}
+				} */
 			}// end handleClick
 
 			function buyItem() {

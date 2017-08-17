@@ -22,41 +22,44 @@ body {
   }
 }
 
-/* line 16, ../sass/partials/_main.sass */
+/* line 15, ../sass/partials/_main.sass */
 h2 {
   color: blue;
 }
 
-/* line 19, ../sass/partials/_main.sass */
+/* line 18, ../sass/partials/_main.sass */
 .item {
-  background: gray;
+  background: #fff;
   padding: 1em;
   cursor: pointer;
   margin-bottom: 1em;
+  font-family: "Open Sans", Arial, sans-serif;
+  border: 0.05em solid #1e1e21;
+  height: 15em;
+}
+@media (max-width: 651px) {
+  /* line 18, ../sass/partials/_main.sass */
+  .item {
+    height: 20em;
+  }
 }
 
-/* line 27, ../sass/partials/_main.sass */
+/* line 29, ../sass/partials/_main.sass */
 .header-font {
   font-family: "Open Sans", Arial, sans-serif;
 }
 
-/* line 30, ../sass/partials/_main.sass */
-.thumbimg {
-  background: red;
-  display: none;
-}
-
-/* line 34, ../sass/partials/_main.sass */
+/* line 32, ../sass/partials/_main.sass */
 .desc {
-  background: aqua;
   float: right;
+  font-family: "Open Sans", Arial, sans-serif;
   width: 66.10169%;
   float: left;
   margin-right: 1.69492%;
   display: inline;
 }
 @media (max-width: 651px) {
-  /* line 34, ../sass/partials/_main.sass */
+  /* line 32, ../sass/partials/_main.sass */
   .desc {
     width: 100%;
     float: left;
@@ -64,18 +67,24 @@ h2 {
   }
 }
 
-/* line 41, ../sass/partials/_main.sass */
+/* line 39, ../sass/partials/_main.sass */
 .buyBtn {
   width: 5em;
   height: 2em;
-  background: blue;
+  background: #76777a;
   color: white;
   padding: 0.5em;
+  float: right;
+  margin-top: 1em;
+  width: 32.20339%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
 }
 
 @media (max-width: 651px) {
-  /* line 48, ../sass/partials/_main.sass */
+  /* line 49, ../sass/partials/_main.sass */
   .content1, .content2, .content3 {
-    height: 200px;
+    height: 160px;
   }
 }

@@ -8,7 +8,6 @@ html
 
 body
   background-size: 100% 100%
-  //background: gray
   margin: 2.5em
   +at-breakpoint($phone)
     margin: 0.5em
@@ -17,23 +16,22 @@ h2
   color: blue
 
 .item
-  background: gray
+  background: #fff
   padding: 1em
   cursor: pointer
   margin-bottom: 1em
+  font-family: "Open Sans", Arial, sans-serif
+  border: 0.05em solid #1e1e21
+  height: 15em
   +at-breakpoint($phone)
-    //height: 500px
+    height: 20em
 
 .header-font
   font-family: "Open Sans", Arial, sans-serif
 
-.thumbimg
-  background: red
-  display: none
-
 .desc 
-  background: aqua
   float: right
+  font-family: "Open Sans", Arial, sans-serif
   +span-columns(8)
   +at-breakpoint($phone)
     +span-columns(12)
@@ -41,10 +39,13 @@ h2
 .buyBtn
   width: 5em
   height: 2em
-  background: blue
+  background: #76777a
   color: white
   padding: 0.5em
+  float: right
+  margin-top: 1em
+  +span-columns(4)
 
 .content1, .content2, .content3
   +at-breakpoint($phone)
-    height: 200px
+    height: 160px
