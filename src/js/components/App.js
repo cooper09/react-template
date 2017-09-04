@@ -33,21 +33,21 @@ var App = React.createClass({
 		var listOfItems = [{
 							"id": 1,
 							"text" : "Tyrion Business",
-							"prodName" : "Business Item",
-							"thumb" : "img/business-thumb.jpg",
-							"desc" : "Lorem ipsum dolor sit amet, sunt in culpa qui officia deserunt mollit anim id est laborum."
+							"prodName" : "How to Buy Cars at Auctions",
+							"thumb" : "img/business-mustang.jpg",
+							"desc" : "Jammed with techniques and insider's knowledge of the car auction scene."
 		},{
 			"id": 2,
 			"text" : "Tyrion Finance",
-			"prodName" : "Finance Item",
-			"thumb" : "img/finance-thumb.jpg",
-			"desc" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et "
+			"prodName" : "Bitcoin is the Future",
+			"thumb" : "img/bitcoin-book-100x100.jpg",
+			"desc" : "The Bitcoin Miracle Will Be the Only Resource You Ever Need to Get Started with Bitcoin"
 		},{
 			"id": 3,
 			"text" : "Tyrion Health",
-			"prodName" : "Health Item",
-			"thumb" : "img/health-thumb.jpg",
-			"desc" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit laborum."
+			"prodName" : "Wake Up Lean",
+			"thumb" : "img/freeradicals.jpg",
+			"desc" : "You Can Drop Up to 2.8 Pounds in the Next 36 Hours No Matter How Old You Are"
 		}];
 
 		var num = 0;

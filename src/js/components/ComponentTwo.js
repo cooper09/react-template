@@ -45,7 +45,7 @@ var ComponentTwo = React.createClass({
 		return (
 			<div className = "item">
 				<h3 className = "header-font">{this.props.text}</h3>
-				{this.props.prodName}
+				<div className= "productName">{this.props.prodName}</div>
 				<div className = {contentNum} style={style} onClick={ handleItemClick.bind(this)}>
 					<img src={this.props.thumb}  className={thumbNum}/>
 					<div className="desc">{this.props.desc}</div>
@@ -56,7 +56,7 @@ var ComponentTwo = React.createClass({
 
 			function handleItemClick (){
 			//cooper s - use jquery to open/close each items content....
-				console.log("Here we go...");
+				console.log("item handleClick...");
 			/*	var myItem = $('.content'+ this.props.num );
 				var myThumb = $('.thumbimg' + this.props.num );
 				
@@ -73,7 +73,23 @@ var ComponentTwo = React.createClass({
 
 			function buyItem() {
 				console.log("We have a buyer!!!");
-				alert("Bring it on!!");
+				alert("Thank you! We will get back to you soon!");
+
+				console.log("add custom FB conversion")
+				// cooper s - add facebook conversion code
+				fbq('trackCustom', 'InterestedBuyer', {
+					value: 1.00,
+					currency: 'USD'
+				});
+
+				
+				//capture our Google conversion here...
+				console.log("Log Google Click Event");
+				ga('send', 'event', {
+					eventCategory: 'Tyrion Buy Me Link',
+					eventAction: 'click',
+					eventLabel: 'TyrionHT Buy Button'
+				  });
 			}
 	}//end render
 

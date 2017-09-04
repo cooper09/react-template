@@ -28482,21 +28482,21 @@ var App = React.createClass({displayName: "App",
 		var listOfItems = [{
 							"id": 1,
 							"text" : "Tyrion Business",
-							"prodName" : "Business Item",
-							"thumb" : "img/business-thumb.jpg",
-							"desc" : "Lorem ipsum dolor sit amet, sunt in culpa qui officia deserunt mollit anim id est laborum."
+							"prodName" : "How to Buy Cars at Auctions",
+							"thumb" : "img/business-mustang.jpg",
+							"desc" : "Jammed with techniques and insider's knowledge of the car auction scene."
 		},{
 			"id": 2,
 			"text" : "Tyrion Finance",
-			"prodName" : "Finance Item",
-			"thumb" : "img/finance-thumb.jpg",
-			"desc" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et "
+			"prodName" : "Bitcoin is the Future",
+			"thumb" : "img/bitcoin-book-100x100.jpg",
+			"desc" : "The Bitcoin Miracle Will Be the Only Resource You Ever Need to Get Started with Bitcoin"
 		},{
 			"id": 3,
 			"text" : "Tyrion Health",
-			"prodName" : "Health Item",
-			"thumb" : "img/health-thumb.jpg",
-			"desc" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit laborum."
+			"prodName" : "Wake Up Lean",
+			"thumb" : "img/freeradicals.jpg",
+			"desc" : "You Can Drop Up to 2.8 Pounds in the Next 36 Hours No Matter How Old You Are"
 		}];
 
 		var num = 0;
@@ -28605,7 +28605,7 @@ var ComponentTwo = React.createClass({displayName: "ComponentTwo",
 		return (
 			React.createElement("div", {className: "item"}, 
 				React.createElement("h3", {className: "header-font"}, this.props.text), 
-				this.props.prodName, 
+				React.createElement("div", {className: "productName"}, this.props.prodName), 
 				React.createElement("div", {className: contentNum, style: style, onClick:  handleItemClick.bind(this)}, 
 					React.createElement("img", {src: this.props.thumb, className: thumbNum}), 
 					React.createElement("div", {className: "desc"}, this.props.desc), 
@@ -28616,7 +28616,7 @@ var ComponentTwo = React.createClass({displayName: "ComponentTwo",
 
 			function handleItemClick (){
 			//cooper s - use jquery to open/close each items content....
-				console.log("Here we go...");
+				console.log("item handleClick...");
 			/*	var myItem = $('.content'+ this.props.num );
 				var myThumb = $('.thumbimg' + this.props.num );
 				
@@ -28633,7 +28633,23 @@ var ComponentTwo = React.createClass({displayName: "ComponentTwo",
 
 			function buyItem() {
 				console.log("We have a buyer!!!");
-				alert("Bring it on!!");
+				alert("Thank you! We will get back to you soon!");
+
+				console.log("add custom FB conversion")
+				// cooper s - add facebook conversion code
+				fbq('trackCustom', 'InterestedBuyer', {
+					value: 1.00,
+					currency: 'USD'
+				});
+
+				
+				//capture our Google conversion here...
+				console.log("Log Google Click Event");
+				ga('send', 'event', {
+					eventCategory: 'Tyrion Buy Me Link',
+					eventAction: 'click',
+					eventLabel: 'TyrionHT Buy Button'
+				  });
 			}
 	}//end render
 

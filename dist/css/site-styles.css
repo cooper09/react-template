@@ -35,7 +35,7 @@ h2 {
   margin-bottom: 1em;
   font-family: "Open Sans", Arial, sans-serif;
   border: 0.05em solid #1e1e21;
-  height: 15em;
+  height: 20em;
 }
 @media (max-width: 651px) {
   /* line 18, ../sass/partials/_main.sass */
@@ -50,6 +50,11 @@ h2 {
 }
 
 /* line 32, ../sass/partials/_main.sass */
+.productName {
+  font-size: 1.5em;
+}
+
+/* line 36, ../sass/partials/_main.sass */
 .desc {
   float: right;
   font-family: "Open Sans", Arial, sans-serif;
@@ -59,7 +64,7 @@ h2 {
   display: inline;
 }
 @media (max-width: 651px) {
-  /* line 32, ../sass/partials/_main.sass */
+  /* line 36, ../sass/partials/_main.sass */
   .desc {
     width: 100%;
     float: left;
@@ -67,7 +72,7 @@ h2 {
   }
 }
 
-/* line 39, ../sass/partials/_main.sass */
+/* line 43, ../sass/partials/_main.sass */
 .buyBtn {
   width: 5em;
   height: 2em;
@@ -83,7 +88,7 @@ h2 {
 }
 
 @media (max-width: 651px) {
-  /* line 49, ../sass/partials/_main.sass */
+  /* line 53, ../sass/partials/_main.sass */
   .content1, .content2, .content3 {
     height: 160px;
   }
