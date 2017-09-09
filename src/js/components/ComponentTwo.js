@@ -35,7 +35,6 @@ var ComponentTwo = React.createClass({
 	TweenMax.to( thumbNum, 1, { display: "none"  });
 
 	console.log("current Content No: ", contentNum );
-
 	// because each content item is created on the fly, each one's class name
 	// is unique. To handle this a "universal styling is applied here..."
 	var style = {
@@ -63,7 +62,7 @@ var ComponentTwo = React.createClass({
 			}// end handleClick
 
 
-			function WriteInfo(saleData) 
+			function PostInfo(saleData) 
 			{
 			 console.log('WriteInfo is Live!! Add data to DB: ', saleData );
 			 AppAPI.postData(saleData);
@@ -90,9 +89,6 @@ var ComponentTwo = React.createClass({
 
 				  //log this bad boy...
 
-					  // use predefined color console logger (function colorConsole) with standard settings  
-					  log.error("too easy");
-
 		var timeStamp = Date();
 
 		var saleData = {
@@ -100,10 +96,10 @@ var ComponentTwo = React.createClass({
 			"description":this.props.desc,
 			"timestamp": timeStamp
 		}
-					  WriteInfo(saleData);
-				  
 
-			}//end buy item
+		PostInfo(saleData);
+				
+		}//end buy item
 
 
 
