@@ -3,6 +3,9 @@ var React = require('react');
 var Gsap = require('gsap');
 var TweenMax = Gsap.TweenMax;
 
+//Tyrion API
+var AppAPI = require('../utils/tyrionAPI');
+
 var ComponentTwo = React.createClass({
 
 	componentDidMount: function () {
@@ -57,40 +60,53 @@ var ComponentTwo = React.createClass({
 			function handleItemClick (){
 			//cooper s - use jquery to open/close each items content....
 				console.log("item handleClick...");
-			/*	var myItem = $('.content'+ this.props.num );
-				var myThumb = $('.thumbimg' + this.props.num );
-				
-				if ( open === false ) {
-					TweenMax.to( myItem, 1, { height: 100 });
-					TweenMax.to( myThumb, 1, { opacity: 1 });
-					open = true;
-				} else {
-					TweenMax.to( myItem, 1, { height: 35 });
-					TweenMax.to( myThumb, 0.3, { opacity: 0 });
-					open = false;
-				} */
 			}// end handleClick
 
+
+			function WriteInfo(saleData) 
+			{
+			 console.log('WriteInfo is Live!! Add data to DB: ', saleData );
+			 AppAPI.postData(saleData);
+			}
+
 			function buyItem() {
-				console.log("We have a buyer!!!");
-				alert("Thank you! We will get back to you soon!");
+				console.log("We have a buyer for: ", this.props.prodName );
 
 				console.log("add custom FB conversion")
-				// cooper s - add facebook conversion code
+				/*/ cooper s - add facebook conversion code
 				fbq('trackCustom', 'InterestedBuyer', {
 					value: 1.00,
 					currency: 'USD'
-				});
+				}); */
 
 				
 				//capture our Google conversion here...
 				console.log("Log Google Click Event");
-				ga('send', 'event', {
+				/*ga('send', 'event', {
 					eventCategory: 'Tyrion Buy Me Link',
 					eventAction: 'click',
 					eventLabel: 'TyrionHT Buy Button'
-				  });
-			}
+				  }); */
+
+				  //log this bad boy...
+
+					  // use predefined color console logger (function colorConsole) with standard settings  
+					  log.error("too easy");
+
+		var timeStamp = Date();
+
+		var saleData = {
+			"item":this.props.prodName,
+			"description":this.props.desc,
+			"timestamp": timeStamp
+		}
+					  WriteInfo(saleData);
+				  
+
+			}//end buy item
+
+
+
 	}//end render
 
 
