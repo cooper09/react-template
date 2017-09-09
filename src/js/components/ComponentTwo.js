@@ -100,11 +100,7 @@ var ComponentTwo = React.createClass({
 		PostInfo(saleData);
 				
 		}//end buy item
-
-
-
 	}//end render
-
 
 });//end ComponentTwo
 
