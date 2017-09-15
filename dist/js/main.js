@@ -28624,28 +28624,45 @@ var ComponentTwo = React.createClass({displayName: "ComponentTwo",
 
 			function PostInfo(saleData) 
 			{
-			 console.log('WriteInfo is Live!! Add data to DB: ', saleData );
-			 AppAPI.postData(saleData);
+				console.log('WriteInfo is Live!! Add data to DB: ', saleData );
+				AppAPI.postData(saleData);
+
+				var url;
+
+				switch(saleData.item) {
+					case "How to Buy Cars at Auctions":
+					   url = "http://www.theauctionbook.com/?hop=krockny";
+					   break;
+					case "Bitcoin is the Future":
+					   url = "http://www.bitcoinmiracleguide.com/?hop=krockny";
+					   break;  
+					case "Wake Up Lean":
+					   url = "http://digijunction.com/health/krockny/catalog/18";
+					   break; 
+				}
+			
+				console.log('Open new window: ', url );
+				var win = window.open(url, '_blank');
+				win.focus();
 			}
 
 			function buyItem() {
 				console.log("We have a buyer for: ", this.props.prodName );
 
 				console.log("add custom FB conversion")
-				/*/ cooper s - add facebook conversion code
+				// cooper s - add facebook conversion code
 				fbq('trackCustom', 'InterestedBuyer', {
 					value: 1.00,
 					currency: 'USD'
-				}); */
-
+				});  
 				
 				//capture our Google conversion here...
 				console.log("Log Google Click Event");
-				/*ga('send', 'event', {
+				ga('send', 'event', {
 					eventCategory: 'Tyrion Buy Me Link',
 					eventAction: 'click',
 					eventLabel: 'TyrionHT Buy Button'
-				  }); */
+				  }); 
 
 				  //log this bad boy...
 
@@ -28660,11 +28677,7 @@ var ComponentTwo = React.createClass({displayName: "ComponentTwo",
 		PostInfo(saleData);
 				
 		}//end buy item
-
-
-
 	}//end render
-
 
 });//end ComponentTwo
 
@@ -28734,10 +28747,11 @@ module.exports = {
 	 // Load mock product data from localStorage into ProductStore via Action
   postData: function (saleData) {
   	console.log("tyrionAPI.postData: ", saleData );
-      // Performing a GET request
-      axios.post('http://localhost:8080/sale', saleData )
+  // Performing a GET request
+	//axios.post('http://localhost:8080/sale', saleData )
+		axios.post('https://tyrionapi.herokuapp.com/sale', saleData )
 	  .then(function(response){
-	    console.log("tyrionAPI.postData: " ,response.data[0]); // ex.: { user: 'Your User'}
+	    console.log("tyrionAPI.postData: " ,response.data); // ex.: { user: 'Your User'}
 	    console.log(response.status); // ex.: 200
 
 			//Lets taka good look at our data:
