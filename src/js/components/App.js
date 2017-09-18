@@ -1,12 +1,18 @@
 var React = require('react');
 
+//Tyrion API
+var AppAPI = require('../utils/tyrionAPI');
+
 //cooper s - add subcomponents here
+
 
 var ComponentOne = require('./ComponentOne.js');
 
 function getAppState(){
 	console.log("App.getAppState: ");
 	return {
+		data: AppAPI.getData()
+		
 	/*	//app: AppStore.getState(),
 		pages: AppStore.getPages(),
 		oneVisible: AppStore.getOneVisible(),
@@ -16,13 +22,18 @@ function getAppState(){
 
 var App = React.createClass({
 
+	//var data = AppAPI.getData();
+	//console.log("Did this work: ", data );
+
 	getInitialState: function(){
 		return getAppState();
-
+		console.log("Did this work: ", data );
 	},
 
 	componentDidMount: function(){
 	//	AppStore.addChangeListener(this._onChange);
+	var data = AppAPI.getData();
+	console.log("App componentDidMount - Retrieved Data: ", data );
 	},
 
 	componentUnmount: function(){
@@ -49,6 +60,9 @@ var App = React.createClass({
 			"thumb" : "img/freeradicals.jpg",
 			"desc" : "You Can Drop Up to 2.8 Pounds in the Next 36 Hours No Matter How Old You Are"
 		}];
+
+		//console.log("What's the deal, Geel: ", data );
+		//var listOfItems = data;
 
 		var num = 0;
 

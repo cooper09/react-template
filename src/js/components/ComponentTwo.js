@@ -4,7 +4,7 @@ var Gsap = require('gsap');
 var TweenMax = Gsap.TweenMax;
 
 //Tyrion API
-var AppAPI = require('../utils/tyrionAPI');
+//var AppAPI = require('../utils/tyrionAPI');
 
 var ComponentTwo = React.createClass({
 
@@ -64,8 +64,8 @@ var ComponentTwo = React.createClass({
 
 			function PostInfo(saleData) 
 			{
-				console.log('WriteInfo is Live!! Add data to DB: ', saleData );
-				AppAPI.postData(saleData);
+				console.log('WriteInfo is Live!! Get data from DB: ', saleData );
+			//	AppAPI.getData(saleData);
 
 				var url;
 
@@ -91,18 +91,9 @@ var ComponentTwo = React.createClass({
 
 				console.log("add custom FB conversion")
 				// cooper s - add facebook conversion code
-				fbq('trackCustom', 'InterestedBuyer', {
-					value: 1.00,
-					currency: 'USD'
-				});  
 				
 				//capture our Google conversion here...
 				console.log("Log Google Click Event");
-				ga('send', 'event', {
-					eventCategory: 'Tyrion Buy Me Link',
-					eventAction: 'click',
-					eventLabel: 'TyrionHT Buy Button'
-				  }); 
 
 				  //log this bad boy...
 
@@ -118,7 +109,7 @@ var ComponentTwo = React.createClass({
 				
 		}//end buy item
 	}//end render
-
+	
 });//end ComponentTwo
 
 module.exports = ComponentTwo;

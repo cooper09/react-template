@@ -5,7 +5,7 @@ module.exports = {
 
 	 // Load mock product data from localStorage into ProductStore via Action
   getPageData: function () {
-  	console.log("appAPI.getPageData...");
+  	console.log("appAPI.getPageData...why is this being called? From where?");
   	// Performing a GET request
 	//axios.get('http://digitest-authorize.rhcloud.com/mega-data')
 	//axios.get('http://hkex01.mpointx.com/D_worker_request/rtb24/mpointrtb')

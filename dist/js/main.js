@@ -28449,13 +28449,19 @@ module.exports = require('./lib/React');
 },{"./lib/React":52}],185:[function(require,module,exports){
 var React = require('react');
 
+//Tyrion API
+var AppAPI = require('../utils/tyrionAPI');
+
 //cooper s - add subcomponents here
+
 
 var ComponentOne = require('./ComponentOne.js');
 
 function getAppState(){
 	console.log("App.getAppState: ");
 	return {
+		data: AppAPI.getData()
+		
 	/*	//app: AppStore.getState(),
 		pages: AppStore.getPages(),
 		oneVisible: AppStore.getOneVisible(),
@@ -28465,13 +28471,18 @@ function getAppState(){
 
 var App = React.createClass({displayName: "App",
 
+	//var data = AppAPI.getData();
+	//console.log("Did this work: ", data );
+
 	getInitialState: function(){
 		return getAppState();
-
+		console.log("Did this work: ", data );
 	},
 
 	componentDidMount: function(){
 	//	AppStore.addChangeListener(this._onChange);
+	var data = AppAPI.getData();
+	console.log("App componentDidMount - Retrieved Data: ", data );
 	},
 
 	componentUnmount: function(){
@@ -28499,6 +28510,9 @@ var App = React.createClass({displayName: "App",
 			"desc" : "You Can Drop Up to 2.8 Pounds in the Next 36 Hours No Matter How Old You Are"
 		}];
 
+		//console.log("What's the deal, Geel: ", data );
+		//var listOfItems = data;
+
 		var num = 0;
 
 		return(
@@ -28517,7 +28531,7 @@ var App = React.createClass({displayName: "App",
 
 module.exports = App;
 
-},{"./ComponentOne.js":186,"react":184}],186:[function(require,module,exports){
+},{"../utils/tyrionAPI":190,"./ComponentOne.js":186,"react":184}],186:[function(require,module,exports){
 var React = require('react');
 
 var ComponentTwo = require('./ComponentTwo.js');
@@ -28564,7 +28578,7 @@ var Gsap = require('gsap');
 var TweenMax = Gsap.TweenMax;
 
 //Tyrion API
-var AppAPI = require('../utils/tyrionAPI');
+//var AppAPI = require('../utils/tyrionAPI');
 
 var ComponentTwo = React.createClass({displayName: "ComponentTwo",
 
@@ -28624,8 +28638,8 @@ var ComponentTwo = React.createClass({displayName: "ComponentTwo",
 
 			function PostInfo(saleData) 
 			{
-				console.log('WriteInfo is Live!! Add data to DB: ', saleData );
-				AppAPI.postData(saleData);
+				console.log('WriteInfo is Live!! Get data from DB: ', saleData );
+			//	AppAPI.getData(saleData);
 
 				var url;
 
@@ -28651,18 +28665,9 @@ var ComponentTwo = React.createClass({displayName: "ComponentTwo",
 
 				console.log("add custom FB conversion")
 				// cooper s - add facebook conversion code
-				fbq('trackCustom', 'InterestedBuyer', {
-					value: 1.00,
-					currency: 'USD'
-				});  
 				
 				//capture our Google conversion here...
 				console.log("Log Google Click Event");
-				ga('send', 'event', {
-					eventCategory: 'Tyrion Buy Me Link',
-					eventAction: 'click',
-					eventLabel: 'TyrionHT Buy Button'
-				  }); 
 
 				  //log this bad boy...
 
@@ -28678,12 +28683,12 @@ var ComponentTwo = React.createClass({displayName: "ComponentTwo",
 				
 		}//end buy item
 	}//end render
-
+	
 });//end ComponentTwo
 
 module.exports = ComponentTwo;
 
-},{"../utils/tyrionAPI":190,"gsap":27,"react":184}],188:[function(require,module,exports){
+},{"gsap":27,"react":184}],188:[function(require,module,exports){
 var App = require('./components/App');
 var React = require('react');
 var ReactDOM = require('react-dom');
@@ -28706,7 +28711,7 @@ module.exports = {
 
 	 // Load mock product data from localStorage into ProductStore via Action
   getPageData: function () {
-  	console.log("appAPI.getPageData...");
+  	console.log("appAPI.getPageData...why is this being called? From where?");
   	// Performing a GET request
 	//axios.get('http://digitest-authorize.rhcloud.com/mega-data')
 	//axios.get('http://hkex01.mpointx.com/D_worker_request/rtb24/mpointrtb')
@@ -28745,18 +28750,20 @@ var axios = require('axios');
 module.exports = {
 
 	 // Load mock product data from localStorage into ProductStore via Action
-  postData: function (saleData) {
-  	console.log("tyrionAPI.postData: ", saleData );
+  getData: function (saleData) {
+  	console.log("tyrionAPI.getData: ", saleData );
   // Performing a GET request
 	//axios.post('http://localhost:8080/sale', saleData )
-		axios.post('https://tyrionapi.herokuapp.com/sale', saleData )
+		axios.get('https://tyrionapi.herokuapp.com/sales' )
 	  .then(function(response){
-	    console.log("tyrionAPI.postData: " ,response.data); // ex.: { user: 'Your User'}
+	    console.log("tyrionAPI.gettData: " ,response.data); // ex.: { user: 'Your User'}
 	    console.log(response.status); // ex.: 200
 
 			//Lets taka good look at our data:
 
-			console.log("appAPI - our id: ", response.data );
+			console.log("tyrionAPI - our current sales data: ", response.data );
+
+			return response.data;
 	  });
 
   }//end postData
