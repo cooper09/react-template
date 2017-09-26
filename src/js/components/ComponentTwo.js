@@ -51,7 +51,7 @@ var ComponentTwo = React.createClass({
 				<div className = {contentNum} style={style} onClick={ handleItemClick.bind(this)}>
 					<img src={this.props.thumb}  className={thumbNum}/>
 					<div className="desc">{this.props.desc}</div>
-					<div className = "buyBtn" onClick={ buyItem.bind(this)}><center>Buy Me</center></div>
+					<div className = "buyBtn" onClick={ buyItem.bind(this)}><center>Try Me</center></div>
 				</div>
 			</div>
 			)

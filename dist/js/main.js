@@ -28613,7 +28613,7 @@ var ComponentTwo = React.createClass({displayName: "ComponentTwo",
 				React.createElement("div", {className: contentNum, style: style, onClick:  handleItemClick.bind(this)}, 
 					React.createElement("img", {src: this.props.thumb, className: thumbNum}), 
 					React.createElement("div", {className: "desc"}, this.props.desc), 
-					React.createElement("div", {className: "buyBtn", onClick:  buyItem.bind(this)}, React.createElement("center", null, "Buy Me"))
+					React.createElement("div", {className: "buyBtn", onClick:  buyItem.bind(this)}, React.createElement("center", null, "Try Me"))
 				)
 			)
 			)
