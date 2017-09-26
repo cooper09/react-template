@@ -28533,6 +28533,8 @@ var ComponentOne = React.createClass({displayName: "ComponentOne",
 		return (
 			React.createElement("div", null, 
 				React.createElement("h1", {className: "header-font"}, "TyrionHT Product Page"), 
+				React.createElement("div", {className: "intro"}, "Tyrion products are here to give you a step up in the tech race by providing access to easy to use tools and technology to make your life better. Following are some example products for business, finance, and health that will allow anyone to hit the ground running. Take your pick!"), 
+				React.createElement("br", null), React.createElement("br", null), 
 				 items.map(function(items) {
 					console.log("Item no: ", num );
 					++num;
