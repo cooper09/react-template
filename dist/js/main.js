@@ -28449,7 +28449,6 @@ module.exports = require('./lib/React');
 },{"./lib/React":52}],185:[function(require,module,exports){
 var React = require('react');
 
-//Tyrion API
 var AppAPI = require('../utils/tyrionAPI');
 
 //cooper s - add subcomponents here
@@ -28458,9 +28457,9 @@ var AppAPI = require('../utils/tyrionAPI');
 var ComponentOne = require('./ComponentOne.js');
 
 function getAppState(){
-	console.log("App.getAppState: ");
+	console.log("App - getAppState: ");
 	return {
-		data: AppAPI.getData()
+	/*	data: AppAPI.getData()
 		
 	/*	//app: AppStore.getState(),
 		pages: AppStore.getPages(),
@@ -28471,18 +28470,15 @@ function getAppState(){
 
 var App = React.createClass({displayName: "App",
 
-	//var data = AppAPI.getData();
-	//console.log("Did this work: ", data );
-
 	getInitialState: function(){
+		console.log("APP - getInitialState: ");
 		return getAppState();
-		console.log("Did this work: ", data );
+
 	},
 
 	componentDidMount: function(){
 	//	AppStore.addChangeListener(this._onChange);
-	var data = AppAPI.getData();
-	console.log("App componentDidMount - Retrieved Data: ", data );
+	console.log("App Component - component mounted: ", this.props.data );
 	},
 
 	componentUnmount: function(){
@@ -28490,34 +28486,12 @@ var App = React.createClass({displayName: "App",
 	},
 	render: function(){
 
-		var listOfItems = [{
-							"id": 1,
-							"text" : "Tyrion Business",
-							"prodName" : "How to Buy Cars at Auctions",
-							"thumb" : "img/business-mustang.jpg",
-							"desc" : "Jammed with techniques and insider's knowledge of the car auction scene."
-		},{
-			"id": 2,
-			"text" : "Tyrion Finance",
-			"prodName" : "Bitcoin is the Future",
-			"thumb" : "img/bitcoin-book-100x100.jpg",
-			"desc" : "The Bitcoin Miracle Will Be the Only Resource You Ever Need to Get Started with Bitcoin"
-		},{
-			"id": 3,
-			"text" : "Tyrion Health",
-			"prodName" : "Wake Up Lean",
-			"thumb" : "img/freeradicals.jpg",
-			"desc" : "You Can Drop Up to 2.8 Pounds in the Next 36 Hours No Matter How Old You Are"
-		}];
-
-		//console.log("What's the deal, Geel: ", data );
-		//var listOfItems = data;
-
+	
 		var num = 0;
 
 		return(
 			React.createElement("div", null, 
-				React.createElement(ComponentOne, {items: listOfItems, numItems: num})
+				React.createElement(ComponentOne, {items: this.props.data, numItems: num})
 			)
 		);
 	},
@@ -28531,7 +28505,7 @@ var App = React.createClass({displayName: "App",
 
 module.exports = App;
 
-},{"../utils/tyrionAPI":190,"./ComponentOne.js":186,"react":184}],186:[function(require,module,exports){
+},{"../utils/tyrionAPI":189,"./ComponentOne.js":186,"react":184}],186:[function(require,module,exports){
 var React = require('react');
 
 var ComponentTwo = require('./ComponentTwo.js');
@@ -28540,17 +28514,17 @@ var ComponentOne = React.createClass({displayName: "ComponentOne",
 
 	render: function() {
 
-		console.log("list of items: ", this.props.items);
+		console.log(" ComponentOne - list of items: ", this.props.items);
 		var items = this.props.items;
 		var num = 0;
 		
 		return (
 			React.createElement("div", null, 
-				React.createElement("h1", {className: "header-font"}, "TyrionHT Product Page"), 
+				React.createElement("h1", {className: "header-font"}, "TyrionHT Products Sold"), 
 				 items.map(function(items) {
-					console.log("Item no: ", num );
+					console.log("ComponentOne - Item no: ", num );
 					++num;
-					return React.createElement(ComponentTwo, {num: num, key: items.id, prodName: items.prodName, text: items.text, thumb: items.thumb, desc: items.desc, clickHandler:  handleItemClick.bind(this), className: "item"})
+					return React.createElement(ComponentTwo, {num: num, key: items.id, prodName: items.item, desc: items.description, time: items.timestamp, clickHandler:  handleItemClick.bind(this), className: "item"})
 				}) 
 				
 			)
@@ -28620,12 +28594,14 @@ var ComponentTwo = React.createClass({displayName: "ComponentTwo",
 
 		return (
 			React.createElement("div", {className: "item"}, 
-				React.createElement("h3", {className: "header-font"}, this.props.text), 
+				React.createElement("h3", {className: "header-font"}, "Item Sold"), 
 				React.createElement("div", {className: "productName"}, this.props.prodName), 
 				React.createElement("div", {className: contentNum, style: style, onClick:  handleItemClick.bind(this)}, 
 					React.createElement("img", {src: this.props.thumb, className: thumbNum}), 
 					React.createElement("div", {className: "desc"}, this.props.desc), 
-					React.createElement("div", {className: "buyBtn", onClick:  buyItem.bind(this)}, React.createElement("center", null, "Buy Me"))
+					React.createElement("div", null), 
+					React.createElement("div", {className: "desc"}, this.props.time), 
+					React.createElement("div", {className: "buyBtn", onClick:  getInfo.bind(this)}, React.createElement("center", null, "More Info"))
 				)
 			)
 			)
@@ -28660,28 +28636,10 @@ var ComponentTwo = React.createClass({displayName: "ComponentTwo",
 				win.focus();
 			}
 
-			function buyItem() {
-				console.log("We have a buyer for: ", this.props.prodName );
+			function getInfo() {
+				alert("Get more info on the item sold" );
+			}//end get info
 
-				console.log("add custom FB conversion")
-				// cooper s - add facebook conversion code
-				
-				//capture our Google conversion here...
-				console.log("Log Google Click Event");
-
-				  //log this bad boy...
-
-		var timeStamp = Date();
-
-		var saleData = {
-			"item":this.props.prodName,
-			"description":this.props.desc,
-			"timestamp": timeStamp
-		}
-
-		PostInfo(saleData);
-				
-		}//end buy item
 	}//end render
 	
 });//end ComponentTwo
@@ -28692,79 +28650,50 @@ module.exports = ComponentTwo;
 var App = require('./components/App');
 var React = require('react');
 var ReactDOM = require('react-dom');
-
-var AppAPI = require('./utils/appAPI');
-
-//PageData.init();
-AppAPI.getPageData();
-
-ReactDOM.render(
-	React.createElement(App, null),
-	document.getElementById('app')
-);
-
-},{"./components/App":185,"./utils/appAPI":189,"react":184,"react-dom":28}],189:[function(require,module,exports){
-//var AppActions = require('../actions/AppActions');
 var axios = require('axios');
 
-module.exports = {
-
-	 // Load mock product data from localStorage into ProductStore via Action
-  getPageData: function () {
-  	console.log("appAPI.getPageData...why is this being called? From where?");
-  	// Performing a GET request
-	//axios.get('http://digitest-authorize.rhcloud.com/mega-data')
-	//axios.get('http://hkex01.mpointx.com/D_worker_request/rtb24/mpointrtb')
-	//axios.get('http://digitest-authorize.rhcloud.com/ad')
-	/*	axios.get('http://hkex01.mpointx.com/D_worker_request/rtb24/smartyads')
-	  .then(function(response){
-	    console.log("appAPI.getPageData: " ,response.data[0]); // ex.: { user: 'Your User'}
-	    console.log(response.status); // ex.: 200
+	axios.get('https://tyrionapi.herokuapp.com/sales' )
+		.then(function(response){
+		console.log("tyrionAPI.getData - received our data: " ,response.data); // ex.: { user: 'Your User'}
+		console.log("tyrion.getData" , response.status); // ex.: 200
 
 			//Lets taka good look at our data:
 
-			console.log("appAPI - our id: ", response.data );
+			console.log("tyrionAPI - our current sales data: ", response.data );
 
-			for (i=0 ; i < response.data.map.length ; i++ ) {
-				console.log("appAPI - our DSP map: ", response.data[i].DSPID ); 
-			}
+			ReactDOM.render(
+				React.createElement(App, {data: response.data}),
+				document.getElementById('app')
+			);
+			//return response.data;
+		}).catch(error => {
+			console.log("STOP THE SHOW!!!!", error.response)
+		});
 
-			const numbers = response.data;
-
-			console.log("Numbers: ", numbers );
-
-	    var data = response.data;
-    	AppActions.loadPages(data);
-	  });
-
-    //var data = JSON.parse(localStorage.getItem('page'));
-    //AppActions.loadPages(data); */
-  }
-
-}; //end exports
-
-},{"axios":1}],190:[function(require,module,exports){
+},{"./components/App":185,"axios":1,"react":184,"react-dom":28}],189:[function(require,module,exports){
 //var AppActions = require('../actions/AppActions');
 var axios = require('axios');
 
 module.exports = {
 
 	 // Load mock product data from localStorage into ProductStore via Action
-  getData: function (saleData) {
-  	console.log("tyrionAPI.getData: ", saleData );
+  getData: function () {
+  	console.log("tyrionAPI.getData: 2 ");
   // Performing a GET request
 	//axios.post('http://localhost:8080/sale', saleData )
 		axios.get('https://tyrionapi.herokuapp.com/sales' )
 	  .then(function(response){
-	    console.log("tyrionAPI.gettData: " ,response.data); // ex.: { user: 'Your User'}
-	    console.log(response.status); // ex.: 200
+	    console.log("tyrionAPI.getData - received our data: " ,response.data); // ex.: { user: 'Your User'}
+	    console.log("tyrion.getData" , response.status); // ex.: 200
 
 			//Lets taka good look at our data:
 
 			console.log("tyrionAPI - our current sales data: ", response.data );
 
 			return response.data;
-	  });
+	  }).catch(error => {
+			console.log("STOP THE SHOW!!!!", error.response)
+	});
 
   }//end postData
 

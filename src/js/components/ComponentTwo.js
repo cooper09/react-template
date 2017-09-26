@@ -46,12 +46,14 @@ var ComponentTwo = React.createClass({
 
 		return (
 			<div className = "item">
-				<h3 className = "header-font">{this.props.text}</h3>
+				<h3 className = "header-font">Item Sold</h3>
 				<div className= "productName">{this.props.prodName}</div>
 				<div className = {contentNum} style={style} onClick={ handleItemClick.bind(this)}>
 					<img src={this.props.thumb}  className={thumbNum}/>
 					<div className="desc">{this.props.desc}</div>
-					<div className = "buyBtn" onClick={ buyItem.bind(this)}><center>Buy Me</center></div>
+					<div></div>
+					<div className="desc">{this.props.time}</div>
+					<div className = "buyBtn" onClick={ getInfo.bind(this)}><center>More Info</center></div>
 				</div>
 			</div>
 			)
@@ -86,28 +88,10 @@ var ComponentTwo = React.createClass({
 				win.focus();
 			}
 
-			function buyItem() {
-				console.log("We have a buyer for: ", this.props.prodName );
+			function getInfo() {
+				alert("Get more info on the item sold" );
+			}//end get info
 
-				console.log("add custom FB conversion")
-				// cooper s - add facebook conversion code
-				
-				//capture our Google conversion here...
-				console.log("Log Google Click Event");
-
-				  //log this bad boy...
-
-		var timeStamp = Date();
-
-		var saleData = {
-			"item":this.props.prodName,
-			"description":this.props.desc,
-			"timestamp": timeStamp
-		}
-
-		PostInfo(saleData);
-				
-		}//end buy item
 	}//end render
 	
 });//end ComponentTwo

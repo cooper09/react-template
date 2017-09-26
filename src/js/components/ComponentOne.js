@@ -6,17 +6,17 @@ var ComponentOne = React.createClass({
 
 	render: function() {
 
-		console.log("list of items: ", this.props.items);
+		console.log(" ComponentOne - list of items: ", this.props.items);
 		var items = this.props.items;
 		var num = 0;
 		
 		return (
 			<div>
-				<h1 className="header-font">TyrionHT Product Page</h1>
+				<h1 className="header-font">TyrionHT Products Sold</h1>
 				{ items.map(function(items) {
-					console.log("Item no: ", num );
+					console.log("ComponentOne - Item no: ", num );
 					++num;
-					return <ComponentTwo num={num} key={items.id} prodName={items.prodName} text={items.text} thumb={items.thumb} desc={items.desc} clickHandler={ handleItemClick.bind(this) } className="item"/>
+					return <ComponentTwo num={num} key={items.id} prodName={items.item} desc={items.description} time={items.timestamp}  clickHandler={ handleItemClick.bind(this) } className="item"/>
 				}) }
 				
 			</div>
