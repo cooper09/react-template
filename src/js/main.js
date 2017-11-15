@@ -5,7 +5,7 @@ var ReactDOM = require('react-dom');
 var AppAPI = require('./utils/appAPI');
 
 //PageData.init();
-AppAPI.getPageData();
+AppAPI.getData();
 
 ReactDOM.render(
 	<App />,

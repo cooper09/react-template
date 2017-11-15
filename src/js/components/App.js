@@ -1,16 +1,16 @@
 var React = require('react');
+var AppActions = require('../actions/AppActions');
+var AppStore = require('../stores/AppStore');
 
 //cooper s - add subcomponents here
 
-var ComponentOne = require('./ComponentOne.js');
+var LoginForm = require('./LoginForm.js');
 
 function getAppState(){
 	console.log("App.getAppState: ");
 	return {
-	/*	//app: AppStore.getState(),
-		pages: AppStore.getPages(),
-		oneVisible: AppStore.getOneVisible(),
-		twoVisible: AppStore.getTwoVisible() */
+		app: AppStore.getState(),
+		users: AppStore.getUsers()
 	}
 }
 
@@ -29,12 +29,16 @@ var App = React.createClass({
 	//	AppStore.removeChangeListener(this._onChange);
 	},
 	render: function(){
+		console.log("Current State state: ", this.state.app[0] );
+		var userData = [
 
-		//var dsps = this.state.pages.map()
+			{"name" : "admin" },
+			{"password" : "admin" }	
+		] 
 
 		return(
 			<div>
-				<ComponentOne />
+				<LoginForm  visible={true} name={this.state.app[0]} password={this.state.app[1]} admin={this.state.app[2]} users={userData}/>
 			</div>
 		);
 	},

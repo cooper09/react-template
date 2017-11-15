@@ -4,35 +4,31 @@ var axios = require('axios');
 module.exports = {
 
 	 // Load mock product data from localStorage into ProductStore via Action
-  getPageData: function () {
-  	console.log("appAPI.getPageData...");
+  getData: function (user) {
+  	console.log("appAPI.getData: ", user );
   	// Performing a GET request
-	//axios.get('http://digitest-authorize.rhcloud.com/mega-data')
-	//axios.get('http://hkex01.mpointx.com/D_worker_request/rtb24/mpointrtb')
-	//axios.get('http://digitest-authorize.rhcloud.com/ad')
-	/*	axios.get('http://hkex01.mpointx.com/D_worker_request/rtb24/smartyads')
+
+		axios.get('http://localhost:8080/users' )
 	  .then(function(response){
-	    console.log("appAPI.getPageData: " ,response.data[0]); // ex.: { user: 'Your User'}
-	    console.log(response.status); // ex.: 200
+	    console.log("appAPI.getData: " ,response.data); // ex.: { user: 'Your User'}
+			console.log(response.status); // ex.: 200
+			
+			var data = response.data;
+			console.log("data: ", data );
+			data.map(function(data) {
+				console.log(data.name);
+				if (data.name == user ) {
+					console.log('Eureka!!');
+					foundIt;
+				} 
+			})
+		//	AppActions.loadPages(data);
+		
+		 function foundIt() {
+			return true;
+		}
 
-			//Lets taka good look at our data:
-
-			console.log("appAPI - our id: ", response.data );
-
-			for (i=0 ; i < response.data.map.length ; i++ ) {
-				console.log("appAPI - our DSP map: ", response.data[i].DSPID ); 
-			}
-
-			const numbers = response.data;
-
-			console.log("Numbers: ", numbers );
-
-	    var data = response.data;
-    	AppActions.loadPages(data);
 	  });
-
-    //var data = JSON.parse(localStorage.getItem('page'));
-    //AppActions.loadPages(data); */
-  }
+  }//end getData
 
 }; //end exports
