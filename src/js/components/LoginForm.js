@@ -23,15 +23,23 @@ var LoginForm = React.createClass({
 		var users = this.props.users;
 		var login = this.state.name;
 
+		var found = false;
+
 		users.map(function(users) {
 			if (users.name === login ) {
 				//Show The App
+				found = true;
 				var userID = users._id;
 				console.log("Unique User ID: ", userID);
 				AppActions.showApp(userID);
-
 			}
 		});
+
+		console.log("Has the user been found: ", found );
+
+		if (found == false ) {
+			alert("I'm afraid that user cannot be found...");
+		}
 	},
 	render: function() {
 		 if (!this.props.visible) {
@@ -42,7 +50,7 @@ var LoginForm = React.createClass({
 	console.log("LoginForm - default user: ", this.state.name );
 	return (
 			<div>
-				<h1> Simple Login Form 10</h1>
+				<h1> Simple Login Form</h1>
 				<input id="input" type="text" onBlur={this.getName} defautValue={this.state.name} />
 				<br/>
 				<input id="password" type="password" onBlur={this.getPassword}/>

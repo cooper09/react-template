@@ -8,7 +8,7 @@ module.exports = {
   	console.log("appAPI.getData: " );
   	// Performing a GET request
 
-		axios.get('http://localhost:8080/users' )
+		axios.get('https://mpoint-users.herokuapp.com/users' )
 	  .then(function(response){
 	    console.log("appAPI.getData: " ,response.data); // ex.: { user: 'Your User'}
 			console.log(response.status); // ex.: 200
