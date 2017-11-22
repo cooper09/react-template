@@ -22,14 +22,14 @@ var App = React.createClass({
 	},
 
 	componentDidMount: function(){
-	//	AppStore.addChangeListener(this._onChange);
+		AppStore.addChangeListener(this._onChange);
 	},
 
 	componentUnmount: function(){
-	//	AppStore.removeChangeListener(this._onChange);
+		AppStore.removeChangeListener(this._onChange);
 	},
 	render: function(){
-		console.log("Current State state: ", this.state.app[0] );
+		console.log("Current State state: ", this.state.app );
 		var userData = [
 
 			{"name" : "admin" },
@@ -46,7 +46,7 @@ var App = React.createClass({
 	// Update view state when change is received
 	_onChange: function(){
 		console.log("A change has occured....")
-		//this.setState(getAppState());
+		this.setState(getAppState());
 	}
 });
 

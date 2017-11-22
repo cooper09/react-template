@@ -21221,168 +21221,35 @@ module.exports = require('./lib/React');
 },{"./lib/React":56}],189:[function(require,module,exports){
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var AppConstants = require('../constants/AppConstants');
-var EventEmitter = require('events').EventEmitter;
-var assign = require('object-assign');
-var AppAPI = require('../utils/AppAPI.js');
 
-var CHANGE_EVENT = 'change';
+var AppActions = {
+// Receive inital product data
 
-//cooper s - a state called _items
-/* Simple login form has only 
-    name 
-    password
-    admin
-*/
-var _name = "charile", _password = "texAs01", _admin=false;
-
-// Method to load product data from mock API
-function loadArticles(data) {
-  _articles = data;
-  console.log("AppStore.loadPageData: ", _articles );
-}
-
-// Pull personal query data
-function loadQueries(data) {
-	_queries = data;
-	console.log("AppStore.loadQueries ", _queries );
-}
-
-// Set visibility functions for each component
-
-function setLoginVisible(visible){
-	_loginVisible = visible;
-	_oneVisible = visible;
-	_twoVisible = false;
-	_settingsVisible = false;
-	_articleVisible = false;
-	_listVisible = false;
-
-}
-function setOneVisible(visible) {
-  	_oneVisible = visible;
-	_twoVisible = false;
-	_settingsVisible = false;
-	_articleVisible = false;
-	_listVisible = false;
-}
-
-function setTwoVisible(visible) {
-  _twoVisible = visible;
-	_oneVisible = false;
-	_settingsVisible = false;
-	_articleVisible = false;
-	_listVisible = false;
-}
-
-function setSettingsVisible(visible) {
-  _twoVisible = false;
-	_oneVisible = false;
-	_articleVisible = false;
-	_listVisible = false;	
-	_settingsVisible = visible;
-}
-
-function setArticleListVisible(visible) {
-	console.log('setArticleListVisible: ', visible );
-	_listVisible = visible;
-	_loginVisible = false;
-}
-
-
-function setArticleVisible(visible) {
-  _twoVisible = false;
-	_oneVisible = false;
-	_settingsVisible = false;
-	_articleVisible = visible;
-}
-
-
-function setArticleNo(artNo) {
-	_articleNo = artNo;
-}
-// cooper s - set/show query data
-
-function setQueries(visible) {
-	_twoVisible = false;
-	_oneVisible = false;
-	_settingsVisible = false;
-	_articleVisible = false;
-	_listVisible = false;
-	_queriesVisible = visible;	
-}
-
-var AppStore = assign({}, EventEmitter.prototype, {
-	getArticles: function () {
-	    return _articles;
+loadUsers: function (data) {
+	console.log("AppActions.loadPages: ", data );
+    AppDispatcher.handleViewAction({
+      actionType: AppConstants.RECEIVE_USERS,
+      data: data
+    	})
 	},
-	getQueries: function () {
-	    return _queries;
+showLogin: function (data) {
+    AppDispatcher.handleViewAction({
+      actionType: AppConstants.SHOW_LOGIN,
+      data: data
+    	})
 	},
-	getState: function () {
-	 	return "Get State...";
-	},
-	getLoginVisible: function () {
-		console.log('AppStore.getLoginVisible: ' + _loginVisible );
-		return _loginVisible;
-	},
-	  // Return cart visibility state
-	getOneVisible: function () {
-		console.log('AppStore.getOneVisible: ' + _oneVisible );
-		return _oneVisible;
-	},
-	getTwoVisible: function () {
-		console.log('AppStore.getTwoVisible: ' + _twoVisible );
-		return _twoVisible;
-	},
-	getSettingsVisible: function () {
-		console.log('AppStore.getTwoVisible: ' + _settingsVisible );
-		return _settingsVisible;
-	},
-	getListVisible: function () {
-		console.log('AppStore.getListVisible: ' + _listVisible );
-		return _listVisible;
-	},
-	// Article scope variable
-	getArticleVisible: function () {
-		console.log('AppStore.getArticleVisible: ' + _articleVisible );
-		return _articleVisible;
-	},
-	getArticleNo: function () {
-		console.log('AppStore.getArticleVisible: ' + _articleNo );
-		return _articleNo;
-	},
-	  // Set cart visibility
-	emitChange: function(){
-		this.emit(CHANGE_EVENT);
-	},
-	addChangeListener: function(callback){
-		this.on('change', callback);
-	},
-	removeChangeListener: function(callback){
-		this.removeListener('change', callback);
-	}
-});
 
-AppDispatcher.register(function(payload){
-	var action = payload.action;
+showApp: function (data) {
+	console.log("AppActions.showTwo: ", data );
+    AppDispatcher.handleViewAction({
+      actionType: AppConstants.SHOW_APP,
+      data: data
+    	})
+  }
+}//end AppActions
+module.exports = AppActions;
 
-	console.log("AppDispatcher: ", action.actionType );
-	switch(action.actionType){
-        
-		case 'LOGIN_SUBMIT':
-			console.log("AppStore - Login Submit: ", payload.action.data );
-			//_visible=false;
-			//setArticleVisible(_visible);
-		break;
-	}//end switch
-
-	AppStore.emitChange();
-	return true;
-});
-
-module.exports = AppStore;
-
-},{"../constants/AppConstants":192,"../dispatcher/AppDispatcher":193,"../utils/AppAPI.js":196,"events":26,"object-assign":31}],190:[function(require,module,exports){
+},{"../constants/AppConstants":192,"../dispatcher/AppDispatcher":193}],190:[function(require,module,exports){
 var React = require('react');
 var AppActions = require('../actions/AppActions');
 var AppStore = require('../stores/AppStore');
@@ -21407,14 +21274,14 @@ var App = React.createClass({displayName: "App",
 	},
 
 	componentDidMount: function(){
-	//	AppStore.addChangeListener(this._onChange);
+		AppStore.addChangeListener(this._onChange);
 	},
 
 	componentUnmount: function(){
-	//	AppStore.removeChangeListener(this._onChange);
+		AppStore.removeChangeListener(this._onChange);
 	},
 	render: function(){
-		console.log("Current State state: ", this.state.app[0] );
+		console.log("Current State state: ", this.state.app );
 		var userData = [
 
 			{"name" : "admin" },
@@ -21431,7 +21298,7 @@ var App = React.createClass({displayName: "App",
 	// Update view state when change is received
 	_onChange: function(){
 		console.log("A change has occured....")
-		//this.setState(getAppState());
+		this.setState(getAppState());
 	}
 });
 
@@ -21508,7 +21375,10 @@ module.exports = LoginForm;
 
 },{"../utils/appAPI.js":197,"react":188}],192:[function(require,module,exports){
 module.exports = {
-	LOGIN_SUBMIT: "LOGIN_SUBMIT"
+	RECEIVE_USERS: "RECEIVE_USERS",
+	LOGIN_SUBMIT: "LOGIN_SUBMIT",
+	SHOW_LOGIN: "SHOW_LOGIN",
+	SHOW_APP: "SHOW_APP"
 }
 
 },{}],193:[function(require,module,exports){
@@ -21552,100 +21422,34 @@ var AppAPI = require('../utils/AppAPI.js');
 var CHANGE_EVENT = 'change';
 
 //cooper s - a state called _items
-var _state = [];
-var _queries = [];
-
-var _oneVisible = false, _twoVisible = false, _settingsVisible=false, _listVisible = false, _queriesVisible=false;
-//screen flags
-var  _articleVisible = false, _articleNo = 0;
+var _users = [];
 
 var _loginVisible = true;
-
+var _appPageVisible = false
 
 var _name="John", _password="password", _admin=false;
 
 // Method to load product data from mock API
-function loadArticles(data) {
-  _articles = data;
-  console.log("AppStore.loadPageData: ", _articles );
+function loadUsers(data) {
+  _users = data;
+  console.log("AppStore.loadPageData: ", _users );
 }
-
-// Pull personal query data
-function loadQueries(data) {
-	_queries = data;
-	console.log("AppStore.loadQueries ", _queries );
-}
-
 // Set visibility functions for each component
 
 function setLoginVisible(visible){
 	_loginVisible = visible;
-	_oneVisible = visible;
-	_twoVisible = false;
-	_settingsVisible = false;
-	_articleVisible = false;
-	_listVisible = false;
-
-}
-function setOneVisible(visible) {
-  	_oneVisible = visible;
-	_twoVisible = false;
-	_settingsVisible = false;
-	_articleVisible = false;
-	_listVisible = false;
+	_appPageVisiblee = visible;
 }
 
-function setTwoVisible(visible) {
-  _twoVisible = visible;
-	_oneVisible = false;
-	_settingsVisible = false;
-	_articleVisible = false;
-	_listVisible = false;
-}
-
-function setSettingsVisible(visible) {
-  _twoVisible = false;
-	_oneVisible = false;
-	_articleVisible = false;
-	_listVisible = false;	
-	_settingsVisible = visible;
-}
-
-function setArticleListVisible(visible) {
-	console.log('setArticleListVisible: ', visible );
-	_listVisible = visible;
+function setAppVisible(visible) {
+  	_appPageVisible = visible;
 	_loginVisible = false;
 }
-
-
-function setArticleVisible(visible) {
-  _twoVisible = false;
-	_oneVisible = false;
-	_settingsVisible = false;
-	_articleVisible = visible;
-}
-
-
-function setArticleNo(artNo) {
-	_articleNo = artNo;
-}
-// cooper s - set/show query data
-
-function setQueries(visible) {
-	_twoVisible = false;
-	_oneVisible = false;
-	_settingsVisible = false;
-	_articleVisible = false;
-	_listVisible = false;
-	_queriesVisible = visible;	
-}
-
+//Single Broadcast - Emmitter
 var AppStore = assign({}, EventEmitter.prototype, {
-	getArticles: function () {
-	    return _articles;
-	},
-	getQueries: function () {
-	    return _queries;
+
+	getUsers: function () {
+	    return _users;
 	},
 	getState: function () {
         console.log('Appstore.getState');
@@ -21657,32 +21461,11 @@ var AppStore = assign({}, EventEmitter.prototype, {
 		return _loginVisible;
 	},
 	  // Return cart visibility state
-	getOneVisible: function () {
-		console.log('AppStore.getOneVisible: ' + _oneVisible );
-		return _oneVisible;
+	getAppVisible: function () {
+		console.log('AppStore.getOneVisible: ' + _appPageVisible );
+		return _appPageVisible;
 	},
-	getTwoVisible: function () {
-		console.log('AppStore.getTwoVisible: ' + _twoVisible );
-		return _twoVisible;
-	},
-	getSettingsVisible: function () {
-		console.log('AppStore.getTwoVisible: ' + _settingsVisible );
-		return _settingsVisible;
-	},
-	getListVisible: function () {
-		console.log('AppStore.getListVisible: ' + _listVisible );
-		return _listVisible;
-	},
-	// Article scope variable
-	getArticleVisible: function () {
-		console.log('AppStore.getArticleVisible: ' + _articleVisible );
-		return _articleVisible;
-	},
-	getArticleNo: function () {
-		console.log('AppStore.getArticleVisible: ' + _articleNo );
-		return _articleNo;
-	},
-	  // Set cart visibility
+// Get ready to broadcast!
 	emitChange: function(){
 		this.emit(CHANGE_EVENT);
 	},
@@ -21701,73 +21484,21 @@ AppDispatcher.register(function(payload){
 	switch(action.actionType){
 
 		// Respond to RECEIVE_DATA action
-	    case 'RECEIVE_DATA':
+	    case 'RECEIVE_USERS':
 			console.log("AppStore - Receiving Data: ", action.data );	    
-	      	loadArticles(action.data);
+	      	loadUsers(action.data);
 		break;
-		case 'RECEIVE_QUERIES':
-			console.log("AppStore - Loading Query Data: ", action.data );	    
-		  	loadQueries(action.data);
-	  	break;
 // SHOWS
-		case 'SHOW_INTERNET':
-	  	  console.log("OK we have my own personal event. About now I should be changing some state: ", payload );
-	      _visible=true;
-	      setOneVisible(_visible);
+		case 'SHOW_LOGIN':
+	  	  console.log("Show user login page");
+	      setLoginVisible(_visible);
 	 	break;
-	 	case 'SHOW_SELECTED':
-	  	  console.log("Show page two: ", payload );
+	 	case 'SHOW_APP':
+	  	  console.log("Show main application page: ", payload );
 	      _visible=true;
-	      setTwoVisible(_visible);
+	      appPageVisible(_visible);
 	 	break;
-	 	case 'SHOW_SETTINGS':
-	  	  console.log("Show settings: ", payload );
-	      _visible=true;
-	      setSettingsVisible(_visible);
-		break;
-		case 'SHOW_ARTICLE_LIST':
-			console.log("Appstore - Show article list: ", payload.action.data );
-			_visible=true;
-			//_articles = payload.action.data;
-			setArticleListVisible(_visible);
-		break;
-	 	case 'SHOW_ARTICLE':
-			console.log("Show article: ", payload.action.data );
-			_visible=true;
-			setArticleVisible(_visible);
-			setArticleNo(payload.action.data);
-		break;
-		case 'SHOW_QUERIES':
-			console.log("Show queries: ", payload.data );
-			_visible=true;
-			setQueries(_visible);
-		break;
-// REMOVES
-		case 'REMOVE_INTERNET':
-			console.log("OK we have my own personal event. About now I should be changing some state: ", payload );
-			_visible=false;
-			setOneVisible(_visible);
-		break;
-		case 'REMOVE_SELECTED':
-			console.log("OK we have my own personal event. About now I should be changing some state: ", payload );
-			_visible=false;
-			setTwoVisible(_visible);
-		break;
-		case 'REMOVE_SETTINGS':
-			console.log("OK we have my own personal event. About now I should be changing some state: ", payload );
-			_visible=false;
-			setSettingsVisible(_visible);
-		break;		
-		case 'REMOVE_ARTICLE_LIST':
-			console.log("hide article list: ", payload.action.data );
-			_visible=false;
-			setArticleListVisible(_visible);
-		break;
-		case 'REMOVE_ARTICLE_LIST':
-			console.log("hide article screemn: ", payload.action.data );
-			_visible=false;
-			setArticleVisible(_visible);
-		break;
+	
 	}//end switch
 
 	AppStore.emitChange();
@@ -21777,14 +21508,14 @@ AppDispatcher.register(function(payload){
 module.exports = AppStore;
 
 },{"../constants/AppConstants":192,"../dispatcher/AppDispatcher":193,"../utils/AppAPI.js":196,"events":26,"object-assign":31}],196:[function(require,module,exports){
-//var AppActions = require('../actions/AppActions');
+var AppActions = require('../actions/AppActions');
 var axios = require('axios');
 
 module.exports = {
 
 	 // Load mock product data from localStorage into ProductStore via Action
-  getData: function (user) {
-  	console.log("appAPI.getData: ", user );
+  getData: function () {
+  	console.log("appAPI.getData: " );
   	// Performing a GET request
 
 		axios.get('http://localhost:8080/users' )
@@ -21793,15 +21524,12 @@ module.exports = {
 			console.log(response.status); // ex.: 200
 			
 			var data = response.data;
-			console.log("data: ", data );
+			console.log("getdata response: ", data );
 			data.map(function(data) {
 				console.log(data.name);
-				if (data.name == user ) {
-					console.log('Eureka!!');
-					foundIt;
-				} 
 			})
-		//	AppActions.loadPages(data);
+		
+			AppActions.loadUsers(data);
 		
 		 function foundIt() {
 			return true;
@@ -21812,15 +21540,15 @@ module.exports = {
 
 }; //end exports
 
-},{"axios":1}],197:[function(require,module,exports){
-//var AppActions = require('../actions/AppActions');
+},{"../actions/AppActions":189,"axios":1}],197:[function(require,module,exports){
+var AppActions = require('../actions/AppActions');
 var axios = require('axios');
 
 module.exports = {
 
 	 // Load mock product data from localStorage into ProductStore via Action
-  getData: function (user) {
-  	console.log("appAPI.getData: ", user );
+  getData: function () {
+  	console.log("appAPI.getData: " );
   	// Performing a GET request
 
 		axios.get('http://localhost:8080/users' )
@@ -21829,15 +21557,12 @@ module.exports = {
 			console.log(response.status); // ex.: 200
 			
 			var data = response.data;
-			console.log("data: ", data );
+			console.log("getdata response: ", data );
 			data.map(function(data) {
 				console.log(data.name);
-				if (data.name == user ) {
-					console.log('Eureka!!');
-					foundIt;
-				} 
 			})
-		//	AppActions.loadPages(data);
+		
+			AppActions.loadUsers(data);
 		
 		 function foundIt() {
 			return true;
@@ -21848,4 +21573,4 @@ module.exports = {
 
 }; //end exports
 
-},{"axios":1}]},{},[194]);
+},{"../actions/AppActions":189,"axios":1}]},{},[194]);
