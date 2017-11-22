@@ -19,7 +19,7 @@ showLogin: function (data) {
 	},
 
 showApp: function (data) {
-	console.log("AppActions.showTwo: ", data );
+	console.log("AppActions.showApp: ", data );
     AppDispatcher.handleViewAction({
       actionType: AppConstants.SHOW_APP,
       data: data

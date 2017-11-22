@@ -26,7 +26,10 @@ var LoginForm = React.createClass({
 		users.map(function(users) {
 			if (users.name === login ) {
 				//Show The App
-				AppActions.showApp();
+				var userID = users._id;
+				console.log("Unique User ID: ", userID);
+				AppActions.showApp(userID);
+
 			}
 		});
 	},
@@ -39,8 +42,8 @@ var LoginForm = React.createClass({
 	console.log("LoginForm - default user: ", this.state.name );
 	return (
 			<div>
-				<h1> Simple Login Form</h1>
-				<input id="input" type="text" onBlur={this.getName} defuautValue="Enter Username{}"/>
+				<h1> Simple Login Form 10</h1>
+				<input id="input" type="text" onBlur={this.getName} defautValue={this.state.name} />
 				<br/>
 				<input id="password" type="password" onBlur={this.getPassword}/>
 			<br/><br/>

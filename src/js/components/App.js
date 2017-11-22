@@ -34,10 +34,12 @@ var App = React.createClass({
 	render: function(){
 		console.log("Current State state: ", this.state.app );
 		console.log("Current list of users: ", this.state.users );
+
+		console.log("Current UserID: ", this.state.appVisible  );
 		return(
 			<div>
 				<LoginForm  visible={this.state.loginVisible} name={this.state.app[0]} password={this.state.app[1]} admin={this.state.app[2]} users={this.state.users}/>
-				<MyApp  visible={this.state.appVisible} />
+				<MyApp  visible={this.state.appVisible.visible} userID={this.state.appVisible.userID} />
 			</div>
 		);
 	},

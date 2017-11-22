@@ -10,7 +10,7 @@ var MyApp = React.createClass({
 				};
 	  },
     logout() {
-        
+
         AppActions.showLogin();
     },
 	render: function() {
@@ -21,6 +21,7 @@ var MyApp = React.createClass({
 	return (
 			<div>
 				<h1>Happy App</h1>
+                 User: {this.props.userID}
 					<p> You have been officially authorized</p>
 			<br/><br/>
 				<button onClick={this.logout}>Log Out</button>

@@ -21240,7 +21240,7 @@ showLogin: function (data) {
 	},
 
 showApp: function (data) {
-	console.log("AppActions.showTwo: ", data );
+	console.log("AppActions.showApp: ", data );
     AppDispatcher.handleViewAction({
       actionType: AppConstants.SHOW_APP,
       data: data
@@ -21286,10 +21286,12 @@ var App = React.createClass({displayName: "App",
 	render: function(){
 		console.log("Current State state: ", this.state.app );
 		console.log("Current list of users: ", this.state.users );
+
+		console.log("Current UserID: ", this.state.appVisible  );
 		return(
 			React.createElement("div", null, 
 				React.createElement(LoginForm, {visible: this.state.loginVisible, name: this.state.app[0], password: this.state.app[1], admin: this.state.app[2], users: this.state.users}), 
-				React.createElement(MyApp, {visible: this.state.appVisible})
+				React.createElement(MyApp, {visible: this.state.appVisible.visible, userID: this.state.appVisible.userID})
 			)
 		);
 	},
@@ -21332,7 +21334,10 @@ var LoginForm = React.createClass({displayName: "LoginForm",
 		users.map(function(users) {
 			if (users.name === login ) {
 				//Show The App
-				AppActions.showApp();
+				var userID = users._id;
+				console.log("Unique User ID: ", userID);
+				AppActions.showApp(userID);
+
 			}
 		});
 	},
@@ -21345,8 +21350,8 @@ var LoginForm = React.createClass({displayName: "LoginForm",
 	console.log("LoginForm - default user: ", this.state.name );
 	return (
 			React.createElement("div", null, 
-				React.createElement("h1", null, " Simple Login Form"), 
-				React.createElement("input", {id: "input", type: "text", onBlur: this.getName, defuautValue: "Enter Username{}"}), 
+				React.createElement("h1", null, " Simple Login Form 10"), 
+				React.createElement("input", {id: "input", type: "text", onBlur: this.getName, defautValue: this.state.name}), 
 				React.createElement("br", null), 
 				React.createElement("input", {id: "password", type: "password", onBlur: this.getPassword}), 
 			React.createElement("br", null), React.createElement("br", null), 
@@ -21371,7 +21376,7 @@ var MyApp = React.createClass({displayName: "MyApp",
 				};
 	  },
     logout() {
-        
+
         AppActions.showLogin();
     },
 	render: function() {
@@ -21382,6 +21387,7 @@ var MyApp = React.createClass({displayName: "MyApp",
 	return (
 			React.createElement("div", null, 
 				React.createElement("h1", null, "Happy App"), 
+                 "User: ", this.props.userID, 
 					React.createElement("p", null, " You have been officially authorized"), 
 			React.createElement("br", null), React.createElement("br", null), 
 				React.createElement("button", {onClick: this.logout}, "Log Out")
@@ -21447,6 +21453,7 @@ var _loginVisible = true;
 var _appPageVisible = false
 
 var _name="John", _password="password", _admin=false;
+var _userID="000";
 
 // Method to load product data from mock API
 function loadUsers(data) {
@@ -21458,12 +21465,14 @@ function loadUsers(data) {
 function setLoginVisible(visible){
 	_loginVisible = visible;
 	_appPageVisible = false;
+	_name="";
 	console.log('AppStore.setLoginVisible - appPageVisible: ', _appPageVisible );
 }
 
-function setAppVisible(visible) {
+function setAppVisible(visible, userID) {
   	_appPageVisible = visible;
 	_loginVisible = false;
+	_userID = userID;
 }
 //Single Broadcast - Emmitter
 var AppStore = assign({}, EventEmitter.prototype, {
@@ -21483,7 +21492,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
 	  // Return cart visibility state
 	getAppVisible: function () {
 		console.log('AppStore.getAppVisible: ' + _appPageVisible );
-		return _appPageVisible;
+		return {
+					visible: _appPageVisible,
+					userID: _userID
+		}
 	},
 // Get ready to broadcast!
 	emitChange: function(){
@@ -21510,13 +21522,15 @@ AppDispatcher.register(function(payload){
 		break;
 // SHOWS
 		case 'SHOW_LOGIN':
-	  	  console.log("Show user login page");
-	      setLoginVisible(_visible);
+			console.log("Show user login page");
+			_visible=true;
+	      	setLoginVisible(_visible);
 	 	break;
 	 	case 'SHOW_APP':
-	  	  console.log("Show main application page: ", payload );
-	      _visible=true;
-	      setAppVisible(_visible);
+	  	  	console.log("Show main application page: ", action.data );
+		  	_visible=true;
+		  	var userID = action.data;
+	      	setAppVisible(_visible, action.data );
 	 	break;
 	
 	}//end switch

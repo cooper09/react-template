@@ -13,6 +13,7 @@ var _loginVisible = true;
 var _appPageVisible = false
 
 var _name="John", _password="password", _admin=false;
+var _userID="000";
 
 // Method to load product data from mock API
 function loadUsers(data) {
@@ -24,12 +25,14 @@ function loadUsers(data) {
 function setLoginVisible(visible){
 	_loginVisible = visible;
 	_appPageVisible = false;
+	_name="";
 	console.log('AppStore.setLoginVisible - appPageVisible: ', _appPageVisible );
 }
 
-function setAppVisible(visible) {
+function setAppVisible(visible, userID) {
   	_appPageVisible = visible;
 	_loginVisible = false;
+	_userID = userID;
 }
 //Single Broadcast - Emmitter
 var AppStore = assign({}, EventEmitter.prototype, {
@@ -49,7 +52,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
 	  // Return cart visibility state
 	getAppVisible: function () {
 		console.log('AppStore.getAppVisible: ' + _appPageVisible );
-		return _appPageVisible;
+		return {
+					visible: _appPageVisible,
+					userID: _userID
+		}
 	},
 // Get ready to broadcast!
 	emitChange: function(){
@@ -76,13 +82,15 @@ AppDispatcher.register(function(payload){
 		break;
 // SHOWS
 		case 'SHOW_LOGIN':
-	  	  console.log("Show user login page");
-	      setLoginVisible(_visible);
+			console.log("Show user login page");
+			_visible=true;
+	      	setLoginVisible(_visible);
 	 	break;
 	 	case 'SHOW_APP':
-	  	  console.log("Show main application page: ", payload );
-	      _visible=true;
-	      setAppVisible(_visible);
+	  	  	console.log("Show main application page: ", action.data );
+		  	_visible=true;
+		  	var userID = action.data;
+	      	setAppVisible(_visible, action.data );
 	 	break;
 	
 	}//end switch
