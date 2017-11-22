@@ -21249,7 +21249,7 @@ showApp: function (data) {
 }//end AppActions
 module.exports = AppActions;
 
-},{"../constants/AppConstants":192,"../dispatcher/AppDispatcher":193}],190:[function(require,module,exports){
+},{"../constants/AppConstants":193,"../dispatcher/AppDispatcher":194}],190:[function(require,module,exports){
 var React = require('react');
 var AppActions = require('../actions/AppActions');
 var AppStore = require('../stores/AppStore');
@@ -21257,12 +21257,15 @@ var AppStore = require('../stores/AppStore');
 //cooper s - add subcomponents here
 
 var LoginForm = require('./LoginForm.js');
+var MyApp = require('./MyApp.js');
 
 function getAppState(){
 	console.log("App.getAppState: ");
 	return {
 		app: AppStore.getState(),
-		users: AppStore.getUsers()
+		users: AppStore.getUsers(),
+		loginVisible: AppStore.getLoginVisible(),
+		appVisible: AppStore.getAppVisible()
 	}
 }
 
@@ -21282,15 +21285,11 @@ var App = React.createClass({displayName: "App",
 	},
 	render: function(){
 		console.log("Current State state: ", this.state.app );
-		var userData = [
-
-			{"name" : "admin" },
-			{"password" : "admin" }	
-		] 
-
+		console.log("Current list of users: ", this.state.users );
 		return(
 			React.createElement("div", null, 
-				React.createElement(LoginForm, {visible: true, name: this.state.app[0], password: this.state.app[1], admin: this.state.app[2], users: userData})
+				React.createElement(LoginForm, {visible: this.state.loginVisible, name: this.state.app[0], password: this.state.app[1], admin: this.state.app[2], users: this.state.users}), 
+				React.createElement(MyApp, {visible: this.state.appVisible})
 			)
 		);
 	},
@@ -21304,13 +21303,12 @@ var App = React.createClass({displayName: "App",
 
 module.exports = App;
 
-},{"../actions/AppActions":189,"../stores/AppStore":195,"./LoginForm.js":191,"react":188}],191:[function(require,module,exports){
+},{"../actions/AppActions":189,"../stores/AppStore":196,"./LoginForm.js":191,"./MyApp.js":192,"react":188}],191:[function(require,module,exports){
 var React = require('react');
 var AppAPI = require('../utils/appAPI.js');
+var AppActions = require('../actions/AppActions');
 
 var LoginForm = React.createClass({displayName: "LoginForm",
-
-
 	getInitialState: function() {
 		return { name: 'Enter Name', 
 				 password: 'Enter Password',
@@ -21331,39 +21329,26 @@ var LoginForm = React.createClass({displayName: "LoginForm",
 		var users = this.props.users;
 		var login = this.state.name;
 
-		for ( var i=0; i < users.length ; ++i ) {
-			if (users[i].name === login ) {
-				alert('Eureka!!');
-				break;
-			} else {
-				alert("sorry pal...");
-			} 
-		}
-	/*	users.map(function(users) {
+		users.map(function(users) {
 			if (users.name === login ) {
-				alert('Eureka!!');
-				foundIt();
-			} else {
-				alert("User not found");
+				//Show The App
+				AppActions.showApp();
 			}
-		}) */
-
-		function foundIt () {
-			console.log("we can stop right here...");
-		}	
+		});
 	},
 	render: function() {
 		 if (!this.props.visible) {
 		 	console.log("Login Form is off");
           return false; 
 	} 	
-	console.log("users: ", this.props.users );
+	console.log("LoginForm - users: ", this.props.users );
+	console.log("LoginForm - default user: ", this.state.name );
 	return (
 			React.createElement("div", null, 
 				React.createElement("h1", null, " Simple Login Form"), 
-				React.createElement("input", {id: "input", type: "text", onBlur: this.getName, defualtValue: this.state.name}), 
+				React.createElement("input", {id: "input", type: "text", onBlur: this.getName, defuautValue: "Enter Username{}"}), 
 				React.createElement("br", null), 
-				React.createElement("input", {id: "password", type: "text", onBlur: this.getPassword}), 
+				React.createElement("input", {id: "password", type: "password", onBlur: this.getPassword}), 
 			React.createElement("br", null), React.createElement("br", null), 
 				React.createElement("button", {onClick: this.submit}, "Submit")
 			)
@@ -21373,7 +21358,41 @@ var LoginForm = React.createClass({displayName: "LoginForm",
 
 module.exports = LoginForm;
 
-},{"../utils/appAPI.js":197,"react":188}],192:[function(require,module,exports){
+},{"../actions/AppActions":189,"../utils/appAPI.js":198,"react":188}],192:[function(require,module,exports){
+var React = require('react');
+var AppAPI = require('../utils/appAPI.js');
+
+var AppActions = require('../actions/AppActions');
+
+var MyApp = React.createClass({displayName: "MyApp",
+
+	getInitialState: function() {
+		return { 
+				};
+	  },
+    logout() {
+        
+        AppActions.showLogin();
+    },
+	render: function() {
+		 if (!this.props.visible) {
+		 	console.log("MyApp Form is off");
+          return false; 
+	} 	
+	return (
+			React.createElement("div", null, 
+				React.createElement("h1", null, "Happy App"), 
+					React.createElement("p", null, " You have been officially authorized"), 
+			React.createElement("br", null), React.createElement("br", null), 
+				React.createElement("button", {onClick: this.logout}, "Log Out")
+			)
+			);
+	}//end render
+});//end MyApp
+
+module.exports = MyApp;
+
+},{"../actions/AppActions":189,"../utils/appAPI.js":198,"react":188}],193:[function(require,module,exports){
 module.exports = {
 	RECEIVE_USERS: "RECEIVE_USERS",
 	LOGIN_SUBMIT: "LOGIN_SUBMIT",
@@ -21381,7 +21400,7 @@ module.exports = {
 	SHOW_APP: "SHOW_APP"
 }
 
-},{}],193:[function(require,module,exports){
+},{}],194:[function(require,module,exports){
 var Dispatcher = require('flux').Dispatcher;
 var assign = require('object-assign');
 
@@ -21397,7 +21416,7 @@ var AppDispatcher = assign(new Dispatcher(),{
 
 module.exports = AppDispatcher;
 
-},{"flux":28,"object-assign":31}],194:[function(require,module,exports){
+},{"flux":28,"object-assign":31}],195:[function(require,module,exports){
 var App = require('./components/App');
 var React = require('react');
 var ReactDOM = require('react-dom');
@@ -21412,7 +21431,7 @@ ReactDOM.render(
 	document.getElementById('app')
 );
 
-},{"./components/App":190,"./utils/appAPI":197,"react":188,"react-dom":32}],195:[function(require,module,exports){
+},{"./components/App":190,"./utils/appAPI":198,"react":188,"react-dom":32}],196:[function(require,module,exports){
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var AppConstants = require('../constants/AppConstants');
 var EventEmitter = require('events').EventEmitter;
@@ -21438,7 +21457,8 @@ function loadUsers(data) {
 
 function setLoginVisible(visible){
 	_loginVisible = visible;
-	_appPageVisiblee = visible;
+	_appPageVisible = false;
+	console.log('AppStore.setLoginVisible - appPageVisible: ', _appPageVisible );
 }
 
 function setAppVisible(visible) {
@@ -21462,7 +21482,7 @@ var AppStore = assign({}, EventEmitter.prototype, {
 	},
 	  // Return cart visibility state
 	getAppVisible: function () {
-		console.log('AppStore.getOneVisible: ' + _appPageVisible );
+		console.log('AppStore.getAppVisible: ' + _appPageVisible );
 		return _appPageVisible;
 	},
 // Get ready to broadcast!
@@ -21496,7 +21516,7 @@ AppDispatcher.register(function(payload){
 	 	case 'SHOW_APP':
 	  	  console.log("Show main application page: ", payload );
 	      _visible=true;
-	      appPageVisible(_visible);
+	      setAppVisible(_visible);
 	 	break;
 	
 	}//end switch
@@ -21507,7 +21527,7 @@ AppDispatcher.register(function(payload){
 
 module.exports = AppStore;
 
-},{"../constants/AppConstants":192,"../dispatcher/AppDispatcher":193,"../utils/AppAPI.js":196,"events":26,"object-assign":31}],196:[function(require,module,exports){
+},{"../constants/AppConstants":193,"../dispatcher/AppDispatcher":194,"../utils/AppAPI.js":197,"events":26,"object-assign":31}],197:[function(require,module,exports){
 var AppActions = require('../actions/AppActions');
 var axios = require('axios');
 
@@ -21540,7 +21560,7 @@ module.exports = {
 
 }; //end exports
 
-},{"../actions/AppActions":189,"axios":1}],197:[function(require,module,exports){
+},{"../actions/AppActions":189,"axios":1}],198:[function(require,module,exports){
 var AppActions = require('../actions/AppActions');
 var axios = require('axios');
 
@@ -21573,4 +21593,4 @@ module.exports = {
 
 }; //end exports
 
-},{"../actions/AppActions":189,"axios":1}]},{},[194]);
+},{"../actions/AppActions":189,"axios":1}]},{},[195]);

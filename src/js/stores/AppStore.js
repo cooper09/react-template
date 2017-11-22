@@ -23,7 +23,8 @@ function loadUsers(data) {
 
 function setLoginVisible(visible){
 	_loginVisible = visible;
-	_appPageVisiblee = visible;
+	_appPageVisible = false;
+	console.log('AppStore.setLoginVisible - appPageVisible: ', _appPageVisible );
 }
 
 function setAppVisible(visible) {
@@ -47,7 +48,7 @@ var AppStore = assign({}, EventEmitter.prototype, {
 	},
 	  // Return cart visibility state
 	getAppVisible: function () {
-		console.log('AppStore.getOneVisible: ' + _appPageVisible );
+		console.log('AppStore.getAppVisible: ' + _appPageVisible );
 		return _appPageVisible;
 	},
 // Get ready to broadcast!
@@ -81,7 +82,7 @@ AppDispatcher.register(function(payload){
 	 	case 'SHOW_APP':
 	  	  console.log("Show main application page: ", payload );
 	      _visible=true;
-	      appPageVisible(_visible);
+	      setAppVisible(_visible);
 	 	break;
 	
 	}//end switch

@@ -1,9 +1,8 @@
 var React = require('react');
 var AppAPI = require('../utils/appAPI.js');
+var AppActions = require('../actions/AppActions');
 
 var LoginForm = React.createClass({
-
-
 	getInitialState: function() {
 		return { name: 'Enter Name', 
 				 password: 'Enter Password',
@@ -24,39 +23,26 @@ var LoginForm = React.createClass({
 		var users = this.props.users;
 		var login = this.state.name;
 
-		for ( var i=0; i < users.length ; ++i ) {
-			if (users[i].name === login ) {
-				alert('Eureka!!');
-				break;
-			} else {
-				alert("sorry pal...");
-			} 
-		}
-	/*	users.map(function(users) {
+		users.map(function(users) {
 			if (users.name === login ) {
-				alert('Eureka!!');
-				foundIt();
-			} else {
-				alert("User not found");
+				//Show The App
+				AppActions.showApp();
 			}
-		}) */
-
-		function foundIt () {
-			console.log("we can stop right here...");
-		}	
+		});
 	},
 	render: function() {
 		 if (!this.props.visible) {
 		 	console.log("Login Form is off");
           return false; 
 	} 	
-	console.log("users: ", this.props.users );
+	console.log("LoginForm - users: ", this.props.users );
+	console.log("LoginForm - default user: ", this.state.name );
 	return (
 			<div>
 				<h1> Simple Login Form</h1>
-				<input id="input" type="text" onBlur={this.getName} defualtValue={this.state.name}/>
+				<input id="input" type="text" onBlur={this.getName} defuautValue="Enter Username{}"/>
 				<br/>
-				<input id="password" type="text" onBlur={this.getPassword}/>
+				<input id="password" type="password" onBlur={this.getPassword}/>
 			<br/><br/>
 				<button onClick={this.submit}>Submit</button>
 			</div>

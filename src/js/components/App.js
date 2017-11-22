@@ -5,12 +5,15 @@ var AppStore = require('../stores/AppStore');
 //cooper s - add subcomponents here
 
 var LoginForm = require('./LoginForm.js');
+var MyApp = require('./MyApp.js');
 
 function getAppState(){
 	console.log("App.getAppState: ");
 	return {
 		app: AppStore.getState(),
-		users: AppStore.getUsers()
+		users: AppStore.getUsers(),
+		loginVisible: AppStore.getLoginVisible(),
+		appVisible: AppStore.getAppVisible()
 	}
 }
 
@@ -30,15 +33,11 @@ var App = React.createClass({
 	},
 	render: function(){
 		console.log("Current State state: ", this.state.app );
-		var userData = [
-
-			{"name" : "admin" },
-			{"password" : "admin" }	
-		] 
-
+		console.log("Current list of users: ", this.state.users );
 		return(
 			<div>
-				<LoginForm  visible={true} name={this.state.app[0]} password={this.state.app[1]} admin={this.state.app[2]} users={userData}/>
+				<LoginForm  visible={this.state.loginVisible} name={this.state.app[0]} password={this.state.app[1]} admin={this.state.app[2]} users={this.state.users}/>
+				<MyApp  visible={this.state.appVisible} />
 			</div>
 		);
 	},
