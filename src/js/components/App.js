@@ -11,9 +11,17 @@ function getAppState(){
 	console.log("App.getAppState: ");
 	return {
 		app: AppStore.getState(),
+		data: AppStore.getArticles(),
+		queries: AppStore.getQueries(),
 		users: AppStore.getUsers(),
 		loginVisible: AppStore.getLoginVisible(),
-		appVisible: AppStore.getAppVisible()
+		appVisible: AppStore.getAppVisible(),
+		oneVisible: AppStore.getOneVisible(),
+		twoVisible: AppStore.getTwoVisible(),
+		settingsVisible: AppStore.getSettingsVisible(),
+		listVisible: AppStore.getListVisible(),
+		articleVisible: AppStore.getArticleVisible(),
+		articleNo: AppStore.getArticleNo()
 	}
 }
 

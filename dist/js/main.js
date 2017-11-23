@@ -21221,10 +21221,93 @@ module.exports = require('./lib/React');
 },{"./lib/React":56}],189:[function(require,module,exports){
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var AppConstants = require('../constants/AppConstants');
+var ArticleConstants = require('../constants/ArticleConstants');
 
 var AppActions = {
 // Receive inital product data
+showInternet: function (data) {
+    AppDispatcher.handleViewAction({
+      actionType: AppConstants.SHOW_INTERNET,
+      data: data
+    	})
+	},
 
+showSelected: function (data) {
+	console.log("AppActions.showTwo: ", data );
+    AppDispatcher.handleViewAction({
+      actionType: AppConstants.SHOW_SELECTED,
+      data: data
+    	})
+  },
+  
+  showSettings: function (data) {
+    console.log("AppActions.showTwo: ", data );
+      AppDispatcher.handleViewAction({
+        actionType: AppConstants.SHOW_SETTINGS,
+        data: data
+        })
+    },
+  showArticle: function (data) {
+    console.log("AppActions.showArticle: ", data );
+      AppDispatcher.handleViewAction({
+        actionType: ArticleConstants.SHOW_ARTICLE,
+        data: data
+        })
+     },
+    showArticleList: function (data) {
+      console.log("AppActions.showArticleList: ", data );
+        AppDispatcher.handleViewAction({
+          actionType: ArticleConstants.SHOW_ARTICLE_LIST,
+          data: data
+          })
+       },
+// Removes
+removeInternet: function (data) {
+  AppDispatcher.handleViewAction({
+    actionType: AppConstants.REMOVE_INTERNET,
+    data: data
+    })
+},
+removeSelected: function (data) {
+  AppDispatcher.handleViewAction({
+    actionType: AppConstants.REMOVE_SELECTED,
+    data: data
+    })
+},
+removeSettings: function (data) {
+  AppDispatcher.handleViewAction({
+    actionType: AppConstants.REMOVE_SETTINGS,
+    data: data
+    })
+},
+removeArticleList: function (data) {
+  console.log("AppActions.removeArticleList: ", data );
+    AppDispatcher.handleViewAction({
+      actionType: ArticleConstants.REMOVE_ARTICLE_LIST,
+      data: data
+      })
+   },
+  removeArticle: function (data) {
+    console.log("AppActions.removeArticleList: ", data );
+      AppDispatcher.handleViewAction({
+        actionType: ArticleConstants.REMOVE_ARTICLE,
+        data: data
+      })
+    },
+  loadArticles: function (data) {
+	console.log("AppActions.loadPages: ", data );
+    AppDispatcher.handleViewAction({
+      actionType: AppConstants.RECEIVE_DATA,
+      data: data
+    	})
+    },
+    loadQueries: function (data) {
+    console.log("AppActions.loadQueries: ", data );
+      AppDispatcher.handleViewAction({
+        actionType: AppConstants.RECEIVE_QUERIES,
+        data: data
+      })
+    },
 loadUsers: function (data) {
 	console.log("AppActions.loadPages: ", data );
     AppDispatcher.handleViewAction({
@@ -21249,7 +21332,7 @@ showApp: function (data) {
 }//end AppActions
 module.exports = AppActions;
 
-},{"../constants/AppConstants":193,"../dispatcher/AppDispatcher":194}],190:[function(require,module,exports){
+},{"../constants/AppConstants":202,"../constants/ArticleConstants":203,"../dispatcher/AppDispatcher":204}],190:[function(require,module,exports){
 var React = require('react');
 var AppActions = require('../actions/AppActions');
 var AppStore = require('../stores/AppStore');
@@ -21263,9 +21346,17 @@ function getAppState(){
 	console.log("App.getAppState: ");
 	return {
 		app: AppStore.getState(),
+		data: AppStore.getArticles(),
+		queries: AppStore.getQueries(),
 		users: AppStore.getUsers(),
 		loginVisible: AppStore.getLoginVisible(),
-		appVisible: AppStore.getAppVisible()
+		appVisible: AppStore.getAppVisible(),
+		oneVisible: AppStore.getOneVisible(),
+		twoVisible: AppStore.getTwoVisible(),
+		settingsVisible: AppStore.getSettingsVisible(),
+		listVisible: AppStore.getListVisible(),
+		articleVisible: AppStore.getArticleVisible(),
+		articleNo: AppStore.getArticleNo()
 	}
 }
 
@@ -21305,7 +21396,189 @@ var App = React.createClass({displayName: "App",
 
 module.exports = App;
 
-},{"../actions/AppActions":189,"../stores/AppStore":196,"./LoginForm.js":191,"./MyApp.js":192,"react":188}],191:[function(require,module,exports){
+},{"../actions/AppActions":189,"../stores/AppStore":206,"./LoginForm.js":194,"./MyApp.js":195,"react":188}],191:[function(require,module,exports){
+var React = require('react');
+var AppActions = require('../actions/AppActions');
+
+var ArticleLink = React.createClass({displayName: "ArticleLink",
+
+	componentDidMount: function () {
+		console.log("component mounted: ", this.props.num );
+		//var node = this.getDOMNode();
+	},
+	render: function() {
+
+	var num = "content" + this.props.num;
+	console.log("current Content No: ", num );
+
+	console.log("ArticleLink - articles: ", this.props.text );
+	var len = this.props.text.length;
+	//console.log("length: ", len );
+
+	var textArr = [];
+	
+	//this.props.url;
+	for (var i=1; i < len ; i++ ) {
+		//textArr.push(this.props.text[i]);
+		textArr[i] = this.props.text[i];
+		//console.log("urlArr: ", textArr[i] );
+	}  
+
+	//console.log("textArr: ", textArr );
+
+	// because each content item is created on the fly, each one's class name
+	// is unique. To handle this a "universal styling is applied here..."
+	var style = {
+		padding: '0.25em',
+		cursor: 'pointer', 
+		margin: '1em'
+	}
+
+	var open = false;
+	var num = 0;
+	var test = "hello";
+
+		return (
+			
+			React.createElement("div", {className: "articleLink"}, 
+				
+
+					textArr.map((value, num) => {
+							return (
+								React.createElement("div", {key: num, style: style, onClick: handleItemClick.bind(this, num)}, value)
+							);
+						})
+				 
+			)
+			)
+
+			function handleItemClick (num, textArr ){
+				//cooper s - use jquery to open/close each items content....
+
+				//console.log("Article clicked: ", num )
+				
+				console.log("Article Clicked 2: "+ num);
+					//alert("Article Clicked: " + e.target.className + " contentNum: " + this.props.num );
+					
+					var articleNo = num;
+
+					AppActions.showArticle(num);
+					AppActions.removeArticleList();
+			}
+	}//end render
+
+
+});//end ComponentTwo
+
+module.exports = ArticleLink;
+
+},{"../actions/AppActions":189,"react":188}],192:[function(require,module,exports){
+var React = require('react');
+
+var ArticleLink = require('./ArticleLink.js');
+
+var ArticleList = React.createClass({displayName: "ArticleList",
+
+	render: function() {
+		
+		console.log("ArticleList - our data: ", this.props.data );
+
+		if (!this.props.visible) {
+		 	console.log("ArticleList is off");
+          return false;
+        }
+
+		var articles = [];
+		articles = this.props.data;
+		var num = 0;
+
+		var test = "hello";
+
+		return (
+			React.createElement("div", null, 
+				React.createElement("p", null, "ArticleList.js"), 
+				React.createElement("div", {className: "queryTitle"}, React.createElement("b", null, React.createElement("i", null, "Top 25 Article Results for Today's Query: \"", articles.query, "\"")), 
+				React.createElement("br", null), React.createElement("br", null), 
+					React.createElement("div", {className: ""}, 
+						React.createElement(ArticleLink, {num: num, key: articles.query, text: articles.txt, url: articles.src, className: "article"})
+					)
+				)
+			)
+			);
+
+			function handleItemClick (e, test){
+				//var myItem = document.getElementsByClassName('item');
+
+			}
+
+	}//end render
+});//end Tags
+
+module.exports = ArticleList;
+
+},{"./ArticleLink.js":191,"react":188}],193:[function(require,module,exports){
+var React = require('react');
+var AppActions = require('../actions/AppActions');
+var appAPI = require('../utils/appAPI.js');
+
+var EnterQuery = React.createClass({displayName: "EnterQuery",
+
+	getInitialState: function() {
+		
+				return { value: ''};
+			},
+			componentDidMount: function(){
+			
+			},
+			handleChange: function (evt) {
+				console.log("This is where: ", evt.target.value);
+				this.setState({value: evt.target.value});
+				//this.setState({ value: evt.target.value.substr(0, 100) });
+			  },
+			handleCloseBtn: function() {
+						AppActions.removeSelected('remove Selected Search Screen');
+						AppActions.showArticleList('show article list');
+					},
+			handleSearchBtnClick: function() {
+					console.log("SelectedSite- query: ", this.state.value );
+
+					appAPI.postQuery(this.state.value );
+					$('#query').val('');
+					alert("Your query has been submitted. Please wait for your email notification for the results to appear in your Query list.\n\n.Thank you.")
+				},
+			render: function() {
+				 if (!this.props.visible) {
+					 console.log("SelectedSite is off");
+				  return false;
+				}
+		
+				return (
+					React.createElement("div", null, 
+						"EnterQuery.js", 
+						React.createElement("div", {className: "mainScrn center option animated fadeIn"}, "Enter Article Query", 
+						React.createElement("button", {onClick: this.handleCloseBtn, className: "closeBtn"}, "Return to Articles"), 
+							React.createElement("h3", null, this.props.articles), 
+		
+							React.createElement("textarea", {name: "body", cols: "30", rows: "10", id: "query", 
+										onChange: this.handleChange, 
+										defaultValue: this.state.value}), 
+										
+							React.createElement("br", null), React.createElement("br", null), 
+							React.createElement("button", {onClick: this.handleSearchBtnClick, className: "bottomBtn"}, "Start Query"), 
+							React.createElement("div", {className: "sideBar right"}, 
+											React.createElement("div", null, React.createElement("button", {onClick: this.handleSaveBtnClick, className: "sideBtn"}, "Save Query")), 
+											React.createElement("div", null, React.createElement("button", {onClick: this.handleDeleteBtnClick, className: "sideBtn"}, "Clear Query"))
+										)
+						)
+						
+					)
+					);
+	}//end render
+});//end EnterQuery
+
+module.exports = EnterQuery;
+
+},{"../actions/AppActions":189,"../utils/appAPI.js":208,"react":188}],194:[function(require,module,exports){
 var React = require('react');
 var AppAPI = require('../utils/appAPI.js');
 var AppActions = require('../actions/AppActions');
@@ -21371,11 +21644,18 @@ var LoginForm = React.createClass({displayName: "LoginForm",
 
 module.exports = LoginForm;
 
-},{"../actions/AppActions":189,"../utils/appAPI.js":198,"react":188}],192:[function(require,module,exports){
+},{"../actions/AppActions":189,"../utils/appAPI.js":208,"react":188}],195:[function(require,module,exports){
 var React = require('react');
 var AppAPI = require('../utils/appAPI.js');
 
 var AppActions = require('../actions/AppActions');
+
+//For AutoContents lets concentrate on the full focus
+var QueryList = require('./QueryList.js');
+var EnterQuery = require('./EnterQuery.js');
+var ArticleList = require('./ArticleList.js');
+var Settings = require('./Settings.js');
+var ArticleScrn = require('./screens/ArticleScrn.js');
 
 var MyApp = React.createClass({displayName: "MyApp",
 
@@ -21384,20 +21664,55 @@ var MyApp = React.createClass({displayName: "MyApp",
 				};
 	  },
     logout() {
-
         AppActions.showLogin();
     },
+    handleBtnClick: function() {
+        console.log('APP - Handle my button click: ');
+        AppActions.showInternet('Button One click');
+      //  AppActions.removeArticle('remove Article List');
+      },
+      handleBtnClick2: function() {
+        console.log('APP - Handle my button click: ');
+        AppActions.showSelected('Button Two click');
+      },
+      handleBtnClick3: function() {
+          console.log('APP - Handle my button click: ');
+          AppActions.showSettings('Button Settings click');
+        },
 	render: function() {
 		 if (!this.props.visible) {
 		 	console.log("MyApp Form is off");
           return false; 
-	} 	
+        } // end if visible
+        
+    var listArticles = this.state.data;
+	var listQueries = this.state.queries;
 	return (
 			React.createElement("div", null, 
-				React.createElement("h1", null, "Happy App"), 
+                React.createElement("h1", null, "mPoint AutoContent Manager "), 
                  "User: ", this.props.userID, 
 					React.createElement("p", null, " You have been officially authorized"), 
-			React.createElement("br", null), React.createElement("br", null), 
+                    React.createElement("p", null, 
+				React.createElement("span", {className: "leftPanel"}, 
+				 	React.createElement("button", {onClick: this.handleBtnClick, className: "btn"}, "My Queries"), 
+				 	React.createElement("button", {onClick: this.handleBtnClick2, className: "btn"}, "Enter New Query"), 
+					React.createElement("br", null), React.createElement("br", null), 
+					React.createElement("br", null), React.createElement("br", null), 
+					React.createElement("button", {onClick: this.handleBtnClick3, className: "btn"}, "Settings")
+				), 
+				React.createElement("span", {className: "rightPanel"}, 
+					React.createElement("div", {className: "listArticles"}, 
+						React.createElement(ArticleList, {visible: this.state.listVisible, data: listArticles})
+					), 
+					React.createElement("br", null), React.createElement("br", null), 
+					React.createElement(QueryList, {visible: this.state.oneVisible, data: listQueries}), 
+					React.createElement(EnterQuery, {visible: this.state.twoVisible, data: this.state.data}), 
+					React.createElement(Settings, {visible: this.state.settingsVisible, data: this.state.data, value: "test"}), 
+					React.createElement(ArticleScrn, {visible: this.state.articleVisible, data: this.state.data, article: this.state.articleNo, text: this.state.article})
+				)
+
+                    ), 
+            React.createElement("br", null), React.createElement("br", null), 
 				React.createElement("button", {onClick: this.logout}, "Log Out")
 			)
 			);
@@ -21406,7 +21721,308 @@ var MyApp = React.createClass({displayName: "MyApp",
 
 module.exports = MyApp;
 
-},{"../actions/AppActions":189,"../utils/appAPI.js":198,"react":188}],193:[function(require,module,exports){
+},{"../actions/AppActions":189,"../utils/appAPI.js":208,"./ArticleList.js":192,"./EnterQuery.js":193,"./QueryList.js":196,"./Settings.js":197,"./screens/ArticleScrn.js":198,"react":188}],196:[function(require,module,exports){
+var React = require('react');
+var axios = require('axios');
+
+var AppActions = require('../actions/AppActions');
+
+var AppAPI = require('../utils/appApi.js');
+var ArticleList = require('./ArticleList.js');
+
+var QueryList = React.createClass({displayName: "QueryList",
+
+	handleBtnClick: function() {
+		//AppActions.showArticleList('show article list');
+		AppActions.showSelected('Button Two click');
+	},
+	render: function() {
+		 if (!this.props.visible) {
+		 	console.log("QueryList is off");
+          return false;
+        }
+
+		console.log("Querylist Data: ", this.props.data );
+
+		var queryArr = [];
+        var len = this.props.data.length;
+		queryArr = this.props.data;
+
+        console.log("Querylist- queryArr: ", queryArr );
+		var style = {
+			padding: '0.25em',
+			cursor: 'pointer', 
+			margin: '1em'
+		}
+
+		var num = 0;
+
+		return (
+			React.createElement("div", null, 
+				
+				React.createElement("div", {className: "mainScrn center option animated fadeIn"}, "Internet Queries", 
+					React.createElement("button", {onClick: this.handleBtnClick, className: "closeBtn"}, "Return to Articles"), 
+					 
+						queryArr.map(function(queryArr) {
+						//queryArr.map((value, num) => {
+							++num;
+							return  React.createElement("div", {style: style, key: num, onClick: handleItemClick.bind(this, num, queryArr)}, 
+									React.createElement("b", null, "Id"), ": ", queryArr.query_id, " Query: ", queryArr.query, " ", React.createElement("button", {className: "deleteBtn", onClick: deleteItemClick.bind(this, queryArr.query_id)}, "Delete"), 
+									React.createElement("br", null), " Result endpoint: ", queryArr.result_endpoint
+							)
+						
+						}), 
+
+					
+
+					React.createElement("button", {onClick: this.handleBtnClick, className: "bottomBtn"}, "New Query")
+				)
+
+			)
+			);
+
+			function handleItemClick (num, arr){
+				//cooper s - use jquery to open/close each items content....
+				console.log("nandleItemClick: ", arr );
+				//window.open(arr.result_endpoint, '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
+				
+				AppAPI.findQuery(arr.result_endpoint );
+
+			}//end handleItemClick
+
+			function deleteItemClick(id) {
+				console.log("Delete this little goody: ", id);
+				AppAPI.deleteQuery(id);
+				alert("Query id: " + id +" will be deleted!");
+				AppActions.showQueries('Show Queries Screen');
+			}//end deleteItemClick
+
+		}//end render
+});//end ComponentOne
+
+module.exports = QueryList;
+
+},{"../actions/AppActions":189,"../utils/appApi.js":209,"./ArticleList.js":192,"axios":1,"react":188}],197:[function(require,module,exports){
+var React = require('react');
+var AppActions = require('../actions/AppActions');
+
+var Settings = React.createClass({displayName: "Settings",
+
+	handleCloseBtn: function() {
+		AppActions.removeSettings('remove Settings Screen');
+		AppActions.showArticleList('show article list');
+	},
+	render: function() {
+		 if (!this.props.visible) {
+		 	console.log("SelectedSite is off");
+          return false;
+        }
+
+		return (
+			React.createElement("div", null, 
+				React.createElement("p", null, "Settings.js"), 
+				React.createElement("div", {className: "mainScrn center option animated fadeIn"}, "Settings", 
+					React.createElement("button", {onClick: this.handleCloseBtn, className: "closeBtn"}, "Return to Articles"), 
+					React.createElement("h3", null, this.props.articles), 
+					React.createElement("form", {onSubmit: this.handleSubmit}, 
+						"Article Retrival", 
+						React.createElement("label", null, 
+							React.createElement("input", {type: "checkbox", 
+							//checked={this.state.isChecked}
+							onChange: this.toggleChange}
+							), 
+							"10"
+						), React.createElement("br", null), 
+						React.createElement("label", null, 
+							React.createElement("input", {type: "checkbox", 
+							//checked={this.state.isChecked}
+							onChange: this.toggleChange}
+							), 
+							"20"
+						), React.createElement("br", null), 
+						React.createElement("label", null, 
+							React.createElement("input", {type: "checkbox", 
+							//checked={this.state.isChecked}
+							onChange: this.toggleChange}
+							), 
+							"30"
+						), 
+						React.createElement("br", null), React.createElement("br", null), 
+						React.createElement("label", null, 
+						"Keywords:", 
+						React.createElement("select", {value: this.props.value, onChange: this.handleChange}, 
+							React.createElement("option", {value: "grapefruit"}, "Red"), 
+							React.createElement("option", {value: "lime"}, "Yellow"), 
+							React.createElement("option", {value: "coconut"}, "Blue"), 
+							React.createElement("option", {value: "mango"}, "Red")
+						)
+						), 
+						React.createElement("br", null), React.createElement("br", null), 
+						React.createElement("input", {type: "submit", value: "Submit"})
+					)
+				)
+			)
+			);
+	}//end render
+});//end ComponentOne
+
+module.exports = Settings;
+
+},{"../actions/AppActions":189,"react":188}],198:[function(require,module,exports){
+var React = require('react');
+var AppActions = require('../../actions/AppActions');
+
+var RightScrn = require('./RightScrn.js');
+var MidScrn = require('./MidScrn.js');
+var LeftScrn = require('./LeftScrn.js');
+
+var ArticleScrn = React.createClass({displayName: "ArticleScrn",
+	handleBtnClick: function() {
+		AppActions.showArticleList();
+		AppActions.removeArticle();
+	},
+	render: function() {
+		 if (!this.props.visible) {
+		 	console.log("ArticleScrn is off");
+          return false;
+        }
+		
+		console.log('AricleScrn - article to show: ', this.props.article );
+		console.log("ArticleScrn - And this is our data: ", this.props.data.txt[this.props.article] );
+		console.log("Article Title: ", this.props.data.query );
+		console.log('Article URL: ', this.props.data.src[this.props.article] );
+
+		var title = this.props.data.query;
+		var image = "img/articleOne.jpg";
+
+		return (
+			React.createElement("div", null, 
+				React.createElement("p", null, "ArticleScrn.js"), 
+				React.createElement("div", {className: "mainScrn center option animated fadeIn"}, 
+					React.createElement("button", {onClick: this.handleBtnClick, className: "closeBtn"}, "Return to Articles"), 
+					React.createElement("h1", null, title), 
+
+					React.createElement(LeftScrn, {visible: true, title: "test", text: this.props.data.txt[this.props.article]}), 
+					React.createElement(MidScrn, {visible: true, title: "test", text: this.props.data.src[this.props.article]}), 
+					React.createElement(RightScrn, {visible: true, title: "text", image: image})
+					
+				)
+			)
+			);
+	}//end render
+});//end Articles
+
+module.exports = ArticleScrn;
+
+},{"../../actions/AppActions":189,"./LeftScrn.js":199,"./MidScrn.js":200,"./RightScrn.js":201,"react":188}],199:[function(require,module,exports){
+var React = require('react');
+
+var LeftScrn = React.createClass({displayName: "LeftScrn",
+
+
+	handleSaveBtnClick: function(copy) {
+		alert("current state of copy 1: ", copy );
+
+	},
+
+	render: function() {
+		 if (!this.props.visible) {
+		 	console.log("LeftScrn is off");
+          return false;
+        }
+
+		var copy = this.props.text;
+		
+		return (
+			React.createElement("div", null, 
+				React.createElement("div", {className: "leftScrn"}, 
+					React.createElement("div", {className: "smallScrn center option animated fadeIn"}, 
+					React.createElement("button", {onClick: handleDelBtnClick.bind(this), className: "scrnBtn"}, "Delete"), 
+					React.createElement("button", {onClick: handleSaveBtnClick.bind(this, {copy}), className: "scrnBtn"}, "Save"), 
+					React.createElement("br", null), React.createElement("br", null), 
+					React.createElement("br", null), 
+						React.createElement("form", null, 
+							React.createElement("textarea", {name: "body", rows: "10", className: "textArea", 
+									//onChange={this.handleChange({copy})}
+									defaultValue: copy})
+						)
+
+
+					), 
+					React.createElement("button", {onClick: this.handleBtnClick, className: "bottomBtn"}, "Create Tag"), 
+					React.createElement("button", {onClick: this.handleBtnClick, className: "bottomBtn right"}, "Social Post")
+				)
+			)
+			);
+
+			function handleSaveBtnClick (copy ){
+				alert("Saving Article");
+			}//end handle SaveBtnClick
+			function handleDelBtnClick (copy ){
+				alert("Deleting Article");
+			}//end handle SaveBtnClick
+	}//end render
+});//end Articles
+
+module.exports = LeftScrn;
+
+},{"react":188}],200:[function(require,module,exports){
+var React = require('react');
+
+var MidScrn = React.createClass({displayName: "MidScrn",
+
+	render: function() {
+		 if (!this.props.visible) {
+		 	console.log("ArticleScrn is off");
+          return false;
+        }
+
+		return (
+			React.createElement("div", null, 
+				React.createElement("div", {className: "midScrn"}, 
+					React.createElement("div", {className: "smallScrn center option animated fadeIn"}, 
+						React.createElement("i", null, "Original Article"), React.createElement("br", null), 
+						React.createElement("a", {href: this.props.text, target: "_blank", className: "link"}, this.props.text)
+					)
+				)
+			)
+			);
+	}//end render
+});//end Articles
+
+module.exports = MidScrn;
+
+},{"react":188}],201:[function(require,module,exports){
+var React = require('react');
+
+var RightScrn = React.createClass({displayName: "RightScrn",
+
+	render: function() {
+		 if (!this.props.visible) {
+		 	console.log("ArticleScrn is off");
+          return false;
+        }
+
+		return (
+			React.createElement("div", null, 
+				React.createElement("div", {className: "rightScrn"}, 
+					React.createElement("div", {className: "smallScrn center option animated fadeIn"}, 
+						React.createElement("i", null, "Original Graphic"), 
+						React.createElement("br", null), React.createElement("br", null), 
+						React.createElement("img", {src: this.props.image})
+					), 
+
+					React.createElement("center", null, React.createElement("button", {onClick: this.handleBtnClick, className: "bottomBtn middle"}, "Open Excel"))
+
+				)
+			)
+			);
+	}//end render
+});//end Articles
+
+module.exports = RightScrn;
+
+},{"react":188}],202:[function(require,module,exports){
 module.exports = {
 	RECEIVE_USERS: "RECEIVE_USERS",
 	LOGIN_SUBMIT: "LOGIN_SUBMIT",
@@ -21414,7 +22030,17 @@ module.exports = {
 	SHOW_APP: "SHOW_APP"
 }
 
-},{}],194:[function(require,module,exports){
+},{}],203:[function(require,module,exports){
+module.exports = {
+	//SHOWS
+	SHOW_ARTICLE_LIST: "SHOW_ARTICLE_LIST",
+	SHOW_ARTICLE: "SHOW_ARTICLE",  
+	// REMOVES
+	REMOVE_ARTICLE_LIST: "REMOVE_ARTICLE_LIST",
+	REMOVE_ARTICLE: "REMOVE_ARTICLE"
+}
+
+},{}],204:[function(require,module,exports){
 var Dispatcher = require('flux').Dispatcher;
 var assign = require('object-assign');
 
@@ -21430,7 +22056,7 @@ var AppDispatcher = assign(new Dispatcher(),{
 
 module.exports = AppDispatcher;
 
-},{"flux":28,"object-assign":31}],195:[function(require,module,exports){
+},{"flux":28,"object-assign":31}],205:[function(require,module,exports){
 var App = require('./components/App');
 var React = require('react');
 var ReactDOM = require('react-dom');
@@ -21445,7 +22071,7 @@ ReactDOM.render(
 	document.getElementById('app')
 );
 
-},{"./components/App":190,"./utils/appAPI":198,"react":188,"react-dom":32}],196:[function(require,module,exports){
+},{"./components/App":190,"./utils/appAPI":208,"react":188,"react-dom":32}],206:[function(require,module,exports){
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var AppConstants = require('../constants/AppConstants');
 var EventEmitter = require('events').EventEmitter;
@@ -21455,10 +22081,16 @@ var AppAPI = require('../utils/AppAPI.js');
 var CHANGE_EVENT = 'change';
 
 //cooper s - a state called _items
+var _articles = [];
+var _queries = [];
 var _users = [];
 
 var _loginVisible = true;
 var _appPageVisible = false
+
+var _oneVisible = false, _twoVisible = false, _settingsVisible=false, _listVisible = false, _queriesVisible=false;
+//screen flags
+var  _articleVisible = false, _articleNo = 0;
 
 var _name="John", _password="password", _admin=false;
 var _userID="000";
@@ -21468,6 +22100,17 @@ function loadUsers(data) {
   _users = data;
   console.log("AppStore.loadPageData: ", _users );
 }
+
+function loadArticles(data) {
+	_articles = data;
+	console.log("AppStore.loadPageData: ", _articles );
+  }
+  
+  // Pull personal query data
+  function loadQueries(data) {
+	  _queries = data;
+	  console.log("AppStore.loadQueries ", _queries );
+  }
 // Set visibility functions for each component
 
 function setLoginVisible(visible){
@@ -21482,9 +22125,61 @@ function setAppVisible(visible, userID) {
 	_loginVisible = false;
 	_userID = userID;
 }
+// Specific only to AutoContent
+
+function setOneVisible(visible) {
+	_oneVisible = visible;
+  _twoVisible = false;
+  _settingsVisible = false;
+  _articleVisible = false;
+  _listVisible = false;
+}
+
+function setTwoVisible(visible) {
+_twoVisible = visible;
+  _oneVisible = false;
+  _settingsVisible = false;
+  _articleVisible = false;
+  _listVisible = false;
+}
+
+function setSettingsVisible(visible) {
+_twoVisible = false;
+  _oneVisible = false;
+  _articleVisible = false;
+  _listVisible = false;	
+  _settingsVisible = visible;
+}
+
+function setArticleListVisible(visible, user ) {
+  console.log('setArticleListVisible: ', visible );
+  _listVisible = visible;
+  _loginVisible = false;
+  _userID = user;
+}
+
+function setArticleNo(artNo) {
+	_articleNo = artNo;
+}
+// cooper s - set/show query data
+
+function setQueries(visible) {
+	_twoVisible = false;
+	_oneVisible = false;
+	_settingsVisible = false;
+	_articleVisible = false;
+	_listVisible = false;
+	_queriesVisible = visible;	
+}
+
 //Single Broadcast - Emmitter
 var AppStore = assign({}, EventEmitter.prototype, {
-
+	getArticles: function () {
+	    return _articles;
+	},
+	getQueries: function () {
+	    return _queries;
+	},
 	getUsers: function () {
 	    return _users;
 	},
@@ -21504,6 +22199,33 @@ var AppStore = assign({}, EventEmitter.prototype, {
 					visible: _appPageVisible,
 					userID: _userID
 		}
+	},
+
+	// Auto-Content specific
+	getOneVisible: function () {
+		console.log('AppStore.getOneVisible: ' + _oneVisible );
+		return _oneVisible;
+	},
+	getTwoVisible: function () {
+		console.log('AppStore.getTwoVisible: ' + _twoVisible );
+		return _twoVisible;
+	},
+	getSettingsVisible: function () {
+		console.log('AppStore.getTwoVisible: ' + _settingsVisible );
+		return _settingsVisible;
+	},
+	getListVisible: function () {
+		console.log('AppStore.getListVisible: ' + _listVisible );
+		return _listVisible;
+	},
+	// Article scope variable
+	getArticleVisible: function () {
+		console.log('AppStore.getArticleVisible: ' + _articleVisible );
+		return _articleVisible;
+	},
+	getArticleNo: function () {
+		console.log('AppStore.getArticleVisible: ' + _articleNo );
+		return _articleNo;
 	},
 // Get ready to broadcast!
 	emitChange: function(){
@@ -21528,6 +22250,15 @@ AppDispatcher.register(function(payload){
 			console.log("AppStore - Receiving Data: ", action.data );	    
 	      	loadUsers(action.data);
 		break;
+		// Respond to RECEIVE_DATA action
+	    case 'RECEIVE_DATA':
+		console.log("AppStore - Receiving Data: ", action.data );	    
+		  loadArticles(action.data);
+	break;
+	case 'RECEIVE_QUERIES':
+		console.log("AppStore - Loading Query Data: ", action.data );	    
+		  loadQueries(action.data);
+	break;
 // SHOWS
 		case 'SHOW_LOGIN':
 			console.log("Show user login page");
@@ -21538,9 +22269,42 @@ AppDispatcher.register(function(payload){
 	  	  	console.log("Show main application page: ", action.data );
 		  	_visible=true;
 		  	var userID = action.data;
-	      	setAppVisible(_visible, action.data );
+	      setAppVisible(_visible, action.data );
 	 	break;
-	
+	//AutoContent Specific
+	case 'SHOW_INTERNET':
+		console.log("OK we have my own personal event. About now I should be changing some state: ", payload );
+		_visible=true;
+		setOneVisible(_visible);
+	break;
+	case 'SHOW_SELECTED':
+			console.log("Show page two: ", payload );
+		_visible=true;
+		setTwoVisible(_visible);
+	break;
+	case 'SHOW_SETTINGS':
+			console.log("Show settings: ", payload );
+		_visible=true;
+		setSettingsVisible(_visible);
+	break;
+	case 'SHOW_ARTICLE_LIST':
+			console.log("Appstore - Show article list: ", payload.action.data );
+			_visible=true;
+			//_articles = payload.action.data;
+			setArticleListVisible(_visible);
+	break;
+	case 'SHOW_ARTICLE':
+			console.log("Show article: ", payload.action.data );
+			var userID = payload.action.data;
+			_visible=true;
+			setArticleVisible(_visible, userID );
+			setArticleNo(payload.action.data);
+	break;
+	case 'SHOW_QUERIES':
+			console.log("Show queries: ", payload.data );
+			_visible=true;
+			setQueries(_visible);
+	break;
 	}//end switch
 
 	AppStore.emitChange();
@@ -21549,7 +22313,7 @@ AppDispatcher.register(function(payload){
 
 module.exports = AppStore;
 
-},{"../constants/AppConstants":193,"../dispatcher/AppDispatcher":194,"../utils/AppAPI.js":197,"events":26,"object-assign":31}],197:[function(require,module,exports){
+},{"../constants/AppConstants":202,"../dispatcher/AppDispatcher":204,"../utils/AppAPI.js":207,"events":26,"object-assign":31}],207:[function(require,module,exports){
 var AppActions = require('../actions/AppActions');
 var axios = require('axios');
 
@@ -21582,7 +22346,7 @@ module.exports = {
 
 }; //end exports
 
-},{"../actions/AppActions":189,"axios":1}],198:[function(require,module,exports){
+},{"../actions/AppActions":189,"axios":1}],208:[function(require,module,exports){
 var AppActions = require('../actions/AppActions');
 var axios = require('axios');
 
@@ -21615,4 +22379,37 @@ module.exports = {
 
 }; //end exports
 
-},{"../actions/AppActions":189,"axios":1}]},{},[195]);
+},{"../actions/AppActions":189,"axios":1}],209:[function(require,module,exports){
+var AppActions = require('../actions/AppActions');
+var axios = require('axios');
+
+module.exports = {
+
+	 // Load mock product data from localStorage into ProductStore via Action
+  getData: function () {
+  	console.log("appAPI.getData: " );
+  	// Performing a GET request
+
+		axios.get('https://mpoint-users.herokuapp.com/users' )
+	  .then(function(response){
+	    console.log("appAPI.getData: " ,response.data); // ex.: { user: 'Your User'}
+			console.log(response.status); // ex.: 200
+			
+			var data = response.data;
+			console.log("getdata response: ", data );
+			data.map(function(data) {
+				console.log(data.name);
+			})
+		
+			AppActions.loadUsers(data);
+		
+		 function foundIt() {
+			return true;
+		}
+
+	  });
+  }//end getData
+
+}; //end exports
+
+},{"../actions/AppActions":189,"axios":1}]},{},[205]);
