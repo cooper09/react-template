@@ -14,7 +14,7 @@ var _users = [];
 var _loginVisible = true;
 var _appPageVisible = false
 
-var _oneVisible = false, _twoVisible = false, _settingsVisible=false, _listVisible = false, _queriesVisible=false;
+var _oneVisible = true, _twoVisible = false, _settingsVisible=false, _listVisible = false, _queriesVisible=false;
 //screen flags
 var  _articleVisible = false, _articleNo = 0;
 
@@ -29,7 +29,7 @@ function loadUsers(data) {
 
 function loadArticles(data) {
 	_articles = data;
-	console.log("AppStore.loadPageData: ", _articles );
+	console.log("AppStore.loadArticles: ", _articles );
   }
   
   // Pull personal query data
@@ -84,9 +84,16 @@ function setArticleListVisible(visible, user ) {
   _userID = user;
 }
 
-function setArticleNo(artNo) {
-	_articleNo = artNo;
-}
+function setArticleVisible(visible) {
+	_twoVisible = false;
+	  _oneVisible = false;
+	  _settingsVisible = false;
+	  _articleVisible = visible;
+  }
+  
+  function setArticleNo(artNo) {
+	  _articleNo = artNo;
+  }
 // cooper s - set/show query data
 
 function setQueries(visible) {
@@ -178,7 +185,7 @@ AppDispatcher.register(function(payload){
 		break;
 		// Respond to RECEIVE_DATA action
 	    case 'RECEIVE_DATA':
-		console.log("AppStore - Receiving Data: ", action.data );	    
+		console.log("AppStore - Receiving Data (Article): ", action.data );	    
 		  loadArticles(action.data);
 	break;
 	case 'RECEIVE_QUERIES':
@@ -198,7 +205,7 @@ AppDispatcher.register(function(payload){
 	      setAppVisible(_visible, action.data );
 	 	break;
 	//AutoContent Specific
-	case 'SHOW_INTERNET':
+	case 'SHOW_QUERIES':
 		console.log("OK we have my own personal event. About now I should be changing some state: ", payload );
 		_visible=true;
 		setOneVisible(_visible);

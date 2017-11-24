@@ -21225,9 +21225,9 @@ var ArticleConstants = require('../constants/ArticleConstants');
 
 var AppActions = {
 // Receive inital product data
-showInternet: function (data) {
+showQueries: function (data) {
     AppDispatcher.handleViewAction({
-      actionType: AppConstants.SHOW_INTERNET,
+      actionType: AppConstants.SHOW_QUERIES,
       data: data
     	})
 	},
@@ -21295,7 +21295,7 @@ removeArticleList: function (data) {
       })
     },
   loadArticles: function (data) {
-	console.log("AppActions.loadPages: ", data );
+	console.log("AppActions.loadArticles: ", data );
     AppDispatcher.handleViewAction({
       actionType: AppConstants.RECEIVE_DATA,
       data: data
@@ -21366,7 +21366,25 @@ var App = React.createClass({displayName: "App",
 		return getAppState();
 
 	},
+	componentWillMount : function () {
+		
+			console.log("component will mount");
+			this.state.data = {
+				"txt": [
+					"loading article"
+				],
+				"src":[
+					"loading source"
+				],
+				"query": "loading query"
+			} //end default article data
+			
+			this.state.users = [{
+				"name": "John Doe",
+				"password":"Doe"
+			}] //end default query data  
 
+		},	
 	componentDidMount: function(){
 		AppStore.addChangeListener(this._onChange);
 	},
@@ -21382,7 +21400,7 @@ var App = React.createClass({displayName: "App",
 		return(
 			React.createElement("div", null, 
 				React.createElement(LoginForm, {visible: this.state.loginVisible, name: this.state.app[0], password: this.state.app[1], admin: this.state.app[2], users: this.state.users}), 
-				React.createElement(MyApp, {visible: this.state.appVisible.visible, userID: this.state.appVisible.userID})
+				React.createElement(MyApp, {visible: this.state.appVisible.visible, userID: this.state.appVisible.userID, data: this.state.data, queries: this.state.queries})
 			)
 		);
 	},
@@ -21668,7 +21686,7 @@ var MyApp = React.createClass({displayName: "MyApp",
     },
     handleBtnClick: function() {
         console.log('APP - Handle my button click: ');
-        AppActions.showInternet('Button One click');
+        AppActions.showQueries('Button One click');
       //  AppActions.removeArticle('remove Article List');
       },
       handleBtnClick2: function() {
@@ -21685,14 +21703,17 @@ var MyApp = React.createClass({displayName: "MyApp",
           return false; 
         } // end if visible
         
-    var listArticles = this.state.data;
-	var listQueries = this.state.queries;
+    var listArticles = this.props.data;
+    var listQueries = this.props.queries;
+    
+    console.log("MyApp.listArticles: ", listArticles );
+    console.log("MyApp.listQueries: ", listQueries );
+
 	return (
 			React.createElement("div", null, 
                 React.createElement("h1", null, "mPoint AutoContent Manager "), 
                  "User: ", this.props.userID, 
 					React.createElement("p", null, " You have been officially authorized"), 
-                    React.createElement("p", null, 
 				React.createElement("span", {className: "leftPanel"}, 
 				 	React.createElement("button", {onClick: this.handleBtnClick, className: "btn"}, "My Queries"), 
 				 	React.createElement("button", {onClick: this.handleBtnClick2, className: "btn"}, "Enter New Query"), 
@@ -21702,16 +21723,15 @@ var MyApp = React.createClass({displayName: "MyApp",
 				), 
 				React.createElement("span", {className: "rightPanel"}, 
 					React.createElement("div", {className: "listArticles"}, 
-						React.createElement(ArticleList, {visible: this.state.listVisible, data: listArticles})
+						React.createElement(ArticleList, {visible: true, data: listArticles})
 					), 
 					React.createElement("br", null), React.createElement("br", null), 
-					React.createElement(QueryList, {visible: this.state.oneVisible, data: listQueries}), 
+					React.createElement(QueryList, {visible: true, data: listQueries}), 
 					React.createElement(EnterQuery, {visible: this.state.twoVisible, data: this.state.data}), 
 					React.createElement(Settings, {visible: this.state.settingsVisible, data: this.state.data, value: "test"}), 
 					React.createElement(ArticleScrn, {visible: this.state.articleVisible, data: this.state.data, article: this.state.articleNo, text: this.state.article})
-				)
+				), 
 
-                    ), 
             React.createElement("br", null), React.createElement("br", null), 
 				React.createElement("button", {onClick: this.logout}, "Log Out")
 			)
@@ -22025,9 +22045,12 @@ module.exports = RightScrn;
 },{"react":188}],202:[function(require,module,exports){
 module.exports = {
 	RECEIVE_USERS: "RECEIVE_USERS",
+	RECEIVE_DATA: "RECEIVE_DATA",
+	RECEIVE_QUERIES: "RECEIVE_QUERIES",
 	LOGIN_SUBMIT: "LOGIN_SUBMIT",
 	SHOW_LOGIN: "SHOW_LOGIN",
-	SHOW_APP: "SHOW_APP"
+	SHOW_APP: "SHOW_APP",
+	SHOW_QUERIES: "SHOW_QUERIES"
 }
 
 },{}],203:[function(require,module,exports){
@@ -22064,7 +22087,11 @@ var ReactDOM = require('react-dom');
 var AppAPI = require('./utils/appAPI');
 
 //PageData.init();
-AppAPI.getData();
+AppAPI.getArticles();
+AppAPI.getUsers();
+//AutoContent Data
+//AppAPI.getPageData();
+AppAPI.getQueryData();
 
 ReactDOM.render(
 	React.createElement(App, null),
@@ -22088,7 +22115,7 @@ var _users = [];
 var _loginVisible = true;
 var _appPageVisible = false
 
-var _oneVisible = false, _twoVisible = false, _settingsVisible=false, _listVisible = false, _queriesVisible=false;
+var _oneVisible = true, _twoVisible = false, _settingsVisible=false, _listVisible = false, _queriesVisible=false;
 //screen flags
 var  _articleVisible = false, _articleNo = 0;
 
@@ -22103,7 +22130,7 @@ function loadUsers(data) {
 
 function loadArticles(data) {
 	_articles = data;
-	console.log("AppStore.loadPageData: ", _articles );
+	console.log("AppStore.loadArticles: ", _articles );
   }
   
   // Pull personal query data
@@ -22158,9 +22185,16 @@ function setArticleListVisible(visible, user ) {
   _userID = user;
 }
 
-function setArticleNo(artNo) {
-	_articleNo = artNo;
-}
+function setArticleVisible(visible) {
+	_twoVisible = false;
+	  _oneVisible = false;
+	  _settingsVisible = false;
+	  _articleVisible = visible;
+  }
+  
+  function setArticleNo(artNo) {
+	  _articleNo = artNo;
+  }
 // cooper s - set/show query data
 
 function setQueries(visible) {
@@ -22252,7 +22286,7 @@ AppDispatcher.register(function(payload){
 		break;
 		// Respond to RECEIVE_DATA action
 	    case 'RECEIVE_DATA':
-		console.log("AppStore - Receiving Data: ", action.data );	    
+		console.log("AppStore - Receiving Data (Article): ", action.data );	    
 		  loadArticles(action.data);
 	break;
 	case 'RECEIVE_QUERIES':
@@ -22272,7 +22306,7 @@ AppDispatcher.register(function(payload){
 	      setAppVisible(_visible, action.data );
 	 	break;
 	//AutoContent Specific
-	case 'SHOW_INTERNET':
+	case 'SHOW_QUERIES':
 		console.log("OK we have my own personal event. About now I should be changing some state: ", payload );
 		_visible=true;
 		setOneVisible(_visible);
@@ -22320,29 +22354,110 @@ var axios = require('axios');
 module.exports = {
 
 	 // Load mock product data from localStorage into ProductStore via Action
-  getData: function () {
+  getUsers: function () {
   	console.log("appAPI.getData: " );
   	// Performing a GET request
 
 		axios.get('https://mpoint-users.herokuapp.com/users' )
 	  .then(function(response){
-	    console.log("appAPI.getData: " ,response.data); // ex.: { user: 'Your User'}
+	    console.log("appAPI.getUsers: " ,response.data); // ex.: { user: 'Your User'}
 			console.log(response.status); // ex.: 200
 			
 			var data = response.data;
-			console.log("getdata response: ", data );
+			console.log("getuser response: ", data );
 			data.map(function(data) {
 				console.log(data.name);
 			})
 		
 			AppActions.loadUsers(data);
-		
-		 function foundIt() {
-			return true;
-		}
+	  });//end response
+  },//end getUsers
 
-	  });
-  }//end getData
+	// AI-Writer API calls
+getArticles: function () {
+	console.log("appAPI.getArticles...");
+	// Performing a GET request
+// cooper s - may want to use promise in the future. Don't need one now...		
+//			let prom = new Promise( function(resolve, reject){
+				//alert("Lets go get them article rascals...");
+			axios.get('http://ai-writer.com/mpnt_json_endpoint.php?id=3796&pass=kqPvuQmdab')
+			//	axios.get('http://localhost:8080/')
+			.then(function(response){
+					console.log("appAPI.getArticles: " ,response.data); // ex.: { user: 'Your User'}
+					console.log("response data: ", response.status); // ex.: 200
+					var data = response.data;
+					AppActions.loadArticles(data);
+				});//end axios get
+//				});// end promise
+
+
+},//end function getPageData
+
+	// getQueryData - pulls all current query data
+	//	tbd - create different query groups for individual users
+
+getQueryData: function(query) {
+		//alert("appAPI.postQuery: ", query );
+
+		axios.get('http://ai-writer.com/mpnt_json_endpoint.php?list_queries=1')
+		.then(function(response) {
+			console.log("listQuery Response: ", response.data );
+			var data = response.data;
+			AppActions.loadQueries(data);
+		});  
+	},//end getQuery
+//end function getPageData
+
+// cooper s - post a new query
+postQuery: function(query) {
+	//alert("appAPI.postQuery: ", query );
+	axios.get('http://ai-writer.com/mpnt_json_endpoint.php?add_query='+query+'&word_count=500')
+	.then(function(response) {
+		console.log("postQuery Response: ", response );
+	});  
+},//end postQuery
+
+// delete a query using its query id
+deleteQuery: function(query) {
+		console.log("appAPI.deleteQuery Response: ", query );
+		axios.get('http://ai-writer.com/mpnt_json_endpoint.php?delete_query=1&query_id='+query )
+		.then(function(response) {
+			console.log("deleteQuery Response: ", response );
+	});  
+
+},
+// locate a particlar query using its link
+findQuery: function(url) {
+	console.log("findQuery Response: ", url );
+	axios.get(url)
+	.then(function(response){
+			console.log("findQuery: " ,response.data); // ex.: { user: 'Your User'}
+
+			var data = response.data;
+			//AppActions.loadArticles(data);
+			AppActions.showArticleList(data);
+			returnMe(data);
+		});//end axios get
+
+				
+		function returnMe(data){
+			console.log('ReturnMe - Lets return some data: ', data );
+			return data;
+		}//end returnMe	
+	},	
+
+// AutoContent-MongoDB API calls
+
+checkUser: function(user) {
+	alert("appAPI.Check user: ", user );
+	axios.get('http://localhost:8080/user' )
+	.then(function(response) {
+		alert("checkUser response - Hold it!");
+		console.log("checkUser Response: ", response );
+		return response;
+	});  
+
+}
 
 }; //end exports
 
@@ -22353,29 +22468,110 @@ var axios = require('axios');
 module.exports = {
 
 	 // Load mock product data from localStorage into ProductStore via Action
-  getData: function () {
+  getUsers: function () {
   	console.log("appAPI.getData: " );
   	// Performing a GET request
 
 		axios.get('https://mpoint-users.herokuapp.com/users' )
 	  .then(function(response){
-	    console.log("appAPI.getData: " ,response.data); // ex.: { user: 'Your User'}
+	    console.log("appAPI.getUsers: " ,response.data); // ex.: { user: 'Your User'}
 			console.log(response.status); // ex.: 200
 			
 			var data = response.data;
-			console.log("getdata response: ", data );
+			console.log("getuser response: ", data );
 			data.map(function(data) {
 				console.log(data.name);
 			})
 		
 			AppActions.loadUsers(data);
-		
-		 function foundIt() {
-			return true;
-		}
+	  });//end response
+  },//end getUsers
 
-	  });
-  }//end getData
+	// AI-Writer API calls
+getArticles: function () {
+	console.log("appAPI.getArticles...");
+	// Performing a GET request
+// cooper s - may want to use promise in the future. Don't need one now...		
+//			let prom = new Promise( function(resolve, reject){
+				//alert("Lets go get them article rascals...");
+			axios.get('http://ai-writer.com/mpnt_json_endpoint.php?id=3796&pass=kqPvuQmdab')
+			//	axios.get('http://localhost:8080/')
+			.then(function(response){
+					console.log("appAPI.getArticles: " ,response.data); // ex.: { user: 'Your User'}
+					console.log("response data: ", response.status); // ex.: 200
+					var data = response.data;
+					AppActions.loadArticles(data);
+				});//end axios get
+//				});// end promise
+
+
+},//end function getPageData
+
+	// getQueryData - pulls all current query data
+	//	tbd - create different query groups for individual users
+
+getQueryData: function(query) {
+		//alert("appAPI.postQuery: ", query );
+
+		axios.get('http://ai-writer.com/mpnt_json_endpoint.php?list_queries=1')
+		.then(function(response) {
+			console.log("listQuery Response: ", response.data );
+			var data = response.data;
+			AppActions.loadQueries(data);
+		});  
+	},//end getQuery
+//end function getPageData
+
+// cooper s - post a new query
+postQuery: function(query) {
+	//alert("appAPI.postQuery: ", query );
+	axios.get('http://ai-writer.com/mpnt_json_endpoint.php?add_query='+query+'&word_count=500')
+	.then(function(response) {
+		console.log("postQuery Response: ", response );
+	});  
+},//end postQuery
+
+// delete a query using its query id
+deleteQuery: function(query) {
+		console.log("appAPI.deleteQuery Response: ", query );
+		axios.get('http://ai-writer.com/mpnt_json_endpoint.php?delete_query=1&query_id='+query )
+		.then(function(response) {
+			console.log("deleteQuery Response: ", response );
+	});  
+
+},
+// locate a particlar query using its link
+findQuery: function(url) {
+	console.log("findQuery Response: ", url );
+	axios.get(url)
+	.then(function(response){
+			console.log("findQuery: " ,response.data); // ex.: { user: 'Your User'}
+
+			var data = response.data;
+			//AppActions.loadArticles(data);
+			AppActions.showArticleList(data);
+			returnMe(data);
+		});//end axios get
+
+				
+		function returnMe(data){
+			console.log('ReturnMe - Lets return some data: ', data );
+			return data;
+		}//end returnMe	
+	},	
+
+// AutoContent-MongoDB API calls
+
+checkUser: function(user) {
+	alert("appAPI.Check user: ", user );
+	axios.get('http://localhost:8080/user' )
+	.then(function(response) {
+		alert("checkUser response - Hold it!");
+		console.log("checkUser Response: ", response );
+		return response;
+	});  
+
+}
 
 }; //end exports
 
@@ -22386,29 +22582,110 @@ var axios = require('axios');
 module.exports = {
 
 	 // Load mock product data from localStorage into ProductStore via Action
-  getData: function () {
+  getUsers: function () {
   	console.log("appAPI.getData: " );
   	// Performing a GET request
 
 		axios.get('https://mpoint-users.herokuapp.com/users' )
 	  .then(function(response){
-	    console.log("appAPI.getData: " ,response.data); // ex.: { user: 'Your User'}
+	    console.log("appAPI.getUsers: " ,response.data); // ex.: { user: 'Your User'}
 			console.log(response.status); // ex.: 200
 			
 			var data = response.data;
-			console.log("getdata response: ", data );
+			console.log("getuser response: ", data );
 			data.map(function(data) {
 				console.log(data.name);
 			})
 		
 			AppActions.loadUsers(data);
-		
-		 function foundIt() {
-			return true;
-		}
+	  });//end response
+  },//end getUsers
 
-	  });
-  }//end getData
+	// AI-Writer API calls
+getArticles: function () {
+	console.log("appAPI.getArticles...");
+	// Performing a GET request
+// cooper s - may want to use promise in the future. Don't need one now...		
+//			let prom = new Promise( function(resolve, reject){
+				//alert("Lets go get them article rascals...");
+			axios.get('http://ai-writer.com/mpnt_json_endpoint.php?id=3796&pass=kqPvuQmdab')
+			//	axios.get('http://localhost:8080/')
+			.then(function(response){
+					console.log("appAPI.getArticles: " ,response.data); // ex.: { user: 'Your User'}
+					console.log("response data: ", response.status); // ex.: 200
+					var data = response.data;
+					AppActions.loadArticles(data);
+				});//end axios get
+//				});// end promise
+
+
+},//end function getPageData
+
+	// getQueryData - pulls all current query data
+	//	tbd - create different query groups for individual users
+
+getQueryData: function(query) {
+		//alert("appAPI.postQuery: ", query );
+
+		axios.get('http://ai-writer.com/mpnt_json_endpoint.php?list_queries=1')
+		.then(function(response) {
+			console.log("listQuery Response: ", response.data );
+			var data = response.data;
+			AppActions.loadQueries(data);
+		});  
+	},//end getQuery
+//end function getPageData
+
+// cooper s - post a new query
+postQuery: function(query) {
+	//alert("appAPI.postQuery: ", query );
+	axios.get('http://ai-writer.com/mpnt_json_endpoint.php?add_query='+query+'&word_count=500')
+	.then(function(response) {
+		console.log("postQuery Response: ", response );
+	});  
+},//end postQuery
+
+// delete a query using its query id
+deleteQuery: function(query) {
+		console.log("appAPI.deleteQuery Response: ", query );
+		axios.get('http://ai-writer.com/mpnt_json_endpoint.php?delete_query=1&query_id='+query )
+		.then(function(response) {
+			console.log("deleteQuery Response: ", response );
+	});  
+
+},
+// locate a particlar query using its link
+findQuery: function(url) {
+	console.log("findQuery Response: ", url );
+	axios.get(url)
+	.then(function(response){
+			console.log("findQuery: " ,response.data); // ex.: { user: 'Your User'}
+
+			var data = response.data;
+			//AppActions.loadArticles(data);
+			AppActions.showArticleList(data);
+			returnMe(data);
+		});//end axios get
+
+				
+		function returnMe(data){
+			console.log('ReturnMe - Lets return some data: ', data );
+			return data;
+		}//end returnMe	
+	},	
+
+// AutoContent-MongoDB API calls
+
+checkUser: function(user) {
+	alert("appAPI.Check user: ", user );
+	axios.get('http://localhost:8080/user' )
+	.then(function(response) {
+		alert("checkUser response - Hold it!");
+		console.log("checkUser Response: ", response );
+		return response;
+	});  
+
+}
 
 }; //end exports
 

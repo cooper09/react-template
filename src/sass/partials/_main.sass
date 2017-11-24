@@ -13,4 +13,206 @@ body
     margin: 0.5em
 
 h1
-  color: brown
+  font-family: "Open Sans"
+  font-style: normal
+  font-strength: 400
+  font-size: 1.5em
+  color: #37474f 
+
+.mainScrn 
+  +span-columns(12)
+  height: 100%
+  background: #ccc
+  border: 1px solid #666
+  padding: 1em
+  color: #333
+  margin-top: 1em
+  margin-left: auto
+  margin-right: auto
+  box-shadow: 0 0 5px rgba(0, 0, 0, .5)
+
+.leftPanel
+  +span-columns(3)
+  float: left
+  padding: 1em
+  margin-left: auto
+  margin-right: auto
+  +at-breakpoint($phone)
+    +span-columns(12)
+    margin: 0em  
+
+.rightPanel
+  +span-columns(9)
+  float: right
+  +at-breakpoint($phone)
+    +span-columns(12)
+    float: none 
+
+.listArticles
+  +span-columns(12)
+  padding: 1em
+
+//buttons
+.btn
+  +span-columns(12)
+  cursor: pointer
+  background: #c72c30
+  border: 1 solid #ccc
+  color: #ccc
+  font-size: 1em
+  font-family: "Open Sans"
+  font-style: normal
+  font-strength: 400
+
+.scrnBtn
+  +span-columns(6)
+  cursor: pointer
+  background: #c72c30
+  border: 1 solid #ccc
+  color: #ccc
+  font-size: 1em
+  font-family: "Open Sans"
+  font-style: normal
+  font-strength: 400
+  margin: 0em
+
+.bottomBtn
+  +span-columns(6)
+  cursor: pointer
+  background: #c72c30
+  border: 1 solid #ccc
+  color: #ccc
+  font-size: 1em
+  font-family: "Open Sans"
+  font-style: normal
+  font-strength: 400
+  margin: 0em
+  +at-breakpoint($phone)
+    +span-columns(12)
+
+.closeBtn
+  +span-columns(3)
+  cursor: pointer
+  background: #c72c30
+  border: 1 solid #ccc
+  color: #ccc
+  font-size: 1em
+  font-family: "Open Sans"
+  font-style: normal
+  font-strength: 400
+  position: relative
+  bottom: 6em
+  float: right
+  +at-breakpoint($phone)
+    +span-columns(6)
+    float: right
+
+
+.sideBtn
+  +span-columns(12)
+  cursor: pointer
+  background: #c72c30
+  border: 1 solid #ccc
+  color: #ccc
+  font-size: 1em
+  font-family: "Open Sans"
+  font-style: normal
+  font-strength: 400
+
+.deleteBtn
+  +span-columns(2)
+  cursor: pointer
+  background: #c72c30
+  border: 1 solid #ccc
+  color: #ccc
+  font-size: 1em
+  font-family: "Open Sans"
+  font-style: normal
+  font-strength: 400
+  float: right
+  +at-breakpoint($phone)
+    +span-columns(4)
+    float: right
+//end buttons
+
+.articleLink
+  border: 1px solid #ccc
+  color: #ccc
+  font-family: "Open Sans"
+  font-style: normal
+  font-strength: 400
+  background: #c72c30
+  padding-left: 2em
+
+.smallScrn
+  +span-columns(12)
+  background: #ddd
+  padding: 1em
+  color: #333
+  margin-top: 0.5em
+  +at-breakpoint($phone)
+    //+span-columns(11)
+    margin: 0em 
+
+.leftScrn
+  +span-columns(4)
+  +at-breakpoint($phone)
+    +span-columns(12)
+    margin: 0em  
+
+.textArea
+  +span-columns(12)
+  +at-breakpoint($phone)
+    //+span-columns(10)
+
+.midScrn
+  +span-columns(4)
+  +at-breakpoint($phone)
+    +span-columns(12)
+    margin: 0em  
+
+
+.rightScrn
+  +span-columns(3)
+  +at-breakpoint($phone)
+    +span-columns(12)
+    margin: 0em  
+
+
+.title
+  font-size: 1.25em
+  color: red
+
+.text
+  font-size: 1em
+  color: #333
+
+.right
+  float: right
+
+.middle
+  margin-right: auto
+  margin-left: 4em
+  +at-breakpoint($phone)
+    margin-left: 2em  
+
+.queryTitle
+  font-size: 1em
+  font-strength: 800
+  margin-bottom: 1.2em
+
+.sideBar
+  +span-columns(4)
+  float: right
+  position: relative
+  bottom: 13em
+
+#name
+  +span-columns(4)
+  +at-breakpoint($phone)
+    +span-columns(12)
+
+#pswd
+  +span-columns(4)
+  +at-breakpoint($phone)
+    +span-columns(12)

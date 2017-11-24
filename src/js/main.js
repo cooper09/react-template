@@ -5,7 +5,11 @@ var ReactDOM = require('react-dom');
 var AppAPI = require('./utils/appAPI');
 
 //PageData.init();
-AppAPI.getData();
+AppAPI.getArticles();
+AppAPI.getUsers();
+//AutoContent Data
+//AppAPI.getPageData();
+AppAPI.getQueryData();
 
 ReactDOM.render(
 	<App />,

@@ -31,7 +31,25 @@ var App = React.createClass({
 		return getAppState();
 
 	},
+	componentWillMount : function () {
+		
+			console.log("component will mount");
+			this.state.data = {
+				"txt": [
+					"loading article"
+				],
+				"src":[
+					"loading source"
+				],
+				"query": "loading query"
+			} //end default article data
+			
+			this.state.users = [{
+				"name": "John Doe",
+				"password":"Doe"
+			}] //end default query data  
 
+		},	
 	componentDidMount: function(){
 		AppStore.addChangeListener(this._onChange);
 	},
@@ -47,7 +65,7 @@ var App = React.createClass({
 		return(
 			<div>
 				<LoginForm  visible={this.state.loginVisible} name={this.state.app[0]} password={this.state.app[1]} admin={this.state.app[2]} users={this.state.users}/>
-				<MyApp  visible={this.state.appVisible.visible} userID={this.state.appVisible.userID} />
+				<MyApp  visible={this.state.appVisible.visible} userID={this.state.appVisible.userID} data={this.state.data} queries={this.state.queries }  />
 			</div>
 		);
 	},

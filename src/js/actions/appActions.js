@@ -4,9 +4,9 @@ var ArticleConstants = require('../constants/ArticleConstants');
 
 var AppActions = {
 // Receive inital product data
-showInternet: function (data) {
+showQueries: function (data) {
     AppDispatcher.handleViewAction({
-      actionType: AppConstants.SHOW_INTERNET,
+      actionType: AppConstants.SHOW_QUERIES,
       data: data
     	})
 	},
@@ -74,7 +74,7 @@ removeArticleList: function (data) {
       })
     },
   loadArticles: function (data) {
-	console.log("AppActions.loadPages: ", data );
+	console.log("AppActions.loadArticles: ", data );
     AppDispatcher.handleViewAction({
       actionType: AppConstants.RECEIVE_DATA,
       data: data
