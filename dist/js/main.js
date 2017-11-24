@@ -21233,7 +21233,7 @@ showQueries: function (data) {
 	},
 
 showSelected: function (data) {
-	console.log("AppActions.showTwo: ", data );
+	console.log("AppActions.showSelected: ", data );
     AppDispatcher.handleViewAction({
       actionType: AppConstants.SHOW_SELECTED,
       data: data
@@ -21241,7 +21241,7 @@ showSelected: function (data) {
   },
   
   showSettings: function (data) {
-    console.log("AppActions.showTwo: ", data );
+    console.log("AppActions.showSettings: ", data );
       AppDispatcher.handleViewAction({
         actionType: AppConstants.SHOW_SETTINGS,
         data: data
@@ -21352,7 +21352,7 @@ function getAppState(){
 		loginVisible: AppStore.getLoginVisible(),
 		appVisible: AppStore.getAppVisible(),
 		oneVisible: AppStore.getOneVisible(),
-		twoVisible: AppStore.getTwoVisible(),
+		articleScrnVisible: AppStore.getArticleScrnVisible(),
 		settingsVisible: AppStore.getSettingsVisible(),
 		listVisible: AppStore.getListVisible(),
 		articleVisible: AppStore.getArticleVisible(),
@@ -21403,7 +21403,7 @@ var App = React.createClass({displayName: "App",
 			React.createElement("div", null, 
 				React.createElement(LoginForm, {visible: this.state.loginVisible, name: this.state.app[0], password: this.state.app[1], admin: this.state.app[2], users: this.state.users}), 
 				React.createElement(MyApp, {visible: this.state.appVisible.visible, userID: this.state.appVisible.userID, data: this.state.data, queries: this.state.queries, 
-					 listVisible: this.state.listVisible, queriesVisible: this.state.oneVisible, articleVisible: this.state.articleVisible})
+					 listVisible: this.state.listVisible, queriesVisible: this.state.oneVisible, articleVisible: this.state.articleScrnVisible})
 			)
 		);
 	},
@@ -21716,7 +21716,7 @@ var MyApp = React.createClass({displayName: "MyApp",
 
 	return (
 			React.createElement("div", null, 
-                React.createElement("h1", null, "mPoint AutoContent Manager 3"), 
+                React.createElement("h1", null, "mPoint AutoContent Manager 1"), 
                  "User: ", this.props.userID, 
 					React.createElement("p", null, " You have been officially authorized"), 
 				React.createElement("span", {className: "leftPanel"}, 
@@ -21734,8 +21734,8 @@ var MyApp = React.createClass({displayName: "MyApp",
 					React.createElement("br", null), React.createElement("br", null), 
 					React.createElement(QueryList, {visible: this.props.queriesVisible, data: listQueries}), 
 					React.createElement(EnterQuery, {visible: this.props.twoVisible, data: this.state.data}), 
-					React.createElement(Settings, {visible: this.props.settingsVisible, data: this.state.data, value: "test"})
-					
+					React.createElement(Settings, {visible: this.props.settingsVisible, data: this.state.data, value: "test"}), 
+					React.createElement(ArticleScrn, {visible: this.props.articleVisible, data: this.props.data, article: this.state.articleNo, text: this.state.article})
 				)
 
 			)
@@ -21910,7 +21910,9 @@ var ArticleScrn = React.createClass({displayName: "ArticleScrn",
 		 	console.log("ArticleScrn is off");
           return false;
         }
-		
+	
+	console.log('ArticleScrn - props data: ', this.props.data );
+
 /*		console.log('AricleScrn - article to show: ', this.props.article );
 		console.log("ArticleScrn - And this is our data: ", this.props.data.txt[this.props.article] );
 		console.log("Article Title: ", this.props.data.query );
@@ -22054,7 +22056,8 @@ module.exports = {
 	LOGIN_SUBMIT: "LOGIN_SUBMIT",
 	SHOW_LOGIN: "SHOW_LOGIN",
 	SHOW_APP: "SHOW_APP",
-	SHOW_QUERIES: "SHOW_QUERIES"
+	SHOW_QUERIES: "SHOW_QUERIES",
+	SHOW_SELECTED: "SHOW_SELECTED"
 }
 
 },{}],203:[function(require,module,exports){
@@ -22160,35 +22163,35 @@ function setAppVisible(visible, userID) {
 
 function setOneVisible(visible) {
 	alert("AppStore.setOneVisible 2: "+ visible );
-_oneVisible = visible;
-  _twoVisible = false;
-  _settingsVisible = false;
-  _articleVisible = false;
-  _listVisible = false;
-}
+	_oneVisible = visible;
+	_twoVisible = false;
+	_settingsVisible = false;
+	_articleVisible = false;
+	_listVisible = false;
+	}
 
-function setTwoVisible(visible) {
-_twoVisible = visible;
-  _oneVisible = false;
-  _settingsVisible = false;
-  _articleVisible = false;
-  _listVisible = false;
-}
+function setArticleScrnVisible(visible) {
+	_twoVisible = visible;
+	_oneVisible = false;
+	_settingsVisible = false;
+	_articleVisible = false;
+	_listVisible = false;
+	}
 
 function setSettingsVisible(visible) {
-_twoVisible = false;
-  _oneVisible = false;
-  _articleVisible = false;
-  _listVisible = false;	
-  _settingsVisible = visible;
-}
+	_twoVisible = false;
+	_oneVisible = false;
+	_articleVisible = false;
+	_listVisible = false;	
+	_settingsVisible = visible;
+	}
 
-function setArticleListVisible(visible, user ) {
-  console.log('setArticleListVisible: ', visible );
-  _listVisible = visible;
-  _loginVisible = false;
-  _userID = user;
-}
+	function setArticleListVisible(visible, user ) {
+	console.log('setArticleListVisible: ', visible );
+	_listVisible = visible;
+	_loginVisible = false;
+	_userID = user;
+	}
 
 function setArticleVisible(visible) {
 	_twoVisible = false;
@@ -22245,8 +22248,8 @@ var AppStore = assign({}, EventEmitter.prototype, {
 		console.log('AppStore.getOneVisible: ' + _oneVisible );
 		return _oneVisible;
 	},
-	getTwoVisible: function () {
-		console.log('AppStore.getTwoVisible: ' + _twoVisible );
+	getArticleScrnVisible: function () {
+		console.log('AppStore.getArticleScrnVisible: ' + _twoVisible );
 		return _twoVisible;
 	},
 	getSettingsVisible: function () {
@@ -22319,7 +22322,7 @@ AppDispatcher.register(function(payload){
 	case 'SHOW_SELECTED':
 			console.log("Show page two: ", payload );
 		_visible=true;
-		setTwoVisible(_visible);
+		setArticleScrnVisible(_visible);
 	break;
 	case 'SHOW_SETTINGS':
 			console.log("Show settings: ", payload );

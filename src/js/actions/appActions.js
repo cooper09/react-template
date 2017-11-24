@@ -12,7 +12,7 @@ showQueries: function (data) {
 	},
 
 showSelected: function (data) {
-	console.log("AppActions.showTwo: ", data );
+	console.log("AppActions.showSelected: ", data );
     AppDispatcher.handleViewAction({
       actionType: AppConstants.SHOW_SELECTED,
       data: data
@@ -20,7 +20,7 @@ showSelected: function (data) {
   },
   
   showSettings: function (data) {
-    console.log("AppActions.showTwo: ", data );
+    console.log("AppActions.showSettings: ", data );
       AppDispatcher.handleViewAction({
         actionType: AppConstants.SHOW_SETTINGS,
         data: data

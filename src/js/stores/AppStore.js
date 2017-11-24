@@ -55,35 +55,35 @@ function setAppVisible(visible, userID) {
 
 function setOneVisible(visible) {
 	alert("AppStore.setOneVisible 2: "+ visible );
-_oneVisible = visible;
-  _twoVisible = false;
-  _settingsVisible = false;
-  _articleVisible = false;
-  _listVisible = false;
-}
+	_oneVisible = visible;
+	_twoVisible = false;
+	_settingsVisible = false;
+	_articleVisible = false;
+	_listVisible = false;
+	}
 
-function setTwoVisible(visible) {
-_twoVisible = visible;
-  _oneVisible = false;
-  _settingsVisible = false;
-  _articleVisible = false;
-  _listVisible = false;
-}
+function setArticleScrnVisible(visible) {
+	_twoVisible = visible;
+	_oneVisible = false;
+	_settingsVisible = false;
+	_articleVisible = false;
+	_listVisible = false;
+	}
 
 function setSettingsVisible(visible) {
-_twoVisible = false;
-  _oneVisible = false;
-  _articleVisible = false;
-  _listVisible = false;	
-  _settingsVisible = visible;
-}
+	_twoVisible = false;
+	_oneVisible = false;
+	_articleVisible = false;
+	_listVisible = false;	
+	_settingsVisible = visible;
+	}
 
-function setArticleListVisible(visible, user ) {
-  console.log('setArticleListVisible: ', visible );
-  _listVisible = visible;
-  _loginVisible = false;
-  _userID = user;
-}
+	function setArticleListVisible(visible, user ) {
+	console.log('setArticleListVisible: ', visible );
+	_listVisible = visible;
+	_loginVisible = false;
+	_userID = user;
+	}
 
 function setArticleVisible(visible) {
 	_twoVisible = false;
@@ -140,8 +140,8 @@ var AppStore = assign({}, EventEmitter.prototype, {
 		console.log('AppStore.getOneVisible: ' + _oneVisible );
 		return _oneVisible;
 	},
-	getTwoVisible: function () {
-		console.log('AppStore.getTwoVisible: ' + _twoVisible );
+	getArticleScrnVisible: function () {
+		console.log('AppStore.getArticleScrnVisible: ' + _twoVisible );
 		return _twoVisible;
 	},
 	getSettingsVisible: function () {
@@ -214,7 +214,7 @@ AppDispatcher.register(function(payload){
 	case 'SHOW_SELECTED':
 			console.log("Show page two: ", payload );
 		_visible=true;
-		setTwoVisible(_visible);
+		setArticleScrnVisible(_visible);
 	break;
 	case 'SHOW_SETTINGS':
 			console.log("Show settings: ", payload );

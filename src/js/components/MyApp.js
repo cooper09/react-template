@@ -48,7 +48,7 @@ var MyApp = React.createClass({
 
 	return (
 			<div>
-                <h1>mPoint AutoContent Manager 3</h1>
+                <h1>mPoint AutoContent Manager 1</h1>
                  User: {this.props.userID}
 					<p> You have been officially authorized</p>
 				<span className="leftPanel" >
@@ -67,7 +67,7 @@ var MyApp = React.createClass({
 					<QueryList visible={this.props.queriesVisible} data={listQueries}/>
 					<EnterQuery  visible={this.props.twoVisible} data={this.state.data }/>
 					<Settings  visible={this.props.settingsVisible} data={this.state.data} value={"test"}/>
-					
+					<ArticleScrn visible={this.props.articleVisible} data={this.props.data} article={this.state.articleNo} text={this.state.article} />
 				</span>
 
 			</div>

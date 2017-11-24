@@ -17,7 +17,7 @@ function getAppState(){
 		loginVisible: AppStore.getLoginVisible(),
 		appVisible: AppStore.getAppVisible(),
 		oneVisible: AppStore.getOneVisible(),
-		twoVisible: AppStore.getTwoVisible(),
+		articleScrnVisible: AppStore.getArticleScrnVisible(),
 		settingsVisible: AppStore.getSettingsVisible(),
 		listVisible: AppStore.getListVisible(),
 		articleVisible: AppStore.getArticleVisible(),
@@ -68,7 +68,7 @@ var App = React.createClass({
 			<div>
 				<LoginForm  visible={this.state.loginVisible} name={this.state.app[0]} password={this.state.app[1]} admin={this.state.app[2]} users={this.state.users}/>
 				<MyApp  visible={this.state.appVisible.visible} userID={this.state.appVisible.userID} data={this.state.data} queries={this.state.queries} 
-					 listVisible={this.state.listVisible} queriesVisible={this.state.oneVisible} articleVisible={this.state.articleVisible} />
+					 listVisible={this.state.listVisible} queriesVisible={this.state.oneVisible} articleVisible={this.state.articleScrnVisible} />
 			</div>
 		);
 	},

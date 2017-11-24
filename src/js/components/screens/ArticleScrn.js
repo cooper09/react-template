@@ -15,7 +15,9 @@ var ArticleScrn = React.createClass({
 		 	console.log("ArticleScrn is off");
           return false;
         }
-		
+	
+	console.log('ArticleScrn - props data: ', this.props.data );
+
 /*		console.log('AricleScrn - article to show: ', this.props.article );
 		console.log("ArticleScrn - And this is our data: ", this.props.data.txt[this.props.article] );
 		console.log("Article Title: ", this.props.data.query );
