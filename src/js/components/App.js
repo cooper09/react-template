@@ -62,10 +62,13 @@ var App = React.createClass({
 		console.log("Current list of users: ", this.state.users );
 
 		console.log("Current UserID: ", this.state.appVisible  );
+		console.log("App ArticleList state: ", this.state.listVisible);
+		console.log("App QueryList state: ", this.state.oneVisible);
 		return(
 			<div>
 				<LoginForm  visible={this.state.loginVisible} name={this.state.app[0]} password={this.state.app[1]} admin={this.state.app[2]} users={this.state.users}/>
-				<MyApp  visible={this.state.appVisible.visible} userID={this.state.appVisible.userID} data={this.state.data} queries={this.state.queries }  />
+				<MyApp  visible={this.state.appVisible.visible} userID={this.state.appVisible.userID} data={this.state.data} queries={this.state.queries} 
+					 listVisible={this.state.listVisible} queriesVisible={this.state.oneVisible} articleVisible={this.state.articleVisible} />
 			</div>
 		);
 	},

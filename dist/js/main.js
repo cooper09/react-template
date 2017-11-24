@@ -21397,10 +21397,13 @@ var App = React.createClass({displayName: "App",
 		console.log("Current list of users: ", this.state.users );
 
 		console.log("Current UserID: ", this.state.appVisible  );
+		console.log("App ArticleList state: ", this.state.listVisible);
+		console.log("App QueryList state: ", this.state.oneVisible);
 		return(
 			React.createElement("div", null, 
 				React.createElement(LoginForm, {visible: this.state.loginVisible, name: this.state.app[0], password: this.state.app[1], admin: this.state.app[2], users: this.state.users}), 
-				React.createElement(MyApp, {visible: this.state.appVisible.visible, userID: this.state.appVisible.userID, data: this.state.data, queries: this.state.queries})
+				React.createElement(MyApp, {visible: this.state.appVisible.visible, userID: this.state.appVisible.userID, data: this.state.data, queries: this.state.queries, 
+					 listVisible: this.state.listVisible, queriesVisible: this.state.oneVisible, articleVisible: this.state.articleVisible})
 			)
 		);
 	},
@@ -21679,7 +21682,7 @@ var MyApp = React.createClass({displayName: "MyApp",
 
 	getInitialState: function() {
 		return { 
-				};
+		};
 	  },
     logout() {
         AppActions.showLogin();
@@ -21702,16 +21705,18 @@ var MyApp = React.createClass({displayName: "MyApp",
 		 	console.log("MyApp Form is off");
           return false; 
         } // end if visible
-        
+    console.log('MyApp - ArticleList visible list state - props: ' + this.props.listVisible );
+    console.log('MyApp - ArticleList visible queries state: ' + this.props.queriesVisible );
     var listArticles = this.props.data;
     var listQueries = this.props.queries;
     
     console.log("MyApp.listArticles: ", listArticles );
-    console.log("MyApp.listQueries: ", listQueries );
+	console.log("MyApp.listQueries: ", listQueries );
+	console.log("MyApp article state: "+ this.state.article);
 
 	return (
 			React.createElement("div", null, 
-                React.createElement("h1", null, "mPoint AutoContent Manager "), 
+                React.createElement("h1", null, "mPoint AutoContent Manager 3"), 
                  "User: ", this.props.userID, 
 					React.createElement("p", null, " You have been officially authorized"), 
 				React.createElement("span", {className: "leftPanel"}, 
@@ -21719,21 +21724,20 @@ var MyApp = React.createClass({displayName: "MyApp",
 				 	React.createElement("button", {onClick: this.handleBtnClick2, className: "btn"}, "Enter New Query"), 
 					React.createElement("br", null), React.createElement("br", null), 
 					React.createElement("br", null), React.createElement("br", null), 
-					React.createElement("button", {onClick: this.handleBtnClick3, className: "btn"}, "Settings")
+					React.createElement("button", {onClick: this.handleBtnClick3, className: "btn"}, "Settings"), 
+                    React.createElement("button", {onClick: this.logout, className: "btn"}, "Log Out")
 				), 
 				React.createElement("span", {className: "rightPanel"}, 
 					React.createElement("div", {className: "listArticles"}, 
-						React.createElement(ArticleList, {visible: true, data: listArticles})
+						React.createElement(ArticleList, {visible: this.props.listVisible, data: listArticles})
 					), 
 					React.createElement("br", null), React.createElement("br", null), 
-					React.createElement(QueryList, {visible: true, data: listQueries}), 
-					React.createElement(EnterQuery, {visible: this.state.twoVisible, data: this.state.data}), 
-					React.createElement(Settings, {visible: this.state.settingsVisible, data: this.state.data, value: "test"}), 
-					React.createElement(ArticleScrn, {visible: this.state.articleVisible, data: this.state.data, article: this.state.articleNo, text: this.state.article})
-				), 
+					React.createElement(QueryList, {visible: this.props.queriesVisible, data: listQueries}), 
+					React.createElement(EnterQuery, {visible: this.props.twoVisible, data: this.state.data}), 
+					React.createElement(Settings, {visible: this.props.settingsVisible, data: this.state.data, value: "test"})
+					
+				)
 
-            React.createElement("br", null), React.createElement("br", null), 
-				React.createElement("button", {onClick: this.logout}, "Log Out")
 			)
 			);
 	}//end render
@@ -21753,8 +21757,8 @@ var ArticleList = require('./ArticleList.js');
 var QueryList = React.createClass({displayName: "QueryList",
 
 	handleBtnClick: function() {
-		//AppActions.showArticleList('show article list');
-		AppActions.showSelected('Button Two click');
+		AppActions.showArticleList('show article list');
+		//AppActions.showSelected('Button Two click');
 	},
 	render: function() {
 		 if (!this.props.visible) {
@@ -21907,10 +21911,10 @@ var ArticleScrn = React.createClass({displayName: "ArticleScrn",
           return false;
         }
 		
-		console.log('AricleScrn - article to show: ', this.props.article );
+/*		console.log('AricleScrn - article to show: ', this.props.article );
 		console.log("ArticleScrn - And this is our data: ", this.props.data.txt[this.props.article] );
 		console.log("Article Title: ", this.props.data.query );
-		console.log('Article URL: ', this.props.data.src[this.props.article] );
+		console.log('Article URL: ', this.props.data.src[this.props.article] ); */
 
 		var title = this.props.data.query;
 		var image = "img/articleOne.jpg";
@@ -22115,7 +22119,7 @@ var _users = [];
 var _loginVisible = true;
 var _appPageVisible = false
 
-var _oneVisible = true, _twoVisible = false, _settingsVisible=false, _listVisible = false, _queriesVisible=false;
+var _oneVisible = true, _twoVisible = false, _settingsVisible=false, _listVisible = true, _queriesVisible=false;
 //screen flags
 var  _articleVisible = false, _articleNo = 0;
 
@@ -22155,7 +22159,8 @@ function setAppVisible(visible, userID) {
 // Specific only to AutoContent
 
 function setOneVisible(visible) {
-	_oneVisible = visible;
+	alert("AppStore.setOneVisible 2: "+ visible );
+_oneVisible = visible;
   _twoVisible = false;
   _settingsVisible = false;
   _articleVisible = false;

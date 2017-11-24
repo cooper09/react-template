@@ -14,7 +14,7 @@ var MyApp = React.createClass({
 
 	getInitialState: function() {
 		return { 
-				};
+		};
 	  },
     logout() {
         AppActions.showLogin();
@@ -37,16 +37,18 @@ var MyApp = React.createClass({
 		 	console.log("MyApp Form is off");
           return false; 
         } // end if visible
-        
+    console.log('MyApp - ArticleList visible list state - props: ' + this.props.listVisible );
+    console.log('MyApp - ArticleList visible queries state: ' + this.props.queriesVisible );
     var listArticles = this.props.data;
     var listQueries = this.props.queries;
     
     console.log("MyApp.listArticles: ", listArticles );
-    console.log("MyApp.listQueries: ", listQueries );
+	console.log("MyApp.listQueries: ", listQueries );
+	console.log("MyApp article state: "+ this.state.article);
 
 	return (
 			<div>
-                <h1>mPoint AutoContent Manager </h1>
+                <h1>mPoint AutoContent Manager 3</h1>
                  User: {this.props.userID}
 					<p> You have been officially authorized</p>
 				<span className="leftPanel" >
@@ -55,20 +57,19 @@ var MyApp = React.createClass({
 					<br/><br/>
 					<br/><br/>
 					<button onClick={this.handleBtnClick3} className="btn">Settings</button>
+                    <button onClick={this.logout} className="btn">Log Out</button>
 				</span>
 				<span className="rightPanel" >
 					<div className="listArticles">
-						<ArticleList visible={true} data={listArticles}/>
+						<ArticleList visible={this.props.listVisible } data={listArticles}/>
 					</div>
 					<br/><br/>
-					<QueryList visible={true} data={listQueries}/>
-					<EnterQuery  visible={this.state.twoVisible} data={this.state.data }/>
-					<Settings  visible={this.state.settingsVisible} data={this.state.data} value={"test"}/>
-					<ArticleScrn visible={this.state.articleVisible} data={this.state.data} article={this.state.articleNo} text={this.state.article} />
+					<QueryList visible={this.props.queriesVisible} data={listQueries}/>
+					<EnterQuery  visible={this.props.twoVisible} data={this.state.data }/>
+					<Settings  visible={this.props.settingsVisible} data={this.state.data} value={"test"}/>
+					
 				</span>
 
-            <br/><br/>
-				<button onClick={this.logout}>Log Out</button>
 			</div>
 			);
 	}//end render

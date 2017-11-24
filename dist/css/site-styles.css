@@ -24,5 +24,370 @@ body {
 
 /* line 15, ../sass/partials/_main.sass */
 h1 {
-  color: brown;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-strength: 400;
+  font-size: 1.5em;
+  color: #37474f;
+  color: red;
+}
+
+/* line 23, ../sass/partials/_main.sass */
+.mainScrn {
+  width: 100%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+  height: 100%;
+  background: #ccc;
+  border: 1px solid #666;
+  padding: 1em;
+  color: #333;
+  margin-top: 1em;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+/* line 35, ../sass/partials/_main.sass */
+.leftPanel {
+  width: 23.72881%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+  float: left;
+  padding: 1em;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (max-width: 651px) {
+  /* line 35, ../sass/partials/_main.sass */
+  .leftPanel {
+    width: 100%;
+    float: left;
+    margin-right: 1.69492%;
+    margin: 0em;
+  }
+}
+
+/* line 45, ../sass/partials/_main.sass */
+.rightPanel {
+  width: 74.57627%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+  float: right;
+}
+@media (max-width: 651px) {
+  /* line 45, ../sass/partials/_main.sass */
+  .rightPanel {
+    width: 100%;
+    float: left;
+    margin-right: 1.69492%;
+    float: none;
+  }
+}
+
+/* line 52, ../sass/partials/_main.sass */
+.listArticles {
+  width: 100%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+  padding: 1em;
+}
+
+/* line 57, ../sass/partials/_main.sass */
+.btn {
+  width: 100%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+  cursor: pointer;
+  background: #c72c30;
+  border: 1 solid #ccc;
+  color: #ccc;
+  font-size: 1em;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-strength: 400;
+}
+
+/* line 68, ../sass/partials/_main.sass */
+.scrnBtn {
+  width: 49.15254%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+  cursor: pointer;
+  background: #c72c30;
+  border: 1 solid #ccc;
+  color: #ccc;
+  font-size: 1em;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-strength: 400;
+  margin: 0em;
+}
+
+/* line 80, ../sass/partials/_main.sass */
+.bottomBtn {
+  width: 49.15254%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+  cursor: pointer;
+  background: #c72c30;
+  border: 1 solid #ccc;
+  color: #ccc;
+  font-size: 1em;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-strength: 400;
+  margin: 0em;
+}
+@media (max-width: 651px) {
+  /* line 80, ../sass/partials/_main.sass */
+  .bottomBtn {
+    width: 100%;
+    float: left;
+    margin-right: 1.69492%;
+  }
+}
+
+/* line 94, ../sass/partials/_main.sass */
+.closeBtn {
+  width: 23.72881%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+  cursor: pointer;
+  background: #c72c30;
+  border: 1 solid #ccc;
+  color: #ccc;
+  font-size: 1em;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-strength: 400;
+  position: relative;
+  bottom: 6em;
+  float: right;
+}
+@media (max-width: 651px) {
+  /* line 94, ../sass/partials/_main.sass */
+  .closeBtn {
+    width: 49.15254%;
+    float: left;
+    margin-right: 1.69492%;
+    float: right;
+  }
+}
+
+/* line 112, ../sass/partials/_main.sass */
+.sideBtn {
+  width: 100%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+  cursor: pointer;
+  background: #c72c30;
+  border: 1 solid #ccc;
+  color: #ccc;
+  font-size: 1em;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-strength: 400;
+}
+
+/* line 123, ../sass/partials/_main.sass */
+.deleteBtn {
+  width: 15.25424%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+  cursor: pointer;
+  background: #c72c30;
+  border: 1 solid #ccc;
+  color: #ccc;
+  font-size: 1em;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-strength: 400;
+  float: right;
+}
+@media (max-width: 651px) {
+  /* line 123, ../sass/partials/_main.sass */
+  .deleteBtn {
+    width: 32.20339%;
+    float: left;
+    margin-right: 1.69492%;
+    float: right;
+  }
+}
+
+/* line 139, ../sass/partials/_main.sass */
+.articleLink {
+  border: 1px solid #ccc;
+  color: #ccc;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-strength: 400;
+  background: #c72c30;
+  padding-left: 2em;
+}
+
+/* line 148, ../sass/partials/_main.sass */
+.smallScrn {
+  width: 100%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+  background: #ddd;
+  padding: 1em;
+  color: #333;
+  margin-top: 0.5em;
+}
+@media (max-width: 651px) {
+  /* line 148, ../sass/partials/_main.sass */
+  .smallScrn {
+    margin: 0em;
+  }
+}
+
+/* line 158, ../sass/partials/_main.sass */
+.leftScrn {
+  width: 32.20339%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+}
+@media (max-width: 651px) {
+  /* line 158, ../sass/partials/_main.sass */
+  .leftScrn {
+    width: 100%;
+    float: left;
+    margin-right: 1.69492%;
+    margin: 0em;
+  }
+}
+
+/* line 164, ../sass/partials/_main.sass */
+.textArea {
+  width: 100%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+}
+
+/* line 169, ../sass/partials/_main.sass */
+.midScrn {
+  width: 32.20339%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+}
+@media (max-width: 651px) {
+  /* line 169, ../sass/partials/_main.sass */
+  .midScrn {
+    width: 100%;
+    float: left;
+    margin-right: 1.69492%;
+    margin: 0em;
+  }
+}
+
+/* line 176, ../sass/partials/_main.sass */
+.rightScrn {
+  width: 23.72881%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+}
+@media (max-width: 651px) {
+  /* line 176, ../sass/partials/_main.sass */
+  .rightScrn {
+    width: 100%;
+    float: left;
+    margin-right: 1.69492%;
+    margin: 0em;
+  }
+}
+
+/* line 183, ../sass/partials/_main.sass */
+.title {
+  font-size: 1.25em;
+  color: red;
+}
+
+/* line 187, ../sass/partials/_main.sass */
+.text {
+  font-size: 1em;
+  color: #333;
+}
+
+/* line 191, ../sass/partials/_main.sass */
+.right {
+  float: right;
+}
+
+/* line 194, ../sass/partials/_main.sass */
+.middle {
+  margin-right: auto;
+  margin-left: 4em;
+}
+@media (max-width: 651px) {
+  /* line 194, ../sass/partials/_main.sass */
+  .middle {
+    margin-left: 2em;
+  }
+}
+
+/* line 200, ../sass/partials/_main.sass */
+.queryTitle {
+  font-size: 1em;
+  font-strength: 800;
+  margin-bottom: 1.2em;
+}
+
+/* line 205, ../sass/partials/_main.sass */
+.sideBar {
+  width: 32.20339%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+  float: right;
+  position: relative;
+  bottom: 13em;
+}
+
+/* line 211, ../sass/partials/_main.sass */
+#name {
+  width: 32.20339%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+}
+@media (max-width: 651px) {
+  /* line 211, ../sass/partials/_main.sass */
+  #name {
+    width: 100%;
+    float: left;
+    margin-right: 1.69492%;
+  }
+}
+
+/* line 216, ../sass/partials/_main.sass */
+#pswd {
+  width: 32.20339%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+}
+@media (max-width: 651px) {
+  /* line 216, ../sass/partials/_main.sass */
+  #pswd {
+    width: 100%;
+    float: left;
+    margin-right: 1.69492%;
+  }
 }

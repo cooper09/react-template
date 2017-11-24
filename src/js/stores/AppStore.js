@@ -14,7 +14,7 @@ var _users = [];
 var _loginVisible = true;
 var _appPageVisible = false
 
-var _oneVisible = true, _twoVisible = false, _settingsVisible=false, _listVisible = false, _queriesVisible=false;
+var _oneVisible = true, _twoVisible = false, _settingsVisible=false, _listVisible = true, _queriesVisible=false;
 //screen flags
 var  _articleVisible = false, _articleNo = 0;
 
@@ -54,7 +54,8 @@ function setAppVisible(visible, userID) {
 // Specific only to AutoContent
 
 function setOneVisible(visible) {
-	_oneVisible = visible;
+	alert("AppStore.setOneVisible 2: "+ visible );
+_oneVisible = visible;
   _twoVisible = false;
   _settingsVisible = false;
   _articleVisible = false;

@@ -9,8 +9,8 @@ var ArticleList = require('./ArticleList.js');
 var QueryList = React.createClass({
 
 	handleBtnClick: function() {
-		//AppActions.showArticleList('show article list');
-		AppActions.showSelected('Button Two click');
+		AppActions.showArticleList('show article list');
+		//AppActions.showSelected('Button Two click');
 	},
 	render: function() {
 		 if (!this.props.visible) {

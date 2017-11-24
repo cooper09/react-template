@@ -16,10 +16,10 @@ var ArticleScrn = React.createClass({
           return false;
         }
 		
-		console.log('AricleScrn - article to show: ', this.props.article );
+/*		console.log('AricleScrn - article to show: ', this.props.article );
 		console.log("ArticleScrn - And this is our data: ", this.props.data.txt[this.props.article] );
 		console.log("Article Title: ", this.props.data.query );
-		console.log('Article URL: ', this.props.data.src[this.props.article] );
+		console.log('Article URL: ', this.props.data.src[this.props.article] ); */
 
 		var title = this.props.data.query;
 		var image = "img/articleOne.jpg";
