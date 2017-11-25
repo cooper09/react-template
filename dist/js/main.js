@@ -21261,6 +21261,13 @@ showSelected: function (data) {
           data: data
           })
        },
+    showSettings: function (data) {
+      console.log("AppActions.Settings: ", data );
+        AppDispatcher.handleViewAction({
+          actionType: AppConstants.SHOW_SETTINGS,
+          data: data
+          })
+      }, 
 // Removes
 removeInternet: function (data) {
   AppDispatcher.handleViewAction({
@@ -21403,7 +21410,10 @@ var App = React.createClass({displayName: "App",
 			React.createElement("div", null, 
 				React.createElement(LoginForm, {visible: this.state.loginVisible, name: this.state.app[0], password: this.state.app[1], admin: this.state.app[2], users: this.state.users}), 
 				React.createElement(MyApp, {visible: this.state.appVisible.visible, userID: this.state.appVisible.userID, data: this.state.data, queries: this.state.queries, 
-					 listVisible: this.state.listVisible, queriesVisible: this.state.oneVisible, articleVisible: this.state.articleScrnVisible, articleNo: this.state.articleNo})
+					 listVisible: this.state.listVisible, queriesVisible: this.state.oneVisible, 
+					 articleVisible: this.state.articleScrnVisible, articleNo: this.state.articleNo, 
+					 settingsVisible: this.state.settingsVisible}
+					 )
 			)
 		);
 	},
@@ -21736,6 +21746,7 @@ var MyApp = React.createClass({displayName: "MyApp",
 					React.createElement(QueryList, {visible: this.props.queriesVisible, data: listQueries}), 
 					React.createElement(EnterQuery, {visible: this.props.twoVisible, data: this.state.data}), 
 					React.createElement(Settings, {visible: this.props.settingsVisible, data: this.state.data, value: "test"}), 
+					React.createElement(Settings, {visible: this.state.settingsVisible, value: "Set Setting Here..."}), 
 					React.createElement(ArticleScrn, {visible: this.props.articleVisible, data: this.props.data, articleNo: this.props.articleNo, text: this.props.article})
 				)
 
@@ -22058,7 +22069,8 @@ module.exports = {
 	SHOW_LOGIN: "SHOW_LOGIN",
 	SHOW_APP: "SHOW_APP",
 	SHOW_QUERIES: "SHOW_QUERIES",
-	SHOW_SELECTED: "SHOW_SELECTED"
+	SHOW_SELECTED: "SHOW_SELECTED",
+	SHOW_SETTINGS: "SHOW_SETTINGS"
 }
 
 },{}],203:[function(require,module,exports){
@@ -22326,7 +22338,7 @@ AppDispatcher.register(function(payload){
 		setArticleScrnVisible(_visible);
 	break;
 	case 'SHOW_SETTINGS':
-			console.log("Show settings: ", payload );
+		console.log("Appstore - Show settings page: ", payload );
 		_visible=true;
 		setSettingsVisible(_visible);
 	break;

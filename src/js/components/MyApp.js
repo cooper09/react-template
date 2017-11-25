@@ -67,6 +67,7 @@ var MyApp = React.createClass({
 					<QueryList visible={this.props.queriesVisible} data={listQueries}/>
 					<EnterQuery visible={this.props.twoVisible} data={this.state.data }/>
 					<Settings visible={this.props.settingsVisible} data={this.state.data} value={"test"}/>
+					<Settings  visible={this.state.settingsVisible} value={"Set Setting Here..."}/>
 					<ArticleScrn visible={this.props.articleVisible} data={this.props.data} articleNo={this.props.articleNo} text={this.props.article} />
 				</span>
 

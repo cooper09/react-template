@@ -217,7 +217,7 @@ AppDispatcher.register(function(payload){
 		setArticleScrnVisible(_visible);
 	break;
 	case 'SHOW_SETTINGS':
-			console.log("Show settings: ", payload );
+		console.log("Appstore - Show settings page: ", payload );
 		_visible=true;
 		setSettingsVisible(_visible);
 	break;

@@ -40,6 +40,13 @@ showSelected: function (data) {
           data: data
           })
        },
+    showSettings: function (data) {
+      console.log("AppActions.Settings: ", data );
+        AppDispatcher.handleViewAction({
+          actionType: AppConstants.SHOW_SETTINGS,
+          data: data
+          })
+      }, 
 // Removes
 removeInternet: function (data) {
   AppDispatcher.handleViewAction({
