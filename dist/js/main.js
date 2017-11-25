@@ -21723,11 +21723,11 @@ var MyApp = React.createClass({displayName: "MyApp",
     
     console.log("MyApp.listArticles: ", listArticles );
 	console.log("MyApp.listQueries: ", listQueries );
-	console.log("MyApp article Number: "+ this.props.articleNo);
+	console.log("MyApp article state: "+ this.props.article);
 
 	return (
 			React.createElement("div", null, 
-                React.createElement("h1", null, "mPoint AutoContent Manager 1"), 
+                React.createElement("h1", null, "mPoint AutoContent Manager "), 
                  "User: ", this.props.userID, 
 					React.createElement("p", null, " You have been officially authorized"), 
 				React.createElement("span", {className: "leftPanel"}, 
@@ -21743,11 +21743,10 @@ var MyApp = React.createClass({displayName: "MyApp",
 						React.createElement(ArticleList, {visible: this.props.listVisible, data: listArticles})
 					), 
 					React.createElement("br", null), React.createElement("br", null), 
-					React.createElement(QueryList, {visible: this.props.queriesVisible, data: listQueries}), 
+					React.createElement(QueryList, {visible: this.props.queriesVisible, data: listQueries, userID: this.props.userID}), 
 					React.createElement(EnterQuery, {visible: this.props.twoVisible, data: this.state.data}), 
 					React.createElement(Settings, {visible: this.props.settingsVisible, data: this.state.data, value: "test"}), 
-					React.createElement(Settings, {visible: this.state.settingsVisible, value: "Set Setting Here..."}), 
-					React.createElement(ArticleScrn, {visible: this.props.articleVisible, data: this.props.data, articleNo: this.props.articleNo, text: this.props.article})
+					React.createElement(ArticleScrn, {visible: this.props.articleVisible, data: this.props.data, articleNo: this.props.articleNo, text: this.props.article, userID: this.props.userID})
 				)
 
 			)
@@ -21769,7 +21768,8 @@ var ArticleList = require('./ArticleList.js');
 var QueryList = React.createClass({displayName: "QueryList",
 
 	handleBtnClick: function() {
-		AppActions.showArticleList('show article list');
+		console.log('QueryList.handleBtnClick ', this.props.userID );
+		AppActions.showArticleList(this.props.userID);
 		//AppActions.showSelected('Button Two click');
 	},
 	render: function() {
@@ -21779,6 +21779,7 @@ var QueryList = React.createClass({displayName: "QueryList",
         }
 
 		console.log("Querylist Data: ", this.props.data );
+		console.log("QueryList userID: ", this.props.userID );
 
 		var queryArr = [];
         var len = this.props.data.length;
@@ -21914,15 +21915,16 @@ var LeftScrn = require('./LeftScrn.js');
 
 var ArticleScrn = React.createClass({displayName: "ArticleScrn",
 	handleBtnClick: function() {
-		AppActions.showArticleList();
-		AppActions.removeArticle();
+		AppActions.showArticleList(this.props.userID);
+		//AppActions.showArticleList();
+		//AppActions.removeArticle();
 	},
 	render: function() {
 		 if (!this.props.visible) {
 		 	console.log("ArticleScrn is off");
           return false;
         }
-	
+	console.log('ArticleScrn - props userID: ', this.props.userID );
 	console.log('ArticleScrn - props data: ', this.props.data );
 
 		console.log('AricleScrn - article to show: ', this.props.articleNo );
@@ -22175,7 +22177,7 @@ function setAppVisible(visible, userID) {
 // Specific only to AutoContent
 
 function setOneVisible(visible) {
-	alert("AppStore.setOneVisible 2: "+ visible );
+	//alert("AppStore.setOneVisible 2: "+ visible );
 	_oneVisible = visible;
 	_twoVisible = false;
 	_settingsVisible = false;
@@ -22200,7 +22202,7 @@ function setSettingsVisible(visible) {
 	}
 
 	function setArticleListVisible(visible, user ) {
-	console.log('setArticleListVisible: ', visible );
+	console.log('setArticleListVisible: ', visible, " userid: ", user  );
 	_listVisible = visible;
 	_loginVisible = false;
 	_userID = user;
@@ -22321,10 +22323,10 @@ AppDispatcher.register(function(payload){
 	      	setLoginVisible(_visible);
 	 	break;
 	 	case 'SHOW_APP':
-	  	  	console.log("Show main application page: ", action.data );
+	  	  	console.log("AppStore.SHOW_APP - Show main application page: ", action.data );
 		  	_visible=true;
 		  	var userID = action.data;
-	      setAppVisible(_visible, action.data );
+	      setAppVisible(_visible, userID );
 	 	break;
 	//AutoContent Specific
 	case 'SHOW_QUERIES':
@@ -22343,16 +22345,17 @@ AppDispatcher.register(function(payload){
 		setSettingsVisible(_visible);
 	break;
 	case 'SHOW_ARTICLE_LIST':
-			console.log("Appstore - Show article list: ", payload.action.data );
+			console.log("Appstore - Show article list: ", payload );
 			_visible=true;
+			var userID = payload.action.data;
 			//_articles = payload.action.data;
-			setArticleListVisible(_visible);
+			setArticleListVisible(_visible, userID );
 	break;
 	case 'SHOW_ARTICLE':
 			console.log("Show article: ", payload.action.data );
 			var userID = payload.action.data;
 			_visible=true;
-			setArticleVisible(_visible, userID );
+			setArticleVisible(_visible );
 			setArticleNo(payload.action.data);
 	break;
 	case 'SHOW_QUERIES':

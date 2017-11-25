@@ -44,11 +44,11 @@ var MyApp = React.createClass({
     
     console.log("MyApp.listArticles: ", listArticles );
 	console.log("MyApp.listQueries: ", listQueries );
-	console.log("MyApp article Number: "+ this.props.articleNo);
+	console.log("MyApp article state: "+ this.props.article);
 
 	return (
 			<div>
-                <h1>mPoint AutoContent Manager 1</h1>
+                <h1>mPoint AutoContent Manager </h1>
                  User: {this.props.userID}
 					<p> You have been officially authorized</p>
 				<span className="leftPanel" >
@@ -64,11 +64,10 @@ var MyApp = React.createClass({
 						<ArticleList visible={this.props.listVisible } data={listArticles}/>
 					</div>
 					<br/><br/>
-					<QueryList visible={this.props.queriesVisible} data={listQueries}/>
+					<QueryList visible={this.props.queriesVisible} data={listQueries} userID={this.props.userID}/>
 					<EnterQuery visible={this.props.twoVisible} data={this.state.data }/>
 					<Settings visible={this.props.settingsVisible} data={this.state.data} value={"test"}/>
-					<Settings  visible={this.state.settingsVisible} value={"Set Setting Here..."}/>
-					<ArticleScrn visible={this.props.articleVisible} data={this.props.data} articleNo={this.props.articleNo} text={this.props.article} />
+					<ArticleScrn visible={this.props.articleVisible} data={this.props.data} articleNo={this.props.articleNo} text={this.props.article} userID={this.props.userID} />
 				</span>
 
 			</div>

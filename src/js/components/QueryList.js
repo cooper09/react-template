@@ -9,7 +9,8 @@ var ArticleList = require('./ArticleList.js');
 var QueryList = React.createClass({
 
 	handleBtnClick: function() {
-		AppActions.showArticleList('show article list');
+		console.log('QueryList.handleBtnClick ', this.props.userID );
+		AppActions.showArticleList(this.props.userID);
 		//AppActions.showSelected('Button Two click');
 	},
 	render: function() {
@@ -19,6 +20,7 @@ var QueryList = React.createClass({
         }
 
 		console.log("Querylist Data: ", this.props.data );
+		console.log("QueryList userID: ", this.props.userID );
 
 		var queryArr = [];
         var len = this.props.data.length;

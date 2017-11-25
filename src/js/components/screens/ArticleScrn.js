@@ -7,15 +7,16 @@ var LeftScrn = require('./LeftScrn.js');
 
 var ArticleScrn = React.createClass({
 	handleBtnClick: function() {
-		AppActions.showArticleList();
-		AppActions.removeArticle();
+		AppActions.showArticleList(this.props.userID);
+		//AppActions.showArticleList();
+		//AppActions.removeArticle();
 	},
 	render: function() {
 		 if (!this.props.visible) {
 		 	console.log("ArticleScrn is off");
           return false;
         }
-	
+	console.log('ArticleScrn - props userID: ', this.props.userID );
 	console.log('ArticleScrn - props data: ', this.props.data );
 
 		console.log('AricleScrn - article to show: ', this.props.articleNo );

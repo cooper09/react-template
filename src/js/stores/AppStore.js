@@ -54,7 +54,7 @@ function setAppVisible(visible, userID) {
 // Specific only to AutoContent
 
 function setOneVisible(visible) {
-	alert("AppStore.setOneVisible 2: "+ visible );
+	//alert("AppStore.setOneVisible 2: "+ visible );
 	_oneVisible = visible;
 	_twoVisible = false;
 	_settingsVisible = false;
@@ -79,7 +79,7 @@ function setSettingsVisible(visible) {
 	}
 
 	function setArticleListVisible(visible, user ) {
-	console.log('setArticleListVisible: ', visible );
+	console.log('setArticleListVisible: ', visible, " userid: ", user  );
 	_listVisible = visible;
 	_loginVisible = false;
 	_userID = user;
@@ -200,10 +200,10 @@ AppDispatcher.register(function(payload){
 	      	setLoginVisible(_visible);
 	 	break;
 	 	case 'SHOW_APP':
-	  	  	console.log("Show main application page: ", action.data );
+	  	  	console.log("AppStore.SHOW_APP - Show main application page: ", action.data );
 		  	_visible=true;
 		  	var userID = action.data;
-	      setAppVisible(_visible, action.data );
+	      setAppVisible(_visible, userID );
 	 	break;
 	//AutoContent Specific
 	case 'SHOW_QUERIES':
@@ -222,16 +222,17 @@ AppDispatcher.register(function(payload){
 		setSettingsVisible(_visible);
 	break;
 	case 'SHOW_ARTICLE_LIST':
-			console.log("Appstore - Show article list: ", payload.action.data );
+			console.log("Appstore - Show article list: ", payload );
 			_visible=true;
+			var userID = payload.action.data;
 			//_articles = payload.action.data;
-			setArticleListVisible(_visible);
+			setArticleListVisible(_visible, userID );
 	break;
 	case 'SHOW_ARTICLE':
 			console.log("Show article: ", payload.action.data );
 			var userID = payload.action.data;
 			_visible=true;
-			setArticleVisible(_visible, userID );
+			setArticleVisible(_visible );
 			setArticleNo(payload.action.data);
 	break;
 	case 'SHOW_QUERIES':
