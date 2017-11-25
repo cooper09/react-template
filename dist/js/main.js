@@ -21403,7 +21403,7 @@ var App = React.createClass({displayName: "App",
 			React.createElement("div", null, 
 				React.createElement(LoginForm, {visible: this.state.loginVisible, name: this.state.app[0], password: this.state.app[1], admin: this.state.app[2], users: this.state.users}), 
 				React.createElement(MyApp, {visible: this.state.appVisible.visible, userID: this.state.appVisible.userID, data: this.state.data, queries: this.state.queries, 
-					 listVisible: this.state.listVisible, queriesVisible: this.state.oneVisible, articleVisible: this.state.articleScrnVisible})
+					 listVisible: this.state.listVisible, queriesVisible: this.state.oneVisible, articleVisible: this.state.articleScrnVisible, articleNo: this.state.articleNo})
 			)
 		);
 	},
@@ -21483,8 +21483,9 @@ var ArticleLink = React.createClass({displayName: "ArticleLink",
 					
 					var articleNo = num;
 
-					AppActions.showArticle(num);
-					AppActions.removeArticleList();
+					AppActions.showSelected('Specific article has been selected...');
+					//AppActions.showArticle(num);
+					//AppActions.removeArticleList();
 			}
 	}//end render
 
@@ -21712,7 +21713,7 @@ var MyApp = React.createClass({displayName: "MyApp",
     
     console.log("MyApp.listArticles: ", listArticles );
 	console.log("MyApp.listQueries: ", listQueries );
-	console.log("MyApp article state: "+ this.state.article);
+	console.log("MyApp article Number: "+ this.props.articleNo);
 
 	return (
 			React.createElement("div", null, 
@@ -21735,7 +21736,7 @@ var MyApp = React.createClass({displayName: "MyApp",
 					React.createElement(QueryList, {visible: this.props.queriesVisible, data: listQueries}), 
 					React.createElement(EnterQuery, {visible: this.props.twoVisible, data: this.state.data}), 
 					React.createElement(Settings, {visible: this.props.settingsVisible, data: this.state.data, value: "test"}), 
-					React.createElement(ArticleScrn, {visible: this.props.articleVisible, data: this.props.data, article: this.state.articleNo, text: this.state.article})
+					React.createElement(ArticleScrn, {visible: this.props.articleVisible, data: this.props.data, articleNo: this.props.articleNo, text: this.props.article})
 				)
 
 			)
@@ -21913,10 +21914,10 @@ var ArticleScrn = React.createClass({displayName: "ArticleScrn",
 	
 	console.log('ArticleScrn - props data: ', this.props.data );
 
-/*		console.log('AricleScrn - article to show: ', this.props.article );
-		console.log("ArticleScrn - And this is our data: ", this.props.data.txt[this.props.article] );
+		console.log('AricleScrn - article to show: ', this.props.articleNo );
+		console.log("ArticleScrn - And this is our data: ", this.props.data.txt[this.props.articleNo]);
 		console.log("Article Title: ", this.props.data.query );
-		console.log('Article URL: ', this.props.data.src[this.props.article] ); */
+		console.log('Article URL: ', this.props.data.src[this.props.articleNo] );
 
 		var title = this.props.data.query;
 		var image = "img/articleOne.jpg";
@@ -21928,8 +21929,8 @@ var ArticleScrn = React.createClass({displayName: "ArticleScrn",
 					React.createElement("button", {onClick: this.handleBtnClick, className: "closeBtn"}, "Return to Articles"), 
 					React.createElement("h1", null, title), 
 
-					React.createElement(LeftScrn, {visible: true, title: "test", text: this.props.data.txt[this.props.article]}), 
-					React.createElement(MidScrn, {visible: true, title: "test", text: this.props.data.src[this.props.article]}), 
+					React.createElement(LeftScrn, {visible: true, title: "test", text: this.props.data.txt[this.props.articleNo]}), 
+					React.createElement(MidScrn, {visible: true, title: "test", text: this.props.data.src[this.props.articleNo]}), 
 					React.createElement(RightScrn, {visible: true, title: "text", image: image})
 					
 				)

@@ -44,7 +44,7 @@ var MyApp = React.createClass({
     
     console.log("MyApp.listArticles: ", listArticles );
 	console.log("MyApp.listQueries: ", listQueries );
-	console.log("MyApp article state: "+ this.state.article);
+	console.log("MyApp article Number: "+ this.props.articleNo);
 
 	return (
 			<div>
@@ -65,9 +65,9 @@ var MyApp = React.createClass({
 					</div>
 					<br/><br/>
 					<QueryList visible={this.props.queriesVisible} data={listQueries}/>
-					<EnterQuery  visible={this.props.twoVisible} data={this.state.data }/>
-					<Settings  visible={this.props.settingsVisible} data={this.state.data} value={"test"}/>
-					<ArticleScrn visible={this.props.articleVisible} data={this.props.data} article={this.state.articleNo} text={this.state.article} />
+					<EnterQuery visible={this.props.twoVisible} data={this.state.data }/>
+					<Settings visible={this.props.settingsVisible} data={this.state.data} value={"test"}/>
+					<ArticleScrn visible={this.props.articleVisible} data={this.props.data} articleNo={this.props.articleNo} text={this.props.article} />
 				</span>
 
 			</div>

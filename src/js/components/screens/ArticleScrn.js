@@ -18,10 +18,10 @@ var ArticleScrn = React.createClass({
 	
 	console.log('ArticleScrn - props data: ', this.props.data );
 
-/*		console.log('AricleScrn - article to show: ', this.props.article );
-		console.log("ArticleScrn - And this is our data: ", this.props.data.txt[this.props.article] );
+		console.log('AricleScrn - article to show: ', this.props.articleNo );
+		console.log("ArticleScrn - And this is our data: ", this.props.data.txt[this.props.articleNo]);
 		console.log("Article Title: ", this.props.data.query );
-		console.log('Article URL: ', this.props.data.src[this.props.article] ); */
+		console.log('Article URL: ', this.props.data.src[this.props.articleNo] );
 
 		var title = this.props.data.query;
 		var image = "img/articleOne.jpg";
@@ -33,8 +33,8 @@ var ArticleScrn = React.createClass({
 					<button onClick={this.handleBtnClick} className="closeBtn">Return to Articles</button>
 					<h1>{title}</h1>
 
-					<LeftScrn visible={true} title="test" text={this.props.data.txt[this.props.article]}/>
-					<MidScrn visible={true} title="test" text={this.props.data.src[this.props.article]} />
+					<LeftScrn visible={true} title="test" text={this.props.data.txt[this.props.articleNo]}/>
+					<MidScrn visible={true} title="test" text={this.props.data.src[this.props.articleNo]} />
 					<RightScrn visible={true} title="text" image={image} />
 					
 				</div>
