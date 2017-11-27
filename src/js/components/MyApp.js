@@ -54,7 +54,7 @@ var MyApp = React.createClass({
 
 	return (
 			<div>
-                <h1>mPoint AutoContent Manager </h1>
+                <h1>mPoint AutoContent Manager 1</h1>
                  User: {this.props.userID}
 					<p> You have been officially authorized</p>
 				<span className="leftPanel" >

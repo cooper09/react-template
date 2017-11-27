@@ -20,7 +20,7 @@ var ArticleList = React.createClass({
 		var test = "hello";
 
 		return (
-			<div>
+			<div className='mainScrn center option animated fadeIn'>
 				<p>ArticleList.js</p>
 				<div className='queryTitle'><b><i>Top 25 Article Results for Today's Query: "{articles.query}"</i></b>
 				<br/><br/>

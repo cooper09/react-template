@@ -21534,7 +21534,7 @@ var ArticleList = React.createClass({displayName: "ArticleList",
 		var test = "hello";
 
 		return (
-			React.createElement("div", null, 
+			React.createElement("div", {className: "mainScrn center option animated fadeIn"}, 
 				React.createElement("p", null, "ArticleList.js"), 
 				React.createElement("div", {className: "queryTitle"}, React.createElement("b", null, React.createElement("i", null, "Top 25 Article Results for Today's Query: \"", articles.query, "\"")), 
 				React.createElement("br", null), React.createElement("br", null), 
@@ -21740,7 +21740,7 @@ var MyApp = React.createClass({displayName: "MyApp",
 
 	return (
 			React.createElement("div", null, 
-                React.createElement("h1", null, "mPoint AutoContent Manager "), 
+                React.createElement("h1", null, "mPoint AutoContent Manager 1"), 
                  "User: ", this.props.userID, 
 					React.createElement("p", null, " You have been officially authorized"), 
 				React.createElement("span", {className: "leftPanel"}, 
