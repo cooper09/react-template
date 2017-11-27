@@ -6,7 +6,7 @@ var ArticleList = React.createClass({
 
 	render: function() {
 		
-		console.log("ArticleList - our data: ", this.props.data );
+		console.log("ArticleList - our data: ", this.props.data);
 
 		if (!this.props.visible) {
 		 	console.log("ArticleList is off");

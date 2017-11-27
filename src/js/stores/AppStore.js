@@ -14,7 +14,7 @@ var _users = [];
 var _loginVisible = true;
 var _appPageVisible = false
 
-var _oneVisible = true, _twoVisible = false, _settingsVisible=false, _listVisible = true, _queriesVisible=false;
+var _oneVisible = false, _twoVisible = false, _settingsVisible=false, _listVisible = true, _queriesVisible=false;
 //screen flags
 var  _articleVisible = false, _articleNo = 0;
 
@@ -79,15 +79,16 @@ function setSettingsVisible(visible) {
 	_settingsVisible = visible;
 	}
 
-	function setArticleListVisible(visible, user ) {
-	console.log('setArticleListVisible: ', visible, " userid: ", user  );
-	_listVisible = visible;
-	_loginVisible = false;
-	_userID = user;
-	_oneVisible = false;
-	_twoVisible = false;
-	_settingsVisible = false;
-	_articleVisible = false;
+	function setArticleListVisible(visible, data ) {
+		console.log('setArticleListVisible: ', visible, " data: ", data  );
+		_listVisible = visible;
+		_loginVisible = false;
+		//_userID = user;
+		_oneVisible = false;
+		_twoVisible = false;
+		_settingsVisible = false;
+		_articleVisible = false;
+		_articles = data;
 	}
 
 function setArticleVisible(visible) {
@@ -228,11 +229,16 @@ AppDispatcher.register(function(payload){
 		setSettingsVisible(_visible);
 	break;
 	case 'SHOW_ARTICLE_LIST':
-		console.log("Appstore - SHOW_ARTICLE_LIST: ", payload );
-			_visible=true;
-			var userID = payload.action.data;
-			//_articles = payload.action.data;
-			setArticleListVisible(_visible, userID );
+		console.log("Appstore - SHOW_ARTICLE_LIST: ", payload.action.data );
+		_visible=true;
+		var data = payload.action.data;
+		setArticleListVisible(_visible, data );
+	break;
+	case 'SHOW_QUERY_ARTICLE_LIST':
+		console.log("Appstore - SHOW_QUERY_ARTICLE_LIST: ", payload );
+		_visible=true;
+		var data = payload.action.data;
+		setArticleListVisible(_visible, data );
 	break;
 	case 'SHOW_ARTICLE':
 			console.log("SHOW_ARTICLE: ", payload.action.data );

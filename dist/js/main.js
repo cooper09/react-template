@@ -21261,7 +21261,14 @@ showSelected: function (data) {
           data: data
           })
        },
-    showSettings: function (data) {
+  showQueryArticleList: function (data) {
+    console.log("AppActions.showQueryArticleList: ", data );
+    AppDispatcher.handleViewAction({
+      actionType: ArticleConstants.SHOW_QUERY_ARTICLE_LIST,
+      data: data
+      })
+  },
+  showSettings: function (data) {
       console.log("AppActions.Settings: ", data );
         AppDispatcher.handleViewAction({
           actionType: AppConstants.SHOW_SETTINGS,
@@ -21308,7 +21315,7 @@ removeArticleList: function (data) {
       data: data
     	})
     },
-    loadQueries: function (data) {
+loadQueries: function (data) {
     console.log("AppActions.loadQueries: ", data );
       AppDispatcher.handleViewAction({
         actionType: AppConstants.RECEIVE_QUERIES,
@@ -21403,7 +21410,7 @@ var App = React.createClass({displayName: "App",
 		console.log("Current State state: ", this.state.app );
 		console.log("Current list of users: ", this.state.users );
 
-		console.log("Current UserID: ", this.state.appVisible  );
+		console.log("Current UserID: ", this.state.appVisible.userID  );
 		console.log("App ArticleList state: ", this.state.listVisible);
 		console.log("App QueryList state: ", this.state.oneVisible);
 		return(
@@ -21513,7 +21520,7 @@ var ArticleList = React.createClass({displayName: "ArticleList",
 
 	render: function() {
 		
-		console.log("ArticleList - our data: ", this.props.data );
+		console.log("ArticleList - our data: ", this.props.data);
 
 		if (!this.props.visible) {
 		 	console.log("ArticleList is off");
@@ -21663,7 +21670,7 @@ var LoginForm = React.createClass({displayName: "LoginForm",
 	console.log("LoginForm - default user: ", this.state.name );
 	return (
 			React.createElement("div", null, 
-				React.createElement("h1", null, " mPoint AutoContent Login 3"), 
+				React.createElement("h1", null, " mPoint AutoContent Login"), 
 				React.createElement("input", {id: "input", type: "text", onBlur: this.getName, defautValue: this.state.name}), 
 				React.createElement("br", null), 
 				React.createElement("input", {id: "password", type: "password", onBlur: this.getPassword}), 
@@ -21715,15 +21722,21 @@ var MyApp = React.createClass({displayName: "MyApp",
 		 if (!this.props.visible) {
 		 	console.log("MyApp Form is off");
           return false; 
-        } // end if visible
+		} // end if visible
+		
+
+	console.log("MyApp - Current user info: ", this.props.userID );
     console.log('MyApp - ArticleList visible list state - props: ' + this.props.listVisible );
     console.log('MyApp - ArticleList visible queries state: ' + this.props.queriesVisible );
     var listArticles = this.props.data;
-    var listQueries = this.props.queries;
+	var listQueries = this.props.queries;
+	
+	var top25 = listArticles;
     
     console.log("MyApp.listArticles: ", listArticles );
 	console.log("MyApp.listQueries: ", listQueries );
 	console.log("MyApp article state: "+ this.props.article);
+	console.log("MyApp top25: "+ this.props.top25);
 
 	return (
 			React.createElement("div", null, 
@@ -21740,7 +21753,7 @@ var MyApp = React.createClass({displayName: "MyApp",
 				), 
 				React.createElement("span", {className: "rightPanel"}, 
 					React.createElement("div", {className: "listArticles"}, 
-						React.createElement(ArticleList, {visible: this.props.listVisible, data: listArticles})
+						React.createElement(ArticleList, {visible: this.props.listVisible, data: listArticles, top25: top25})
 					), 
 					React.createElement("br", null), React.createElement("br", null), 
 					React.createElement(QueryList, {visible: this.props.queriesVisible, data: listQueries, userID: this.props.userID}), 
@@ -21769,7 +21782,7 @@ var QueryList = React.createClass({displayName: "QueryList",
 
 	handleBtnClick: function() {
 		console.log('QueryList.handleBtnClick ', this.props.userID );
-		AppActions.showArticleList(this.props.userID);
+		AppActions.showQueryArticleList(this.props.data);
 		//AppActions.showSelected('Button Two click');
 	},
 	render: function() {
@@ -22072,7 +22085,8 @@ module.exports = {
 	SHOW_APP: "SHOW_APP",
 	SHOW_QUERIES: "SHOW_QUERIES",
 	SHOW_SELECTED: "SHOW_SELECTED",
-	SHOW_SETTINGS: "SHOW_SETTINGS"
+	SHOW_SETTINGS: "SHOW_SETTINGS",
+	SHOW_QUERY_ARTICLE_LIST: "SHOW_QUERY_ARTICLE_LIST"
 }
 
 },{}],203:[function(require,module,exports){
@@ -22137,7 +22151,7 @@ var _users = [];
 var _loginVisible = true;
 var _appPageVisible = false
 
-var _oneVisible = true, _twoVisible = false, _settingsVisible=false, _listVisible = true, _queriesVisible=false;
+var _oneVisible = false, _twoVisible = false, _settingsVisible=false, _listVisible = true, _queriesVisible=false;
 //screen flags
 var  _articleVisible = false, _articleNo = 0;
 
@@ -22202,15 +22216,16 @@ function setSettingsVisible(visible) {
 	_settingsVisible = visible;
 	}
 
-	function setArticleListVisible(visible, user ) {
-	console.log('setArticleListVisible: ', visible, " userid: ", user  );
-	_listVisible = visible;
-	_loginVisible = false;
-	_userID = user;
-	_oneVisible = false;
-	_twoVisible = false;
-	_settingsVisible = false;
-	_articleVisible = false;
+	function setArticleListVisible(visible, data ) {
+		console.log('setArticleListVisible: ', visible, " data: ", data  );
+		_listVisible = visible;
+		_loginVisible = false;
+		//_userID = user;
+		_oneVisible = false;
+		_twoVisible = false;
+		_settingsVisible = false;
+		_articleVisible = false;
+		_articles = data;
 	}
 
 function setArticleVisible(visible) {
@@ -22351,11 +22366,16 @@ AppDispatcher.register(function(payload){
 		setSettingsVisible(_visible);
 	break;
 	case 'SHOW_ARTICLE_LIST':
-		console.log("Appstore - SHOW_ARTICLE_LIST: ", payload );
-			_visible=true;
-			var userID = payload.action.data;
-			//_articles = payload.action.data;
-			setArticleListVisible(_visible, userID );
+		console.log("Appstore - SHOW_ARTICLE_LIST: ", payload.action.data );
+		_visible=true;
+		var data = payload.action.data;
+		setArticleListVisible(_visible, data );
+	break;
+	case 'SHOW_QUERY_ARTICLE_LIST':
+		console.log("Appstore - SHOW_QUERY_ARTICLE_LIST: ", payload );
+		_visible=true;
+		var data = payload.action.data;
+		setArticleListVisible(_visible, data );
 	break;
 	case 'SHOW_ARTICLE':
 			console.log("SHOW_ARTICLE: ", payload.action.data );

@@ -61,7 +61,7 @@ var App = React.createClass({
 		console.log("Current State state: ", this.state.app );
 		console.log("Current list of users: ", this.state.users );
 
-		console.log("Current UserID: ", this.state.appVisible  );
+		console.log("Current UserID: ", this.state.appVisible.userID  );
 		console.log("App ArticleList state: ", this.state.listVisible);
 		console.log("App QueryList state: ", this.state.oneVisible);
 		return(

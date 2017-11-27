@@ -40,7 +40,14 @@ showSelected: function (data) {
           data: data
           })
        },
-    showSettings: function (data) {
+  showQueryArticleList: function (data) {
+    console.log("AppActions.showQueryArticleList: ", data );
+    AppDispatcher.handleViewAction({
+      actionType: ArticleConstants.SHOW_QUERY_ARTICLE_LIST,
+      data: data
+      })
+  },
+  showSettings: function (data) {
       console.log("AppActions.Settings: ", data );
         AppDispatcher.handleViewAction({
           actionType: AppConstants.SHOW_SETTINGS,
@@ -87,7 +94,7 @@ removeArticleList: function (data) {
       data: data
     	})
     },
-    loadQueries: function (data) {
+loadQueries: function (data) {
     console.log("AppActions.loadQueries: ", data );
       AppDispatcher.handleViewAction({
         actionType: AppConstants.RECEIVE_QUERIES,
