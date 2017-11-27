@@ -7,7 +7,7 @@ var LeftScrn = require('./LeftScrn.js');
 
 var ArticleScrn = React.createClass({
 	handleBtnClick: function() {
-		AppActions.showArticleList(this.props.top25);
+		AppActions.showArticleList(this.props.data);
 		//AppActions.showArticleList();
 		//AppActions.removeArticle();
 	},
@@ -24,9 +24,9 @@ var ArticleScrn = React.createClass({
 		console.log("Article Title: ", this.props.data.query );
 		console.log('Article URL: ', this.props.data.src[this.props.articleNo] );
 
-		if (this.props.articleNo === "New Query") {
-			var title = "New Query";
-			this.props.data.txt = "";
+		
+		if ( this.props.articleNo === 'New Query' ){
+			var title = this.props.articleNo;
 		} else {
 			var title = this.props.data.query;
 		}
