@@ -21712,7 +21712,7 @@ var MyApp = React.createClass({displayName: "MyApp",
       },
       handleBtnClick2: function() {
         console.log('APP - Handle my button click: ');
-        AppActions.showSelected('Button Two click');
+        AppActions.showSelected('New Query');
       },
       handleBtnClick3: function() {
           console.log('APP - Handle my button click: ');
@@ -21759,7 +21759,7 @@ var MyApp = React.createClass({displayName: "MyApp",
 					React.createElement(QueryList, {visible: this.props.queriesVisible, data: listQueries, userID: this.props.userID, top25: top25}), 
 					React.createElement(EnterQuery, {visible: this.props.twoVisible, data: this.state.data}), 
 					React.createElement(Settings, {visible: this.props.settingsVisible, data: this.state.data, value: "test"}), 
-					React.createElement(ArticleScrn, {visible: this.props.articleVisible, data: this.props.data, articleNo: this.props.articleNo, text: this.props.article, userID: this.props.userID})
+					React.createElement(ArticleScrn, {visible: this.props.articleVisible, data: this.props.data, articleNo: this.props.articleNo, text: this.props.article, userID: this.props.userID, top25: top25})
 				)
 
 			)
@@ -21929,7 +21929,7 @@ var LeftScrn = require('./LeftScrn.js');
 
 var ArticleScrn = React.createClass({displayName: "ArticleScrn",
 	handleBtnClick: function() {
-		AppActions.showArticleList(this.props.userID);
+		AppActions.showArticleList(this.props.top25);
 		//AppActions.showArticleList();
 		//AppActions.removeArticle();
 	},
@@ -21946,7 +21946,12 @@ var ArticleScrn = React.createClass({displayName: "ArticleScrn",
 		console.log("Article Title: ", this.props.data.query );
 		console.log('Article URL: ', this.props.data.src[this.props.articleNo] );
 
-		var title = this.props.data.query;
+		if (this.props.articleNo === "New Query") {
+			var title = "New Query";
+			this.props.data.txt = "";
+		} else {
+			var title = this.props.data.query;
+		}
 		var image = "img/articleOne.jpg";
 
 		return (

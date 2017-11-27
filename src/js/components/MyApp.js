@@ -26,7 +26,7 @@ var MyApp = React.createClass({
       },
       handleBtnClick2: function() {
         console.log('APP - Handle my button click: ');
-        AppActions.showSelected('Button Two click');
+        AppActions.showSelected('New Query');
       },
       handleBtnClick3: function() {
           console.log('APP - Handle my button click: ');
@@ -73,7 +73,7 @@ var MyApp = React.createClass({
 					<QueryList visible={this.props.queriesVisible} data={listQueries} userID={this.props.userID} top25={top25}/>
 					<EnterQuery visible={this.props.twoVisible} data={this.state.data }/>
 					<Settings visible={this.props.settingsVisible} data={this.state.data} value={"test"}/>
-					<ArticleScrn visible={this.props.articleVisible} data={this.props.data} articleNo={this.props.articleNo} text={this.props.article} userID={this.props.userID} />
+					<ArticleScrn visible={this.props.articleVisible} data={this.props.data} articleNo={this.props.articleNo} text={this.props.article} userID={this.props.userID} top25={top25}/>
 				</span>
 
 			</div>
