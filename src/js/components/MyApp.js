@@ -40,17 +40,17 @@ var MyApp = React.createClass({
 		
 
 	console.log("MyApp - Current user info: ", this.props.userID );
+	console.log("MyApp - Current Article Data: ", this.props.data );
     console.log('MyApp - ArticleList visible list state - props: ' + this.props.listVisible );
     console.log('MyApp - ArticleList visible queries state: ' + this.props.queriesVisible );
-    var listArticles = this.props.data;
+	var listArticles = this.props.data;
+	var top25 = this.props.data;
 	var listQueries = this.props.queries;
-	
-	var top25 = listArticles;
     
     console.log("MyApp.listArticles: ", listArticles );
 	console.log("MyApp.listQueries: ", listQueries );
 	console.log("MyApp article state: "+ this.props.article);
-	console.log("MyApp top25: "+ this.props.top25);
+	console.log("MyApp top25: ", top25);
 
 	return (
 			<div>
@@ -70,7 +70,7 @@ var MyApp = React.createClass({
 						<ArticleList visible={this.props.listVisible } data={listArticles} top25={top25} />
 					</div>
 					<br/><br/>
-					<QueryList visible={this.props.queriesVisible} data={listQueries} userID={this.props.userID}/>
+					<QueryList visible={this.props.queriesVisible} data={listQueries} userID={this.props.userID} top25={top25}/>
 					<EnterQuery visible={this.props.twoVisible} data={this.state.data }/>
 					<Settings visible={this.props.settingsVisible} data={this.state.data} value={"test"}/>
 					<ArticleScrn visible={this.props.articleVisible} data={this.props.data} articleNo={this.props.articleNo} text={this.props.article} userID={this.props.userID} />

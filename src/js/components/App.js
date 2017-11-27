@@ -58,10 +58,10 @@ var App = React.createClass({
 		AppStore.removeChangeListener(this._onChange);
 	},
 	render: function(){
-		console.log("Current State state: ", this.state.app );
-		console.log("Current list of users: ", this.state.users );
+		console.log("App - Current State state: ", this.state.app );
+		console.log("App - Current list of users: ", this.state.users );
 
-		console.log("Current UserID: ", this.state.appVisible.userID  );
+		console.log("App - Current UserID: ", this.state.appVisible.userID  );
 		console.log("App ArticleList state: ", this.state.listVisible);
 		console.log("App QueryList state: ", this.state.oneVisible);
 		return(

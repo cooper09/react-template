@@ -10,7 +10,7 @@ var QueryList = React.createClass({
 
 	handleBtnClick: function() {
 		console.log('QueryList.handleBtnClick ', this.props.userID );
-		AppActions.showQueryArticleList(this.props.data);
+		AppActions.showArticleList(this.props.top25);
 		//AppActions.showSelected('Button Two click');
 	},
 	render: function() {
@@ -21,6 +21,7 @@ var QueryList = React.createClass({
 
 		console.log("Querylist Data: ", this.props.data );
 		console.log("QueryList userID: ", this.props.userID );
+		console.log("Top 25: ", this.props.top25 );
 
 		var queryArr = [];
         var len = this.props.data.length;

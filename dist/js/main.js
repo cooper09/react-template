@@ -21407,10 +21407,10 @@ var App = React.createClass({displayName: "App",
 		AppStore.removeChangeListener(this._onChange);
 	},
 	render: function(){
-		console.log("Current State state: ", this.state.app );
-		console.log("Current list of users: ", this.state.users );
+		console.log("App - Current State state: ", this.state.app );
+		console.log("App - Current list of users: ", this.state.users );
 
-		console.log("Current UserID: ", this.state.appVisible.userID  );
+		console.log("App - Current UserID: ", this.state.appVisible.userID  );
 		console.log("App ArticleList state: ", this.state.listVisible);
 		console.log("App QueryList state: ", this.state.oneVisible);
 		return(
@@ -21726,17 +21726,17 @@ var MyApp = React.createClass({displayName: "MyApp",
 		
 
 	console.log("MyApp - Current user info: ", this.props.userID );
+	console.log("MyApp - Current Article Data: ", this.props.data );
     console.log('MyApp - ArticleList visible list state - props: ' + this.props.listVisible );
     console.log('MyApp - ArticleList visible queries state: ' + this.props.queriesVisible );
-    var listArticles = this.props.data;
+	var listArticles = this.props.data;
+	var top25 = this.props.data;
 	var listQueries = this.props.queries;
-	
-	var top25 = listArticles;
     
     console.log("MyApp.listArticles: ", listArticles );
 	console.log("MyApp.listQueries: ", listQueries );
 	console.log("MyApp article state: "+ this.props.article);
-	console.log("MyApp top25: "+ this.props.top25);
+	console.log("MyApp top25: ", top25);
 
 	return (
 			React.createElement("div", null, 
@@ -21756,7 +21756,7 @@ var MyApp = React.createClass({displayName: "MyApp",
 						React.createElement(ArticleList, {visible: this.props.listVisible, data: listArticles, top25: top25})
 					), 
 					React.createElement("br", null), React.createElement("br", null), 
-					React.createElement(QueryList, {visible: this.props.queriesVisible, data: listQueries, userID: this.props.userID}), 
+					React.createElement(QueryList, {visible: this.props.queriesVisible, data: listQueries, userID: this.props.userID, top25: top25}), 
 					React.createElement(EnterQuery, {visible: this.props.twoVisible, data: this.state.data}), 
 					React.createElement(Settings, {visible: this.props.settingsVisible, data: this.state.data, value: "test"}), 
 					React.createElement(ArticleScrn, {visible: this.props.articleVisible, data: this.props.data, articleNo: this.props.articleNo, text: this.props.article, userID: this.props.userID})
@@ -21782,7 +21782,7 @@ var QueryList = React.createClass({displayName: "QueryList",
 
 	handleBtnClick: function() {
 		console.log('QueryList.handleBtnClick ', this.props.userID );
-		AppActions.showQueryArticleList(this.props.data);
+		AppActions.showArticleList(this.props.top25);
 		//AppActions.showSelected('Button Two click');
 	},
 	render: function() {
@@ -21793,6 +21793,7 @@ var QueryList = React.createClass({displayName: "QueryList",
 
 		console.log("Querylist Data: ", this.props.data );
 		console.log("QueryList userID: ", this.props.userID );
+		console.log("Top 25: ", this.props.top25 );
 
 		var queryArr = [];
         var len = this.props.data.length;
@@ -22086,6 +22087,7 @@ module.exports = {
 	SHOW_QUERIES: "SHOW_QUERIES",
 	SHOW_SELECTED: "SHOW_SELECTED",
 	SHOW_SETTINGS: "SHOW_SETTINGS",
+	SHOW_ARTICLE_LIST: "SHOW_ARTICLE_LIST",
 	SHOW_QUERY_ARTICLE_LIST: "SHOW_QUERY_ARTICLE_LIST"
 }
 
