@@ -83,13 +83,17 @@ function setSettingsVisible(visible) {
 	_listVisible = visible;
 	_loginVisible = false;
 	_userID = user;
+	_oneVisible = false;
+	_twoVisible = false;
+	_settingsVisible = false;
+	_articleVisible = false;
 	}
 
 function setArticleVisible(visible) {
 	_twoVisible = false;
-	  _oneVisible = false;
-	  _settingsVisible = false;
-	  _articleVisible = visible;
+	_oneVisible = false;
+	_settingsVisible = false;
+	_articleVisible = visible;
   }
   
   function setArticleNo(artNo) {

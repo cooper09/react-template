@@ -50,7 +50,7 @@ var LoginForm = React.createClass({
 	console.log("LoginForm - default user: ", this.state.name );
 	return (
 			<div>
-				<h1> Simple Login Form</h1>
+				<h1> mPoint AutoContent Login 3</h1>
 				<input id="input" type="text" onBlur={this.getName} defautValue={this.state.name} />
 				<br/>
 				<input id="password" type="password" onBlur={this.getPassword}/>
