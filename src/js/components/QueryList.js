@@ -10,8 +10,9 @@ var QueryList = React.createClass({
 
 	handleBtnClick: function() {
 		console.log('QueryList.handleBtnClick ', this.props.userID );
-		AppActions.showArticleList(this.props.top25);
-		//AppActions.showSelected('Button Two click');
+		//AppActions.showArticleList(this.props.top25);
+		AppActions.showSelected('New Query');
+
 	},
 	render: function() {
 		 if (!this.props.visible) {

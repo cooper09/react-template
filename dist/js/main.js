@@ -21758,7 +21758,7 @@ var MyApp = React.createClass({displayName: "MyApp",
 					React.createElement("br", null), React.createElement("br", null), 
 					React.createElement(QueryList, {visible: this.props.queriesVisible, data: listQueries, userID: this.props.userID, top25: top25}), 
 					React.createElement(EnterQuery, {visible: this.props.twoVisible, data: this.state.data}), 
-					React.createElement(Settings, {visible: this.props.settingsVisible, data: this.state.data, value: "test"}), 
+					React.createElement(Settings, {visible: this.props.settingsVisible, data: this.state.data, value: "test", top25: top25}), 
 					React.createElement(ArticleScrn, {visible: this.props.articleVisible, data: this.props.data, articleNo: this.props.articleNo, text: this.props.article, userID: this.props.userID, top25: top25})
 				)
 
@@ -21782,8 +21782,9 @@ var QueryList = React.createClass({displayName: "QueryList",
 
 	handleBtnClick: function() {
 		console.log('QueryList.handleBtnClick ', this.props.userID );
-		AppActions.showArticleList(this.props.top25);
-		//AppActions.showSelected('Button Two click');
+		//AppActions.showArticleList(this.props.top25);
+		AppActions.showSelected('New Query');
+
 	},
 	render: function() {
 		 if (!this.props.visible) {
@@ -21860,8 +21861,8 @@ var AppActions = require('../actions/AppActions');
 var Settings = React.createClass({displayName: "Settings",
 
 	handleCloseBtn: function() {
-		AppActions.removeSettings('remove Settings Screen');
-		AppActions.showArticleList('show article list');
+		//AppActions.removeSettings('remove Settings Screen');
+		AppActions.showArticleList(this.props.top25);
 	},
 	render: function() {
 		 if (!this.props.visible) {
@@ -21977,7 +21978,10 @@ module.exports = ArticleScrn;
 var React = require('react');
 
 var LeftScrn = React.createClass({displayName: "LeftScrn",
-
+	getInitialState: function() {
+		return {
+				};
+	  },
 
 	handleSaveBtnClick: function(copy) {
 		alert("current state of copy 1: ", copy );
@@ -21991,6 +21995,7 @@ var LeftScrn = React.createClass({displayName: "LeftScrn",
         }
 
 		var copy = this.props.text;
+		console.log("LeftScrn - current copy: ", this.props.text );
 		
 		return (
 			React.createElement("div", null, 
@@ -22206,8 +22211,8 @@ function setOneVisible(visible) {
 	_listVisible = false;
 	}
 
-function setArticleScrnVisible(visible, articleNo ) {
-	_articleNo = articleNo;
+function setArticleScrnVisible(visible, data ) {
+	//_articleNo = articleNo;
 	_twoVisible = visible;
 	_oneVisible = false;
 	_settingsVisible = false;
@@ -22364,8 +22369,8 @@ AppDispatcher.register(function(payload){
 	case 'SHOW_SELECTED':
 		console.log("SHOW_SELECTED: ", payload );
 		_visible=true;
-		var articleNo = payload.action.data;
-		setArticleScrnVisible(_visible, articleNo );
+		var data = payload.action.data;
+		setArticleScrnVisible(_visible, data );
 	break;
 	case 'SHOW_SETTINGS':
 		console.log("Appstore - SHOW_SETTINGS: ", payload );

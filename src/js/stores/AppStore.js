@@ -62,8 +62,8 @@ function setOneVisible(visible) {
 	_listVisible = false;
 	}
 
-function setArticleScrnVisible(visible, articleNo ) {
-	_articleNo = articleNo;
+function setArticleScrnVisible(visible, data ) {
+	//_articleNo = articleNo;
 	_twoVisible = visible;
 	_oneVisible = false;
 	_settingsVisible = false;
@@ -220,8 +220,8 @@ AppDispatcher.register(function(payload){
 	case 'SHOW_SELECTED':
 		console.log("SHOW_SELECTED: ", payload );
 		_visible=true;
-		var articleNo = payload.action.data;
-		setArticleScrnVisible(_visible, articleNo );
+		var data = payload.action.data;
+		setArticleScrnVisible(_visible, data );
 	break;
 	case 'SHOW_SETTINGS':
 		console.log("Appstore - SHOW_SETTINGS: ", payload );

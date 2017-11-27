@@ -4,8 +4,8 @@ var AppActions = require('../actions/AppActions');
 var Settings = React.createClass({
 
 	handleCloseBtn: function() {
-		AppActions.removeSettings('remove Settings Screen');
-		AppActions.showArticleList('show article list');
+		//AppActions.removeSettings('remove Settings Screen');
+		AppActions.showArticleList(this.props.top25);
 	},
 	render: function() {
 		 if (!this.props.visible) {

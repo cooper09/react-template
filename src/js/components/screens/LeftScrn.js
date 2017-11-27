@@ -1,7 +1,10 @@
 var React = require('react');
 
 var LeftScrn = React.createClass({
-
+	getInitialState: function() {
+		return {
+				};
+	  },
 
 	handleSaveBtnClick: function(copy) {
 		alert("current state of copy 1: ", copy );
@@ -15,6 +18,7 @@ var LeftScrn = React.createClass({
         }
 
 		var copy = this.props.text;
+		console.log("LeftScrn - current copy: ", this.props.text );
 		
 		return (
 			<div>

@@ -72,7 +72,7 @@ var MyApp = React.createClass({
 					<br/><br/>
 					<QueryList visible={this.props.queriesVisible} data={listQueries} userID={this.props.userID} top25={top25}/>
 					<EnterQuery visible={this.props.twoVisible} data={this.state.data }/>
-					<Settings visible={this.props.settingsVisible} data={this.state.data} value={"test"}/>
+					<Settings visible={this.props.settingsVisible} data={this.state.data} value={"test"} top25={top25}/>
 					<ArticleScrn visible={this.props.articleVisible} data={this.props.data} articleNo={this.props.articleNo} text={this.props.article} userID={this.props.userID} top25={top25}/>
 				</span>
 
