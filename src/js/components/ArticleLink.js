@@ -63,7 +63,7 @@ var ArticleLink = React.createClass({
 					
 					var articleNo = num;
 
-					AppActions.showSelected('Specific article has been selected...');
+					AppActions.showSelected(num);
 					//AppActions.showArticle(num);
 					//AppActions.removeArticleList();
 			}

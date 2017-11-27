@@ -21493,7 +21493,7 @@ var ArticleLink = React.createClass({displayName: "ArticleLink",
 					
 					var articleNo = num;
 
-					AppActions.showSelected('Specific article has been selected...');
+					AppActions.showSelected(num);
 					//AppActions.showArticle(num);
 					//AppActions.removeArticleList();
 			}
@@ -21663,7 +21663,7 @@ var LoginForm = React.createClass({displayName: "LoginForm",
 	console.log("LoginForm - default user: ", this.state.name );
 	return (
 			React.createElement("div", null, 
-				React.createElement("h1", null, " Simple Login Form"), 
+				React.createElement("h1", null, " mPoint AutoContent Login 3"), 
 				React.createElement("input", {id: "input", type: "text", onBlur: this.getName, defautValue: this.state.name}), 
 				React.createElement("br", null), 
 				React.createElement("input", {id: "password", type: "password", onBlur: this.getPassword}), 
@@ -21927,7 +21927,7 @@ var ArticleScrn = React.createClass({displayName: "ArticleScrn",
 	console.log('ArticleScrn - props userID: ', this.props.userID );
 	console.log('ArticleScrn - props data: ', this.props.data );
 
-		console.log('AricleScrn - article to show: ', this.props.articleNo );
+		console.log('ArticleScrn - article to show: ', this.props.articleNo );
 		console.log("ArticleScrn - And this is our data: ", this.props.data.txt[this.props.articleNo]);
 		console.log("Article Title: ", this.props.data.query );
 		console.log('Article URL: ', this.props.data.src[this.props.articleNo] );
@@ -22185,7 +22185,8 @@ function setOneVisible(visible) {
 	_listVisible = false;
 	}
 
-function setArticleScrnVisible(visible) {
+function setArticleScrnVisible(visible, articleNo ) {
+	_articleNo = articleNo;
 	_twoVisible = visible;
 	_oneVisible = false;
 	_settingsVisible = false;
@@ -22206,13 +22207,17 @@ function setSettingsVisible(visible) {
 	_listVisible = visible;
 	_loginVisible = false;
 	_userID = user;
+	_oneVisible = false;
+	_twoVisible = false;
+	_settingsVisible = false;
+	_articleVisible = false;
 	}
 
 function setArticleVisible(visible) {
 	_twoVisible = false;
-	  _oneVisible = false;
-	  _settingsVisible = false;
-	  _articleVisible = visible;
+	_oneVisible = false;
+	_settingsVisible = false;
+	_articleVisible = visible;
   }
   
   function setArticleNo(artNo) {
@@ -22281,7 +22286,7 @@ var AppStore = assign({}, EventEmitter.prototype, {
 		return _articleVisible;
 	},
 	getArticleNo: function () {
-		console.log('AppStore.getArticleVisible: ' + _articleNo );
+		console.log('AppStore.getArticleNo: ' + _articleNo );
 		return _articleNo;
 	},
 // Get ready to broadcast!
@@ -22335,24 +22340,25 @@ AppDispatcher.register(function(payload){
 		setOneVisible(_visible);
 	break;
 	case 'SHOW_SELECTED':
-			console.log("Show page two: ", payload );
+		console.log("SHOW_SELECTED: ", payload );
 		_visible=true;
-		setArticleScrnVisible(_visible);
+		var articleNo = payload.action.data;
+		setArticleScrnVisible(_visible, articleNo );
 	break;
 	case 'SHOW_SETTINGS':
-		console.log("Appstore - Show settings page: ", payload );
+		console.log("Appstore - SHOW_SETTINGS: ", payload );
 		_visible=true;
 		setSettingsVisible(_visible);
 	break;
 	case 'SHOW_ARTICLE_LIST':
-			console.log("Appstore - Show article list: ", payload );
+		console.log("Appstore - SHOW_ARTICLE_LIST: ", payload );
 			_visible=true;
 			var userID = payload.action.data;
 			//_articles = payload.action.data;
 			setArticleListVisible(_visible, userID );
 	break;
 	case 'SHOW_ARTICLE':
-			console.log("Show article: ", payload.action.data );
+			console.log("SHOW_ARTICLE: ", payload.action.data );
 			var userID = payload.action.data;
 			_visible=true;
 			setArticleVisible(_visible );

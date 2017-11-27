@@ -19,7 +19,7 @@ var ArticleScrn = React.createClass({
 	console.log('ArticleScrn - props userID: ', this.props.userID );
 	console.log('ArticleScrn - props data: ', this.props.data );
 
-		console.log('AricleScrn - article to show: ', this.props.articleNo );
+		console.log('ArticleScrn - article to show: ', this.props.articleNo );
 		console.log("ArticleScrn - And this is our data: ", this.props.data.txt[this.props.articleNo]);
 		console.log("Article Title: ", this.props.data.query );
 		console.log('Article URL: ', this.props.data.src[this.props.articleNo] );

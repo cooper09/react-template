@@ -62,7 +62,8 @@ function setOneVisible(visible) {
 	_listVisible = false;
 	}
 
-function setArticleScrnVisible(visible) {
+function setArticleScrnVisible(visible, articleNo ) {
+	_articleNo = articleNo;
 	_twoVisible = visible;
 	_oneVisible = false;
 	_settingsVisible = false;
@@ -162,7 +163,7 @@ var AppStore = assign({}, EventEmitter.prototype, {
 		return _articleVisible;
 	},
 	getArticleNo: function () {
-		console.log('AppStore.getArticleVisible: ' + _articleNo );
+		console.log('AppStore.getArticleNo: ' + _articleNo );
 		return _articleNo;
 	},
 // Get ready to broadcast!
@@ -216,24 +217,25 @@ AppDispatcher.register(function(payload){
 		setOneVisible(_visible);
 	break;
 	case 'SHOW_SELECTED':
-			console.log("Show page two: ", payload );
+		console.log("SHOW_SELECTED: ", payload );
 		_visible=true;
-		setArticleScrnVisible(_visible);
+		var articleNo = payload.action.data;
+		setArticleScrnVisible(_visible, articleNo );
 	break;
 	case 'SHOW_SETTINGS':
-		console.log("Appstore - Show settings page: ", payload );
+		console.log("Appstore - SHOW_SETTINGS: ", payload );
 		_visible=true;
 		setSettingsVisible(_visible);
 	break;
 	case 'SHOW_ARTICLE_LIST':
-			console.log("Appstore - Show article list: ", payload );
+		console.log("Appstore - SHOW_ARTICLE_LIST: ", payload );
 			_visible=true;
 			var userID = payload.action.data;
 			//_articles = payload.action.data;
 			setArticleListVisible(_visible, userID );
 	break;
 	case 'SHOW_ARTICLE':
-			console.log("Show article: ", payload.action.data );
+			console.log("SHOW_ARTICLE: ", payload.action.data );
 			var userID = payload.action.data;
 			_visible=true;
 			setArticleVisible(_visible );
