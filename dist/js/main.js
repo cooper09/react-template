@@ -21712,7 +21712,8 @@ var MyApp = React.createClass({displayName: "MyApp",
       },
       handleBtnClick2: function() {
         console.log('APP - Handle my button click: ');
-        AppActions.showSelected({});
+		//AppActions.showSelected({});
+		AppActions.showArticle('New Query');
       },
       handleBtnClick3: function() {
           console.log('APP - Handle my button click: ');
