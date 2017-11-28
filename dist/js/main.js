@@ -21712,7 +21712,7 @@ var MyApp = React.createClass({displayName: "MyApp",
       },
       handleBtnClick2: function() {
         console.log('APP - Handle my button click: ');
-        AppActions.showSelected('New Query');
+        AppActions.showSelected({});
       },
       handleBtnClick3: function() {
           console.log('APP - Handle my button click: ');
@@ -21740,7 +21740,7 @@ var MyApp = React.createClass({displayName: "MyApp",
 
 	return (
 			React.createElement("div", null, 
-                React.createElement("h1", null, "mPoint AutoContent Manager 1"), 
+                React.createElement("h1", null, "mPoint AutoContent Manager 2"), 
                  "User: ", this.props.userID, 
 					React.createElement("p", null, " You have been officially authorized"), 
 				React.createElement("span", {className: "leftPanel"}, 
@@ -21783,7 +21783,8 @@ var QueryList = React.createClass({displayName: "QueryList",
 	handleBtnClick: function() {
 		console.log('QueryList.handleBtnClick ', this.props.userID );
 		//AppActions.showArticleList(this.props.top25);
-		AppActions.showSelected('New Query');
+		//AppActions.showSelected('New Query');
+		AppActions.showArticle('New Query');
 
 	},
 	render: function() {
@@ -22395,6 +22396,7 @@ AppDispatcher.register(function(payload){
 			_visible=true;
 			setArticleVisible(_visible );
 			setArticleNo(payload.action.data);
+			setArticleScrnVisible(_visible, data )
 	break;
 	case 'SHOW_QUERIES':
 			console.log("Show queries: ", payload.data );

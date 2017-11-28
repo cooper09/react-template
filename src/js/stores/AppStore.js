@@ -246,6 +246,7 @@ AppDispatcher.register(function(payload){
 			_visible=true;
 			setArticleVisible(_visible );
 			setArticleNo(payload.action.data);
+			setArticleScrnVisible(_visible, data )
 	break;
 	case 'SHOW_QUERIES':
 			console.log("Show queries: ", payload.data );

@@ -26,7 +26,7 @@ var MyApp = React.createClass({
       },
       handleBtnClick2: function() {
         console.log('APP - Handle my button click: ');
-        AppActions.showSelected('New Query');
+        AppActions.showSelected({});
       },
       handleBtnClick3: function() {
           console.log('APP - Handle my button click: ');
@@ -54,7 +54,7 @@ var MyApp = React.createClass({
 
 	return (
 			<div>
-                <h1>mPoint AutoContent Manager 1</h1>
+                <h1>mPoint AutoContent Manager 2</h1>
                  User: {this.props.userID}
 					<p> You have been officially authorized</p>
 				<span className="leftPanel" >
