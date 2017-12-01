@@ -39,7 +39,7 @@ var App = React.createClass({
 		return(
 			<div>
 				<LoginForm  visible={this.state.loginVisible} name={this.state.app[0]} password={this.state.app[1]} admin={this.state.app[2]} users={this.state.users}/>
-				<MyApp  visible={this.state.appVisible.visible} userID={this.state.appVisible.userID} />
+				<MyApp visible={this.state.appVisible.visible} userID={this.state.appVisible.userID} />
 			</div>
 		);
 	},

@@ -21249,7 +21249,7 @@ showApp: function (data) {
 }//end AppActions
 module.exports = AppActions;
 
-},{"../constants/AppConstants":193,"../dispatcher/AppDispatcher":194}],190:[function(require,module,exports){
+},{"../constants/AppConstants":201,"../dispatcher/AppDispatcher":202}],190:[function(require,module,exports){
 var React = require('react');
 var AppActions = require('../actions/AppActions');
 var AppStore = require('../stores/AppStore');
@@ -21305,7 +21305,96 @@ var App = React.createClass({displayName: "App",
 
 module.exports = App;
 
-},{"../actions/AppActions":189,"../stores/AppStore":196,"./LoginForm.js":191,"./MyApp.js":192,"react":188}],191:[function(require,module,exports){
+},{"../actions/AppActions":189,"../stores/AppStore":204,"./LoginForm.js":195,"./MyApp.js":197,"react":188}],191:[function(require,module,exports){
+var React = require('react');
+
+var ArticleScrn = React.createClass({displayName: "ArticleScrn",
+
+	render: function() {
+		 if (!this.props.visible) {
+		 	console.log("ArticleScrn is off");
+          return false;
+        }
+
+		return (
+			React.createElement("div", null, 
+				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "ArticleScrn"
+				)
+			)
+			);
+	}//end render
+});//end ArticleScrn
+
+module.exports = ArticleScrn;
+
+},{"react":188}],192:[function(require,module,exports){
+var React = require('react');
+
+var Dashboard = React.createClass({displayName: "Dashboard",
+
+	render: function() {
+		 if (!this.props.visible) {
+		 	console.log("Dashboard is off");
+          return false;
+        }
+
+		return (
+			React.createElement("div", null, 
+				
+				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "Dashboard"
+				)
+			)
+			);
+	}//end render
+});//end Dashboard
+
+module.exports = Dashboard;
+
+},{"react":188}],193:[function(require,module,exports){
+var React = require('react');
+
+var InfoOne = React.createClass({displayName: "InfoOne",
+
+	render: function() {
+		 if (!this.props.visible) {
+		 	console.log("InfoOne is off");
+          return false;
+        }
+		return (
+			React.createElement("div", null, 
+				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "InfoOne"
+				)
+			)
+			);
+	}//end render
+});//end InfoOne
+
+module.exports = InfoOne;
+
+},{"react":188}],194:[function(require,module,exports){
+var React = require('react');
+
+var InfoTwo = React.createClass({displayName: "InfoTwo",
+
+	render: function() {
+		 if (!this.props.visible) {
+		 	console.log("InfoTwo is off");
+          return false;
+        }
+
+		return (
+			React.createElement("div", null, 
+				
+				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "InfoTwo"
+				)
+			)
+			);
+	}//end render
+});//end InfoTwo
+
+module.exports = InfoTwo;
+
+},{"react":188}],195:[function(require,module,exports){
 var React = require('react');
 var AppAPI = require('../utils/appAPI.js');
 var AppActions = require('../actions/AppActions');
@@ -21358,7 +21447,7 @@ var LoginForm = React.createClass({displayName: "LoginForm",
 	console.log("LoginForm - default user: ", this.state.name );
 	return (
 			React.createElement("div", null, 
-				React.createElement("h1", null, " Simple Login Form"), 
+				React.createElement("h1", null, " Simple Login Form 1"), 
 				React.createElement("input", {id: "input", type: "text", onBlur: this.getName, defautValue: this.state.name}), 
 				React.createElement("br", null), 
 				React.createElement("input", {id: "password", type: "password", onBlur: this.getPassword}), 
@@ -21371,11 +21460,52 @@ var LoginForm = React.createClass({displayName: "LoginForm",
 
 module.exports = LoginForm;
 
-},{"../actions/AppActions":189,"../utils/appAPI.js":198,"react":188}],192:[function(require,module,exports){
+},{"../actions/AppActions":189,"../utils/appAPI.js":206,"react":188}],196:[function(require,module,exports){
+var React = require('react');
+
+var MainScrn = React.createClass({displayName: "MainScrn",
+
+	render: function() {
+		 if (!this.props.visible) {
+		 	console.log("componentOne is off");
+          return false;
+        }
+
+		return (
+			React.createElement("div", null, 
+				
+				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "MainScrn", 
+                    React.createElement("br", null), React.createElement("br", null), 
+                    React.createElement("div", {className: "centerPiece"}, 
+                        React.createElement("button", {className: "mainBtn"}, "Top 25 Articles"), React.createElement("br", null), 
+                        React.createElement("button", {className: "mainBtn"}, "My Queries"), React.createElement("br", null), 
+                        React.createElement("button", {className: "mainBtn"}, "Get Started")
+                    )
+				)
+			)
+			);
+	}//end render
+});//end ComponentOne
+
+module.exports = MainScrn;
+
+},{"react":188}],197:[function(require,module,exports){
 var React = require('react');
 var AppAPI = require('../utils/appAPI.js');
-
 var AppActions = require('../actions/AppActions');
+
+//start off with as many components as you think you need. In this case, I need 10
+
+var MainScrn = require('./MainScrn.js');
+var ArticleScrn = require('./ArticleScrn.js');
+var InfoOne = require('./InfoOne.js');
+var InfoTwo = require('./InfoTwo.js');
+var NewQuery = require('./NewQuery.js');
+var Dashboard = require('./Dashboard.js');
+var QueryList = require('./QueryList.js');
+var ArticleScrn = require('./ArticleScrn.js');
+var Settings = require('./Settings.js');
+
 
 var MyApp = React.createClass({displayName: "MyApp",
 
@@ -21394,10 +21524,20 @@ var MyApp = React.createClass({displayName: "MyApp",
 	} 	
 	return (
 			React.createElement("div", null, 
-				React.createElement("h1", null, "Happy App"), 
+				React.createElement("h1", null, "mPoint Proto"), 
                  "User: ", this.props.userID, 
 					React.createElement("p", null, " You have been officially authorized"), 
-			React.createElement("br", null), React.createElement("br", null), 
+				React.createElement("br", null), React.createElement("br", null), 
+				React.createElement(MainScrn, {visible: true}), 
+				React.createElement(ArticleScrn, {visible: true}), 
+				React.createElement(InfoOne, {visible: true}), 
+				React.createElement(InfoTwo, {visible: true}), 
+				React.createElement(NewQuery, {visible: true}), 
+				React.createElement(Dashboard, {visible: true}), 
+				React.createElement(QueryList, {visible: true}), 
+				React.createElement(ArticleScrn, {visible: true}), 
+				React.createElement(Settings, {visible: true}), 
+				React.createElement("br", null), React.createElement("br", null), 
 				React.createElement("button", {onClick: this.logout}, "Log Out")
 			)
 			);
@@ -21406,7 +21546,76 @@ var MyApp = React.createClass({displayName: "MyApp",
 
 module.exports = MyApp;
 
-},{"../actions/AppActions":189,"../utils/appAPI.js":198,"react":188}],193:[function(require,module,exports){
+},{"../actions/AppActions":189,"../utils/appAPI.js":206,"./ArticleScrn.js":191,"./Dashboard.js":192,"./InfoOne.js":193,"./InfoTwo.js":194,"./MainScrn.js":196,"./NewQuery.js":198,"./QueryList.js":199,"./Settings.js":200,"react":188}],198:[function(require,module,exports){
+var React = require('react');
+
+var NewQuery = React.createClass({displayName: "NewQuery",
+
+	render: function() {
+		 if (!this.props.visible) {
+		 	console.log("NewQuery is off");
+          return false;
+        }
+
+		return (
+			React.createElement("div", null, 
+				
+				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "NewQuery"
+				)
+			)
+			);
+	}//end render
+});//end NewQuery
+
+module.exports = NewQuery;
+
+},{"react":188}],199:[function(require,module,exports){
+var React = require('react');
+
+var QueryList = React.createClass({displayName: "QueryList",
+
+	render: function() {
+		 if (!this.props.visible) {
+		 	console.log("QueryList is off");
+          return false;
+        }
+
+		return (
+			React.createElement("div", null, 
+				
+				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "QueryList"
+				)
+			)
+			);
+	}//end render
+});//end QueryList
+
+module.exports = QueryList;
+
+},{"react":188}],200:[function(require,module,exports){
+var React = require('react');
+
+var Settings = React.createClass({displayName: "Settings",
+
+	render: function() {
+		 if (!this.props.visible) {
+		 	console.log("Settings is off");
+          return false;
+        }
+
+		return (
+			React.createElement("div", null, 
+				
+				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "Settings"
+				)
+			)
+			);
+	}//end render
+});//end Settings
+
+module.exports = Settings;
+
+},{"react":188}],201:[function(require,module,exports){
 module.exports = {
 	RECEIVE_USERS: "RECEIVE_USERS",
 	LOGIN_SUBMIT: "LOGIN_SUBMIT",
@@ -21414,7 +21623,7 @@ module.exports = {
 	SHOW_APP: "SHOW_APP"
 }
 
-},{}],194:[function(require,module,exports){
+},{}],202:[function(require,module,exports){
 var Dispatcher = require('flux').Dispatcher;
 var assign = require('object-assign');
 
@@ -21430,7 +21639,7 @@ var AppDispatcher = assign(new Dispatcher(),{
 
 module.exports = AppDispatcher;
 
-},{"flux":28,"object-assign":31}],195:[function(require,module,exports){
+},{"flux":28,"object-assign":31}],203:[function(require,module,exports){
 var App = require('./components/App');
 var React = require('react');
 var ReactDOM = require('react-dom');
@@ -21445,7 +21654,7 @@ ReactDOM.render(
 	document.getElementById('app')
 );
 
-},{"./components/App":190,"./utils/appAPI":198,"react":188,"react-dom":32}],196:[function(require,module,exports){
+},{"./components/App":190,"./utils/appAPI":206,"react":188,"react-dom":32}],204:[function(require,module,exports){
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var AppConstants = require('../constants/AppConstants');
 var EventEmitter = require('events').EventEmitter;
@@ -21549,7 +21758,7 @@ AppDispatcher.register(function(payload){
 
 module.exports = AppStore;
 
-},{"../constants/AppConstants":193,"../dispatcher/AppDispatcher":194,"../utils/AppAPI.js":197,"events":26,"object-assign":31}],197:[function(require,module,exports){
+},{"../constants/AppConstants":201,"../dispatcher/AppDispatcher":202,"../utils/AppAPI.js":205,"events":26,"object-assign":31}],205:[function(require,module,exports){
 var AppActions = require('../actions/AppActions');
 var axios = require('axios');
 
@@ -21582,7 +21791,7 @@ module.exports = {
 
 }; //end exports
 
-},{"../actions/AppActions":189,"axios":1}],198:[function(require,module,exports){
+},{"../actions/AppActions":189,"axios":1}],206:[function(require,module,exports){
 var AppActions = require('../actions/AppActions');
 var axios = require('axios');
 
@@ -21615,4 +21824,4 @@ module.exports = {
 
 }; //end exports
 
-},{"../actions/AppActions":189,"axios":1}]},{},[195]);
+},{"../actions/AppActions":189,"axios":1}]},{},[203]);

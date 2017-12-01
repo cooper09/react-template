@@ -12,8 +12,12 @@ html {
 
 /* line 9, ../sass/partials/_main.sass */
 body {
+  background: url("../img/Robot-writing.jpg");
   background-size: 100% 100%;
-  margin: 2.5em;
+  margin: 0em;
+  padding: 1em;
+  font-family: "Open Sans";
+  font-style: normal;
 }
 @media (max-width: 651px) {
   /* line 9, ../sass/partials/_main.sass */
@@ -22,7 +26,60 @@ body {
   }
 }
 
-/* line 15, ../sass/partials/_main.sass */
+/* line 19, ../sass/partials/_main.sass */
 h1 {
-  color: brown;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-strength: 400;
+  font-size: 1.5em;
+  color: #37474f;
+  color: red;
+}
+
+/* line 28, ../sass/partials/_main.sass */
+.loginInput {
+  width: 15.25424%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+  background-color: #ccc;
+}
+
+/* line 32, ../sass/partials/_main.sass */
+.mainScrn {
+  width: 100%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+  height: 10em;
+  background: #ccc;
+  border: 1px solid #666;
+  padding: 1em;
+  color: #333;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1em;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+/* line 44, ../sass/partials/_main.sass */
+.centerPiece {
+  width: 32.20339%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+  background: aqua;
+  position: absolute;
+  left: 33%;
+}
+
+/* line 51, ../sass/partials/_main.sass */
+.mainBtn {
+  width: 32.20339%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+  margin-bottom: 0.5em;
+  position: absolute;
+  left: 33%;
 }

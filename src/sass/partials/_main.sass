@@ -7,10 +7,50 @@ html
   height: 100%
 
 body
+  background: url('../img/Robot-writing.jpg') 
   background-size: 100% 100%
-  margin: 2.5em
+  margin: 0em
+  padding: 1em
+  font-family: "Open Sans"
+  font-style: normal
   +at-breakpoint($phone)
     margin: 0.5em
 
 h1
-  color: brown
+  font-family: "Open Sans"
+  font-style: normal
+  font-strength: 400
+  font-size: 1.5em
+  color: #37474f 
+  color: red
+
+//login screen
+.loginInput
+  +span-columns(2)
+  background-color: #ccc
+
+.mainScrn 
+  +span-columns(12)
+  height: 10em //100%
+  background: #ccc
+  border: 1px solid #666
+  padding: 1em
+  color: #333
+  margin-left: auto
+  margin-right: auto
+  margin-bottom: 1em
+  box-shadow: 0 0 5px rgba(0, 0, 0, .5)
+
+.centerPiece
+  +span-columns(4)
+  background: aqua
+  //height: 6em
+  position: absolute // or absolute 
+  left: 33%
+
+.mainBtn
+  +span-columns(4)
+  margin-bottom: 0.5em
+  position: absolute
+  left: 33%
+  
