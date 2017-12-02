@@ -12,6 +12,7 @@ var Dashboard = React.createClass({
 			<div>
 				
 				<div className='mainScrn center option animated zoomInUp'>Dashboard
+				<button onClick={this.handleBtnClick} className="homeBtn">Home</button>
 				</div>
 			</div>
 			);

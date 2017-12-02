@@ -12,6 +12,7 @@ var NewQuery = React.createClass({
 			<div>
 				
 				<div className='mainScrn center option animated zoomInUp'>NewQuery
+				<button onClick={this.handleBtnClick} className="homeBtn">Home</button>
 				</div>
 			</div>
 			);

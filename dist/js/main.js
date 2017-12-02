@@ -21245,11 +21245,82 @@ showApp: function (data) {
       actionType: AppConstants.SHOW_APP,
       data: data
     	})
-  }
+  },
+// Let's go, Joe!!
+showMainScrn: function (data) {
+	console.log("AppActions.showMainScrn: ", data );
+    AppDispatcher.handleViewAction({
+      actionType: AppConstants.SHOW_MAINSCRN,
+      data: data
+    	})
+  },
+showArticleList: function (data) {
+    console.log("AppActions.showArticleList: ", data );
+      AppDispatcher.handleViewAction({
+        actionType: AppConstants.SHOW_ARTICLELIST,
+        data: data
+        })
+    },
+showArticleScrn: function (data) {
+      console.log("AppActions.showArticleScrn: ", data );
+        AppDispatcher.handleViewAction({
+          actionType: AppConstants.SHOW_ARTICLESCRN,
+          data: data
+          })
+      },
+showInfoOne: function (data) {
+    console.log("AppActions.showInfoOne: ", data );
+      AppDispatcher.handleViewAction({
+        actionType: AppConstants.SHOW_INFOONE,
+        data: data
+        })
+    },
+showInfoTwo: function (data) {
+  console.log("AppActions.showInfoTwo: ", data );
+        AppDispatcher.handleViewAction({
+          actionType: AppConstants.SHOW_INFOTWO,
+          data: data
+          })
+      },
+showNewQuery: function (data) {
+        console.log("AppActions.showMainScrn: ", data );
+          AppDispatcher.handleViewAction({
+            actionType: AppConstants.SHOW_NEWQUERY,
+            data: data
+            })
+        },
+showDashboard: function (data) {
+          console.log("AppActions.showDashboard: ", data );
+            AppDispatcher.handleViewAction({
+              actionType: AppConstants.SHOW_DASHBOARD,
+              data: data
+              })
+          },
+showQueryList: function (data) {
+  console.log("AppActions.showQueryList: ", data );
+  AppDispatcher.handleViewAction({
+    actionType: AppConstants.SHOW_QUERYLIST,
+    data: data
+    })
+},
+showQueryScrn: function (data) {
+  console.log("AppActions.showQueryScrn: ", data );
+  AppDispatcher.handleViewAction({
+    actionType: AppConstants.SHOW_QUERYSCRN,
+    data: data
+    })
+},
+showSettings: function (data) {
+  console.log("AppActions.showSettings: ", data );
+  AppDispatcher.handleViewAction({
+    actionType: AppConstants.SHOW_SETTINGS,
+    data: data
+    })
+}
 }//end AppActions
 module.exports = AppActions;
 
-},{"../constants/AppConstants":201,"../dispatcher/AppDispatcher":202}],190:[function(require,module,exports){
+},{"../constants/AppConstants":202,"../dispatcher/AppDispatcher":203}],190:[function(require,module,exports){
 var React = require('react');
 var AppActions = require('../actions/AppActions');
 var AppStore = require('../stores/AppStore');
@@ -21265,7 +21336,17 @@ function getAppState(){
 		app: AppStore.getState(),
 		users: AppStore.getUsers(),
 		loginVisible: AppStore.getLoginVisible(),
-		appVisible: AppStore.getAppVisible()
+		appVisible: AppStore.getAppVisible(),
+		// The cool stuff
+		mainScrnVisible: AppStore.getMainScrnVisible(),
+		articleScrnVisible: AppStore.getArticleScrnVisible(),
+		infoOneVisible: AppStore.getInfoOneVisible(),
+		infoTwoVisible: AppStore.getInfoTwoVisible(),
+		dashboardVisible: AppStore.getDashboardVisible(),
+		articleListVisible: AppStore.getArticleListVisible(),
+		queryListVisible: AppStore.getQueryListVisible(),
+		newQueryVisible: AppStore.getNewQueryVisible(),
+		settingsVisible: AppStore.getSettingsVisible(),
 	}
 }
 
@@ -21291,7 +21372,17 @@ var App = React.createClass({displayName: "App",
 		return(
 			React.createElement("div", null, 
 				React.createElement(LoginForm, {visible: this.state.loginVisible, name: this.state.app[0], password: this.state.app[1], admin: this.state.app[2], users: this.state.users}), 
-				React.createElement(MyApp, {visible: this.state.appVisible.visible, userID: this.state.appVisible.userID})
+				React.createElement(MyApp, {visible: this.state.appVisible.visible, userID: this.state.appVisible.userID, 
+					mainScrnVisible: this.state.mainScrnVisible, 
+					articleListVisible: this.state.articleListVisible, 
+					infoOneVisible: this.state.infoOneVisible, 
+					infoTwoVisible: this.state.infoTwoVisible, 
+					newQueryVisible: this.state.newQueryVisible, 
+					dashboardVisible: this.state.dashboardVisible, 
+					queryListVisible: this.state.queryListVisible, 
+					articleScrnVisible: this.state.articleScrnVisible, 
+					settingsVisible: this.state.settingsVisible}
+				  )
 			)
 		);
 	},
@@ -21305,7 +21396,36 @@ var App = React.createClass({displayName: "App",
 
 module.exports = App;
 
-},{"../actions/AppActions":189,"../stores/AppStore":204,"./LoginForm.js":195,"./MyApp.js":197,"react":188}],191:[function(require,module,exports){
+},{"../actions/AppActions":189,"../stores/AppStore":205,"./LoginForm.js":196,"./MyApp.js":198,"react":188}],191:[function(require,module,exports){
+var React = require('react');
+
+var AppActions = require('../actions/AppActions');
+
+var ArticleList = React.createClass({displayName: "ArticleList",
+
+	handleBtnClick: function() {
+		AppActions.showMainScrn('Show Main Screen');
+	},
+	render: function() {
+		 if (!this.props.visible) {
+		 	console.log("ArticleList is off");
+          return false;
+        }
+
+		return (
+			React.createElement("div", null, 
+				
+				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "ArticleList", 
+				React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home")
+				)
+			)
+			);
+	}//end render
+});//end ArticleList
+
+module.exports = ArticleList;
+
+},{"../actions/AppActions":189,"react":188}],192:[function(require,module,exports){
 var React = require('react');
 
 var ArticleScrn = React.createClass({displayName: "ArticleScrn",
@@ -21318,7 +21438,8 @@ var ArticleScrn = React.createClass({displayName: "ArticleScrn",
 
 		return (
 			React.createElement("div", null, 
-				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "ArticleScrn"
+				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "ArticleScrn", 
+					React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home")
 				)
 			)
 			);
@@ -21327,7 +21448,7 @@ var ArticleScrn = React.createClass({displayName: "ArticleScrn",
 
 module.exports = ArticleScrn;
 
-},{"react":188}],192:[function(require,module,exports){
+},{"react":188}],193:[function(require,module,exports){
 var React = require('react');
 
 var Dashboard = React.createClass({displayName: "Dashboard",
@@ -21341,7 +21462,8 @@ var Dashboard = React.createClass({displayName: "Dashboard",
 		return (
 			React.createElement("div", null, 
 				
-				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "Dashboard"
+				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "Dashboard", 
+				React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home")
 				)
 			)
 			);
@@ -21350,7 +21472,7 @@ var Dashboard = React.createClass({displayName: "Dashboard",
 
 module.exports = Dashboard;
 
-},{"react":188}],193:[function(require,module,exports){
+},{"react":188}],194:[function(require,module,exports){
 var React = require('react');
 
 var InfoOne = React.createClass({displayName: "InfoOne",
@@ -21362,7 +21484,8 @@ var InfoOne = React.createClass({displayName: "InfoOne",
         }
 		return (
 			React.createElement("div", null, 
-				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "InfoOne"
+				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "InfoOne", 
+				React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home")
 				)
 			)
 			);
@@ -21371,7 +21494,7 @@ var InfoOne = React.createClass({displayName: "InfoOne",
 
 module.exports = InfoOne;
 
-},{"react":188}],194:[function(require,module,exports){
+},{"react":188}],195:[function(require,module,exports){
 var React = require('react');
 
 var InfoTwo = React.createClass({displayName: "InfoTwo",
@@ -21385,7 +21508,8 @@ var InfoTwo = React.createClass({displayName: "InfoTwo",
 		return (
 			React.createElement("div", null, 
 				
-				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "InfoTwo"
+				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "InfoTwo", 
+				React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home")
 				)
 			)
 			);
@@ -21394,7 +21518,7 @@ var InfoTwo = React.createClass({displayName: "InfoTwo",
 
 module.exports = InfoTwo;
 
-},{"react":188}],195:[function(require,module,exports){
+},{"react":188}],196:[function(require,module,exports){
 var React = require('react');
 var AppAPI = require('../utils/appAPI.js');
 var AppActions = require('../actions/AppActions');
@@ -21422,13 +21546,16 @@ var LoginForm = React.createClass({displayName: "LoginForm",
 
 		var found = false;
 
+		//cooper s -  For development purposes only...remember to change it back...
+		AppActions.showApp('000');
+
 		users.map(function(users) {
 			if (users.name === login ) {
 				//Show The App
 				found = true;
 				var userID = users._id;
 				console.log("Unique User ID: ", userID);
-				AppActions.showApp(userID);
+				//AppActions.showApp(userID);
 			}
 		});
 
@@ -21447,7 +21574,7 @@ var LoginForm = React.createClass({displayName: "LoginForm",
 	console.log("LoginForm - default user: ", this.state.name );
 	return (
 			React.createElement("div", null, 
-				React.createElement("h1", null, " Simple Login Form 1"), 
+				React.createElement("h1", null, " Simple Login Form"), 
 				React.createElement("input", {id: "input", type: "text", onBlur: this.getName, defautValue: this.state.name}), 
 				React.createElement("br", null), 
 				React.createElement("input", {id: "password", type: "password", onBlur: this.getPassword}), 
@@ -21460,10 +21587,18 @@ var LoginForm = React.createClass({displayName: "LoginForm",
 
 module.exports = LoginForm;
 
-},{"../actions/AppActions":189,"../utils/appAPI.js":206,"react":188}],196:[function(require,module,exports){
+},{"../actions/AppActions":189,"../utils/appAPI.js":207,"react":188}],197:[function(require,module,exports){
 var React = require('react');
 
+var AppActions = require('../actions/AppActions');
+
 var MainScrn = React.createClass({displayName: "MainScrn",
+
+    
+	top25: function() {
+        console.log("Show top25 Articles List")
+		AppActions.showArticleList('Top 25');
+	},
 
 	render: function() {
 		 if (!this.props.visible) {
@@ -21477,7 +21612,7 @@ var MainScrn = React.createClass({displayName: "MainScrn",
 				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "MainScrn", 
                     React.createElement("br", null), React.createElement("br", null), 
                     React.createElement("div", {className: "centerPiece"}, 
-                        React.createElement("button", {className: "mainBtn"}, "Top 25 Articles"), React.createElement("br", null), 
+                        React.createElement("button", {className: "mainBtn", onClick: this.top25}, "Top 25 Articles"), React.createElement("br", null), 
                         React.createElement("button", {className: "mainBtn"}, "My Queries"), React.createElement("br", null), 
                         React.createElement("button", {className: "mainBtn"}, "Get Started")
                     )
@@ -21489,15 +21624,15 @@ var MainScrn = React.createClass({displayName: "MainScrn",
 
 module.exports = MainScrn;
 
-},{"react":188}],197:[function(require,module,exports){
+},{"../actions/AppActions":189,"react":188}],198:[function(require,module,exports){
 var React = require('react');
 var AppAPI = require('../utils/appAPI.js');
 var AppActions = require('../actions/AppActions');
 
 //start off with as many components as you think you need. In this case, I need 10
-
+//Components
 var MainScrn = require('./MainScrn.js');
-var ArticleScrn = require('./ArticleScrn.js');
+var ArticleList= require('./ArticleList.js');
 var InfoOne = require('./InfoOne.js');
 var InfoTwo = require('./InfoTwo.js');
 var NewQuery = require('./NewQuery.js');
@@ -21505,6 +21640,8 @@ var Dashboard = require('./Dashboard.js');
 var QueryList = require('./QueryList.js');
 var ArticleScrn = require('./ArticleScrn.js');
 var Settings = require('./Settings.js');
+//
+// Other Goodies...
 
 
 var MyApp = React.createClass({displayName: "MyApp",
@@ -21527,16 +21664,24 @@ var MyApp = React.createClass({displayName: "MyApp",
 				React.createElement("h1", null, "mPoint Proto"), 
                  "User: ", this.props.userID, 
 					React.createElement("p", null, " You have been officially authorized"), 
+				React.createElement("div", {className: "navBar"}, 
+										
+					React.createElement("span", {className: "navBtn"}, "Btn 4"), 
+					React.createElement("span", {className: "navBtn"}, "Btn 3"), 
+					React.createElement("span", {className: "navBtn"}, "Btn 2"), 
+					React.createElement("span", {className: "navBtn"}, "Btn 1")
+
+				), 
 				React.createElement("br", null), React.createElement("br", null), 
-				React.createElement(MainScrn, {visible: true}), 
-				React.createElement(ArticleScrn, {visible: true}), 
-				React.createElement(InfoOne, {visible: true}), 
-				React.createElement(InfoTwo, {visible: true}), 
-				React.createElement(NewQuery, {visible: true}), 
-				React.createElement(Dashboard, {visible: true}), 
-				React.createElement(QueryList, {visible: true}), 
-				React.createElement(ArticleScrn, {visible: true}), 
-				React.createElement(Settings, {visible: true}), 
+				React.createElement(MainScrn, {visible: this.props.mainScrnVisible}), 
+				React.createElement(ArticleList, {visible: this.props.articleListVisible}), 
+				React.createElement(InfoOne, {visible: this.props.infoOneVisible}), 
+				React.createElement(InfoTwo, {visible: this.props.infoTwoVisible}), 
+				React.createElement(NewQuery, {visible: this.props.newQueryVisible}), 
+				React.createElement(Dashboard, {visible: this.props.dashboardVisible}), 
+				React.createElement(QueryList, {visible: this.props.queryListVisible}), 
+				React.createElement(ArticleScrn, {visible: this.props.articleScrnVisible}), 
+				React.createElement(Settings, {visible: this.props.settingsVisible}), 
 				React.createElement("br", null), React.createElement("br", null), 
 				React.createElement("button", {onClick: this.logout}, "Log Out")
 			)
@@ -21546,7 +21691,7 @@ var MyApp = React.createClass({displayName: "MyApp",
 
 module.exports = MyApp;
 
-},{"../actions/AppActions":189,"../utils/appAPI.js":206,"./ArticleScrn.js":191,"./Dashboard.js":192,"./InfoOne.js":193,"./InfoTwo.js":194,"./MainScrn.js":196,"./NewQuery.js":198,"./QueryList.js":199,"./Settings.js":200,"react":188}],198:[function(require,module,exports){
+},{"../actions/AppActions":189,"../utils/appAPI.js":207,"./ArticleList.js":191,"./ArticleScrn.js":192,"./Dashboard.js":193,"./InfoOne.js":194,"./InfoTwo.js":195,"./MainScrn.js":197,"./NewQuery.js":199,"./QueryList.js":200,"./Settings.js":201,"react":188}],199:[function(require,module,exports){
 var React = require('react');
 
 var NewQuery = React.createClass({displayName: "NewQuery",
@@ -21560,7 +21705,8 @@ var NewQuery = React.createClass({displayName: "NewQuery",
 		return (
 			React.createElement("div", null, 
 				
-				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "NewQuery"
+				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "NewQuery", 
+				React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home")
 				)
 			)
 			);
@@ -21569,7 +21715,7 @@ var NewQuery = React.createClass({displayName: "NewQuery",
 
 module.exports = NewQuery;
 
-},{"react":188}],199:[function(require,module,exports){
+},{"react":188}],200:[function(require,module,exports){
 var React = require('react');
 
 var QueryList = React.createClass({displayName: "QueryList",
@@ -21583,7 +21729,8 @@ var QueryList = React.createClass({displayName: "QueryList",
 		return (
 			React.createElement("div", null, 
 				
-				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "QueryList"
+				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "QueryList", 
+				React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home")
 				)
 			)
 			);
@@ -21592,7 +21739,7 @@ var QueryList = React.createClass({displayName: "QueryList",
 
 module.exports = QueryList;
 
-},{"react":188}],200:[function(require,module,exports){
+},{"react":188}],201:[function(require,module,exports){
 var React = require('react');
 
 var Settings = React.createClass({displayName: "Settings",
@@ -21606,7 +21753,8 @@ var Settings = React.createClass({displayName: "Settings",
 		return (
 			React.createElement("div", null, 
 				
-				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "Settings"
+				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "Settings", 
+				React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home")
 				)
 			)
 			);
@@ -21615,15 +21763,27 @@ var Settings = React.createClass({displayName: "Settings",
 
 module.exports = Settings;
 
-},{"react":188}],201:[function(require,module,exports){
+},{"react":188}],202:[function(require,module,exports){
 module.exports = {
 	RECEIVE_USERS: "RECEIVE_USERS",
 	LOGIN_SUBMIT: "LOGIN_SUBMIT",
 	SHOW_LOGIN: "SHOW_LOGIN",
-	SHOW_APP: "SHOW_APP"
+	SHOW_APP: "SHOW_APP",
+	// Containment Field
+	SHOW_MAINSCRN:"SHOW_MAINSCRN",
+	SHOW_ARTICLELIST:"SHOW_ARTICLELIST",
+	SHOW_INFOONE:"SHOW_INFOONE",
+	SHOW_INFOTWO:"SHOW_INFOTWO",
+	SHOW_NEWQUERY:"SHOW_NEWQUERY",
+	SHOW_DASHBOARD:"SHOW_DASHBOARD",
+	SHOW_QUERYLIST:"SHOW_QUERYLIST",
+	SHOW_ARTICLESCRN:"SHOW_ARTICLESCRN",
+	SHOW_QUERYSCRN:"SHOW_QUERYSCRN",
+	SHOW_SETTINGS:"SHOW_SETTINGS"
+
 }
 
-},{}],202:[function(require,module,exports){
+},{}],203:[function(require,module,exports){
 var Dispatcher = require('flux').Dispatcher;
 var assign = require('object-assign');
 
@@ -21639,7 +21799,7 @@ var AppDispatcher = assign(new Dispatcher(),{
 
 module.exports = AppDispatcher;
 
-},{"flux":28,"object-assign":31}],203:[function(require,module,exports){
+},{"flux":28,"object-assign":31}],204:[function(require,module,exports){
 var App = require('./components/App');
 var React = require('react');
 var ReactDOM = require('react-dom');
@@ -21654,7 +21814,7 @@ ReactDOM.render(
 	document.getElementById('app')
 );
 
-},{"./components/App":190,"./utils/appAPI":206,"react":188,"react-dom":32}],204:[function(require,module,exports){
+},{"./components/App":190,"./utils/appAPI":207,"react":188,"react-dom":32}],205:[function(require,module,exports){
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var AppConstants = require('../constants/AppConstants');
 var EventEmitter = require('events').EventEmitter;
@@ -21668,6 +21828,11 @@ var _users = [];
 
 var _loginVisible = true;
 var _appPageVisible = false
+
+//The real goodies
+var _mainScrnVisible = true, _articleScrnVisible=false,_articleListVisible=false,_dashboardVisible=false,
+	_newQueryvisible=false,_queryListVisible=false,_queryScrnVisible=false,_settingsVisible=false,
+	_infoOneVisible=false,_infoTwoVisible=false
 
 var _name="John", _password="password", _admin=false;
 var _userID="000";
@@ -21691,6 +21856,130 @@ function setAppVisible(visible, userID) {
 	_loginVisible = false;
 	_userID = userID;
 }
+
+//Make our components come alive!
+function setMainScrn(visible) {
+	_mainScrnVisible = visible;
+	_articleScrnVisible=false;
+	_articleListVisible=false;
+	_dashboardVisible=false;
+	_newQueryvisible=false;
+	_queryListVisible=false;
+	_queryScrnVisible=false;
+	_settingsVisible=false;
+	_infoOneVisible=false;
+	_infoTwoVisible=false;
+}
+
+function setArticleList(visible) {
+	console.log("setArticleList: ", visible );
+	_mainScrnVisible = false;
+	_articleScrnVisible=false;
+	_articleListVisible=visible;
+	_dashboardVisible=false;
+	_newQueryvisible=false;
+	_queryListVisible=false;
+	_queryScrnVisible=false;
+	_settingsVisible=false;
+	_infoOneVisible=false;
+	_infoTwoVisible=false;
+}
+function setInfoOne(visible) {
+	_mainScrnVisible = false;
+	_articleScrnVisible=false;
+	_articleListVisible=false;
+	_dashboardVisible=false;
+	_newQueryvisible=false;
+	_queryListVisible=false;
+	_queryScrnVisible=false;
+	_settingsVisible=false;
+	_infoOneVisible=visible;
+	_infoTwoVisible=false;
+}
+function setInfoTwo(visible){
+	_mainScrnVisible = false;
+	_articleScrnVisible=false;
+	_articleListVisible=false;
+	_dashboardVisible=false;
+	_newQueryvisible=false;
+	_queryListVisible=false;
+	_queryScrnVisible=false;
+	_settingsVisible=false;
+	_infoOneVisible=false;
+	_infoTwoVisible=visible;
+}
+function setNewQuery(visible) {
+	_mainScrnVisible = false;
+	_articleScrnVisible=false;
+	_articleListVisible=false;
+	_dashboardVisible=false;
+	_newQueryvisible=visible;
+	_queryListVisible=false;
+	_queryScrnVisible=false;
+	_settingsVisible=false;
+	_infoOneVisible=false;
+	_infoTwoVisible=false;
+}
+function setDashboard(visible) {
+	_mainScrnVisible = false;
+	_articleScrnVisible=false;
+	_articleListVisible=false;
+	_dashboardVisible=visible;
+	_newQueryvisible=false;
+	_queryListVisible=false;
+	_queryScrnVisible=false;
+	_settingsVisible=false;
+	_infoOneVisible=false;
+	_infoTwoVisible=false;
+}
+function setQueryList(visible) {
+	_mainScrnVisible = false;
+	_articleScrnVisible=false;
+	_articleListVisible=false;
+	_dashboardVisible=false;
+	_newQueryvisible=false;
+	_queryListVisible=visible;
+	_queryScrnVisible=false;
+	_settingsVisible=false;
+	_infoOneVisible=false;
+	_infoTwoVisible=false;
+}
+function setArticleScrn(visible) {
+	_mainScrnVisible = false;
+	_articleScrnVisible=visible;
+	_articleListVisible=false;
+	_dashboardVisible=false;
+	_newQueryvisible=false;
+	_queryListVisible=false;
+	_queryScrnVisible=false;
+	_settingsVisible=false;
+	_infoOneVisible=false;
+	_infoTwoVisible=false;
+}
+function setQueryScrn(_visible) {
+	_mainScrnVisible = false;
+	_articleScrnVisible=false;
+	_articleListVisible=false;
+	_dashboardVisible=false;
+	_newQueryvisible=false;
+	_queryListVisible=false;
+	_queryScrnVisible=visible;
+	_settingsVisible=false;
+	_infoOneVisible=false;
+	_infoTwoVisible=false;
+};
+function setSettings(_visible) {
+	_mainScrnVisible = false;
+	_articleScrnVisible=false;
+	_articleListVisible=false;
+	_dashboardVisible=false;
+	_newQueryvisible=false;
+	_queryListVisible=false;
+	_queryScrnVisible=false;
+	_settingsVisible=visible;
+	_infoOneVisible=false;
+	_infoTwoVisible=false;
+}
 //Single Broadcast - Emmitter
 var AppStore = assign({}, EventEmitter.prototype, {
 
@@ -21713,6 +22002,38 @@ var AppStore = assign({}, EventEmitter.prototype, {
 					visible: _appPageVisible,
 					userID: _userID
 		}
+	},
+	//All My Store GETS
+	getMainScrnVisible: function () {
+		return _mainScrnVisible;
+	},
+	getArticleScrnVisible: function () {
+		return _articleScrnVisible;
+	},
+	getInfoOneVisible: function (){
+		return _infoOneVisible;
+	},
+	getInfoTwoVisible: function (){
+		return _infoTwoVisible;
+	},
+	getDashboardVisible: function (){
+		return _dashboardVisible;
+	},
+	getArticleListVisible: function (){
+		console.log('getArticleListVisible: ', _articleListVisible );
+		return _articleListVisible;
+	},
+	getQueryListVisible: function () {
+		return _queryListVisible;
+	},
+	getQueryScrnVisible: function () {
+		return _queryScrnVisible;
+	},
+	getNewQueryVisible: function (){
+		return _newQueryvisible;
+	},
+	getSettingsVisible: function(){
+		return _settingsVisible;
 	},
 // Get ready to broadcast!
 	emitChange: function(){
@@ -21749,7 +22070,48 @@ AppDispatcher.register(function(payload){
 		  	var userID = action.data;
 	      	setAppVisible(_visible, action.data );
 	 	break;
-	
+// where no man has gone before	
+		case "SHOW_MAINSCRN":
+			_visible = true;
+			setMainScrn(_visible);
+		break;
+		case "SHOW_ARTICLELIST":
+			_visible = true;
+			setArticleList(_visible);
+		break;
+		case "SHOW_INFOONE":
+			_visible = true;
+			setInfoOne(_visible);
+		break;
+		case "SHOW_INFOTWO":
+			_visible = true;
+			setInfoTwo(_visible);
+		break;
+		case "SHOW_NEWQUERY":
+			_visible = true;
+			setNewQuery(_visible);
+		break;
+		case "SHOW_DASHBOARD":
+			_visible = true;
+			setDashboard(_visible);
+		break;
+		case "SHOW_QUERYLIST":
+			_visible = true;
+			setQueryList(_visible);
+		break;
+		case "SHOW_ARTICLESCRN":
+			_visible = true;
+			setArticleScrn(_visible);
+		break;
+		case "SHOW_QUERYSCRN":
+			_visible = true;
+			setQueryScrn(_visible);
+		break;
+		case "SHOW_SETTINGS":
+			_visible = true;
+		setSettings(_visible);
+		break;
+
 	}//end switch
 
 	AppStore.emitChange();
@@ -21758,7 +22120,7 @@ AppDispatcher.register(function(payload){
 
 module.exports = AppStore;
 
-},{"../constants/AppConstants":201,"../dispatcher/AppDispatcher":202,"../utils/AppAPI.js":205,"events":26,"object-assign":31}],205:[function(require,module,exports){
+},{"../constants/AppConstants":202,"../dispatcher/AppDispatcher":203,"../utils/AppAPI.js":206,"events":26,"object-assign":31}],206:[function(require,module,exports){
 var AppActions = require('../actions/AppActions');
 var axios = require('axios');
 
@@ -21791,7 +22153,7 @@ module.exports = {
 
 }; //end exports
 
-},{"../actions/AppActions":189,"axios":1}],206:[function(require,module,exports){
+},{"../actions/AppActions":189,"axios":1}],207:[function(require,module,exports){
 var AppActions = require('../actions/AppActions');
 var axios = require('axios');
 
@@ -21824,4 +22186,4 @@ module.exports = {
 
 }; //end exports
 
-},{"../actions/AppActions":189,"axios":1}]},{},[203]);
+},{"../actions/AppActions":189,"axios":1}]},{},[204]);

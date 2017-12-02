@@ -13,7 +13,17 @@ function getAppState(){
 		app: AppStore.getState(),
 		users: AppStore.getUsers(),
 		loginVisible: AppStore.getLoginVisible(),
-		appVisible: AppStore.getAppVisible()
+		appVisible: AppStore.getAppVisible(),
+		// The cool stuff
+		mainScrnVisible: AppStore.getMainScrnVisible(),
+		articleScrnVisible: AppStore.getArticleScrnVisible(),
+		infoOneVisible: AppStore.getInfoOneVisible(),
+		infoTwoVisible: AppStore.getInfoTwoVisible(),
+		dashboardVisible: AppStore.getDashboardVisible(),
+		articleListVisible: AppStore.getArticleListVisible(),
+		queryListVisible: AppStore.getQueryListVisible(),
+		newQueryVisible: AppStore.getNewQueryVisible(),
+		settingsVisible: AppStore.getSettingsVisible(),
 	}
 }
 
@@ -39,7 +49,17 @@ var App = React.createClass({
 		return(
 			<div>
 				<LoginForm  visible={this.state.loginVisible} name={this.state.app[0]} password={this.state.app[1]} admin={this.state.app[2]} users={this.state.users}/>
-				<MyApp visible={this.state.appVisible.visible} userID={this.state.appVisible.userID} />
+				<MyApp visible={this.state.appVisible.visible} userID={this.state.appVisible.userID}
+					mainScrnVisible={this.state.mainScrnVisible}
+					articleListVisible={this.state.articleListVisible}
+					infoOneVisible={this.state.infoOneVisible}
+					infoTwoVisible={this.state.infoTwoVisible}
+					newQueryVisible={this.state.newQueryVisible}
+					dashboardVisible={this.state.dashboardVisible}
+					queryListVisible={this.state.queryListVisible}
+					articleScrnVisible={this.state.articleScrnVisible}
+					settingsVisible={this.state.settingsVisible}
+				  />
 			</div>
 		);
 	},

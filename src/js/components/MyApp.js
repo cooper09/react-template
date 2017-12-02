@@ -3,9 +3,9 @@ var AppAPI = require('../utils/appAPI.js');
 var AppActions = require('../actions/AppActions');
 
 //start off with as many components as you think you need. In this case, I need 10
-
+//Components
 var MainScrn = require('./MainScrn.js');
-var ArticleScrn = require('./ArticleScrn.js');
+var ArticleList= require('./ArticleList.js');
 var InfoOne = require('./InfoOne.js');
 var InfoTwo = require('./InfoTwo.js');
 var NewQuery = require('./NewQuery.js');
@@ -13,6 +13,8 @@ var Dashboard = require('./Dashboard.js');
 var QueryList = require('./QueryList.js');
 var ArticleScrn = require('./ArticleScrn.js');
 var Settings = require('./Settings.js');
+//
+// Other Goodies...
 
 
 var MyApp = React.createClass({
@@ -35,16 +37,24 @@ var MyApp = React.createClass({
 				<h1>mPoint Proto</h1>
                  User: {this.props.userID}
 					<p> You have been officially authorized</p>
+				<div className="navBar">
+										
+					<span className="navBtn">Btn 4</span>
+					<span className="navBtn">Btn 3</span>
+					<span className="navBtn">Btn 2</span>
+					<span className="navBtn">Btn 1</span>
+
+				</div>
 				<br/><br/>
-				<MainScrn visible={true} />
-				<ArticleScrn visible={true} />
-				<InfoOne visible={true} />
-				<InfoTwo visible={true} />
-				<NewQuery visible={true} />
-				<Dashboard visible={true} />
-				<QueryList visible={true} />
-				<ArticleScrn visible={true} />
-				<Settings visible={true} />
+				<MainScrn visible={this.props.mainScrnVisible} />
+				<ArticleList visible={this.props.articleListVisible} />
+				<InfoOne visible={this.props.infoOneVisible} />
+				<InfoTwo visible={this.props.infoTwoVisible} />
+				<NewQuery visible={this.props.newQueryVisible} />
+				<Dashboard visible={this.props.dashboardVisible} />
+				<QueryList visible={this.props.queryListVisible} />
+				<ArticleScrn visible={this.props.articleScrnVisible} />
+				<Settings visible={this.props.settingsVisible} />
 				<br/><br/>
 				<button onClick={this.logout}>Log Out</button>
 			</div>

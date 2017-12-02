@@ -48,9 +48,36 @@ h1
   position: absolute // or absolute 
   left: 33%
 
+.navBar
+  +span-columns(4)
+  background: #ccc
+  float: right
+  padding: 1em
+  margin-left: auto
+  margin-right: auto
+  position: relative
+  bottom: 6em
+  +at-breakpoint($phone)
+    +span-columns(12)
+    margin: 0em 
+
 .mainBtn
   +span-columns(4)
   margin-bottom: 0.5em
   position: absolute
   left: 33%
+  cursor: pointer
   
+.homeBtn
+  +span-columns(2)
+  margin-bottom: 0.5em
+  float: right
+  cursor: pointer
+
+.navBtn
+  +span-columns(2)
+  margin-right: 0.5em
+  height: 3em
+  background: aqua
+  float: right
+  cursor: pointer

@@ -12,6 +12,7 @@ var QueryList = React.createClass({
 			<div>
 				
 				<div className='mainScrn center option animated zoomInUp'>QueryList
+				<button onClick={this.handleBtnClick} className="homeBtn">Home</button>
 				</div>
 			</div>
 			);
