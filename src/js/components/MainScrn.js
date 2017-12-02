@@ -6,10 +6,17 @@ var MainScrn = React.createClass({
 
     
 	top25: function() {
-        console.log("Show top25 Articles List")
+        console.log("MainScrn - Show top25 Articles List")
 		AppActions.showArticleList('Top 25');
 	},
-
+	myQueries: function() {
+        console.log("MainScrn - Show MyQueries")
+		AppActions.showQueryList('My Queries');
+    },
+	info: function() {
+        console.log("MainScrn - Show info")
+		AppActions.showInfoOne('Show Info 1');
+	},
 	render: function() {
 		 if (!this.props.visible) {
 		 	console.log("componentOne is off");
@@ -23,8 +30,8 @@ var MainScrn = React.createClass({
                     <br/><br/>
                     <div className="centerPiece">
                         <button className="mainBtn" onClick={this.top25}>Top 25 Articles</button><br/>
-                        <button className="mainBtn">My Queries</button><br/>
-                        <button className="mainBtn">Get Started</button>
+                        <button className="mainBtn" onClick={this.myQueries}>My Queries</button><br/>
+                        <button className="mainBtn" onClick={this.info}>Get Started</button>
                     </div>
 				</div>
 			</div>

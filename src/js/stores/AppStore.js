@@ -139,7 +139,7 @@ function setArticleScrn(visible) {
 	_infoOneVisible=false;
 	_infoTwoVisible=false;
 }
-function setQueryScrn(_visible) {
+function setQueryScrn(visible) {
 	_mainScrnVisible = false;
 	_articleScrnVisible=false;
 	_articleListVisible=false;
@@ -151,7 +151,7 @@ function setQueryScrn(_visible) {
 	_infoOneVisible=false;
 	_infoTwoVisible=false;
 };
-function setSettings(_visible) {
+function setSettings(visible) {
 	_mainScrnVisible = false;
 	_articleScrnVisible=false;
 	_articleListVisible=false;

@@ -1,6 +1,12 @@
 var React = require('react');
 
+var AppActions = require('../actions/AppActions');
+
 var InfoOne = React.createClass({
+
+	handleBtnClick: function() {
+		AppActions.showMainScrn('Show Main Screen');
+	},
 
 	render: function() {
 		 if (!this.props.visible) {

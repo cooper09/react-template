@@ -1,7 +1,11 @@
 var React = require('react');
 
-var Dashboard = React.createClass({
+var AppActions = require('../actions/AppActions');
 
+var Dashboard = React.createClass({
+	handleBtnClick: function() {
+		AppActions.showMainScrn('Show Main Screen');
+	},
 	render: function() {
 		 if (!this.props.visible) {
 		 	console.log("Dashboard is off");

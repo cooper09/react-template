@@ -21451,8 +21451,12 @@ module.exports = ArticleScrn;
 },{"react":188}],193:[function(require,module,exports){
 var React = require('react');
 
-var Dashboard = React.createClass({displayName: "Dashboard",
+var AppActions = require('../actions/AppActions');
 
+var Dashboard = React.createClass({displayName: "Dashboard",
+	handleBtnClick: function() {
+		AppActions.showMainScrn('Show Main Screen');
+	},
 	render: function() {
 		 if (!this.props.visible) {
 		 	console.log("Dashboard is off");
@@ -21472,10 +21476,16 @@ var Dashboard = React.createClass({displayName: "Dashboard",
 
 module.exports = Dashboard;
 
-},{"react":188}],194:[function(require,module,exports){
+},{"../actions/AppActions":189,"react":188}],194:[function(require,module,exports){
 var React = require('react');
 
+var AppActions = require('../actions/AppActions');
+
 var InfoOne = React.createClass({displayName: "InfoOne",
+
+	handleBtnClick: function() {
+		AppActions.showMainScrn('Show Main Screen');
+	},
 
 	render: function() {
 		 if (!this.props.visible) {
@@ -21494,7 +21504,7 @@ var InfoOne = React.createClass({displayName: "InfoOne",
 
 module.exports = InfoOne;
 
-},{"react":188}],195:[function(require,module,exports){
+},{"../actions/AppActions":189,"react":188}],195:[function(require,module,exports){
 var React = require('react');
 
 var InfoTwo = React.createClass({displayName: "InfoTwo",
@@ -21596,10 +21606,17 @@ var MainScrn = React.createClass({displayName: "MainScrn",
 
     
 	top25: function() {
-        console.log("Show top25 Articles List")
+        console.log("MainScrn - Show top25 Articles List")
 		AppActions.showArticleList('Top 25');
 	},
-
+	myQueries: function() {
+        console.log("MainScrn - Show MyQueries")
+		AppActions.showQueryList('My Queries');
+    },
+	info: function() {
+        console.log("MainScrn - Show info")
+		AppActions.showInfoOne('Show Info 1');
+	},
 	render: function() {
 		 if (!this.props.visible) {
 		 	console.log("componentOne is off");
@@ -21613,8 +21630,8 @@ var MainScrn = React.createClass({displayName: "MainScrn",
                     React.createElement("br", null), React.createElement("br", null), 
                     React.createElement("div", {className: "centerPiece"}, 
                         React.createElement("button", {className: "mainBtn", onClick: this.top25}, "Top 25 Articles"), React.createElement("br", null), 
-                        React.createElement("button", {className: "mainBtn"}, "My Queries"), React.createElement("br", null), 
-                        React.createElement("button", {className: "mainBtn"}, "Get Started")
+                        React.createElement("button", {className: "mainBtn", onClick: this.myQueries}, "My Queries"), React.createElement("br", null), 
+                        React.createElement("button", {className: "mainBtn", onClick: this.info}, "Get Started")
                     )
 				)
 			)
@@ -21650,10 +21667,21 @@ var MyApp = React.createClass({displayName: "MyApp",
 		return { 
 				};
 	  },
+	showDashboard: function() {
+		AppActions.showDashboard("Show Dashboard");
+	},
+	showQueries: function() {
+		AppActions.showQueryList("Show Queries");
+	},
+	showSettings: function() {
+		AppActions.showSettings("Show Settings");
+	},
     logout() {
 
         AppActions.showLogin();
-    },
+	},
+	
+	
 	render: function() {
 		 if (!this.props.visible) {
 		 	console.log("MyApp Form is off");
@@ -21665,12 +21693,12 @@ var MyApp = React.createClass({displayName: "MyApp",
                  "User: ", this.props.userID, 
 					React.createElement("p", null, " You have been officially authorized"), 
 				React.createElement("div", {className: "navBar"}, 
-										
-					React.createElement("span", {className: "navBtn"}, "Btn 4"), 
-					React.createElement("span", {className: "navBtn"}, "Btn 3"), 
-					React.createElement("span", {className: "navBtn"}, "Btn 2"), 
-					React.createElement("span", {className: "navBtn"}, "Btn 1")
 
+			React.createElement("span", {className: "navBtn", onClick: this.logout}, "Btn 1"), 
+					React.createElement("span", {className: "navBtn", onClick: this.showSettings}, "Btn 2"), 
+					React.createElement("span", {className: "navBtn", onClick: this.showQueries}, "Btn 3"), 
+					React.createElement("span", {className: "navBtn", onClick: this.showDashboard}, "Btn 4")
+					
 				), 
 				React.createElement("br", null), React.createElement("br", null), 
 				React.createElement(MainScrn, {visible: this.props.mainScrnVisible}), 
@@ -21718,7 +21746,14 @@ module.exports = NewQuery;
 },{"react":188}],200:[function(require,module,exports){
 var React = require('react');
 
+var AppActions = require('../actions/AppActions');
+
 var QueryList = React.createClass({displayName: "QueryList",
+
+	
+	handleBtnClick: function() {
+		AppActions.showMainScrn('Show Main Screen');
+	},
 
 	render: function() {
 		 if (!this.props.visible) {
@@ -21739,11 +21774,15 @@ var QueryList = React.createClass({displayName: "QueryList",
 
 module.exports = QueryList;
 
-},{"react":188}],201:[function(require,module,exports){
+},{"../actions/AppActions":189,"react":188}],201:[function(require,module,exports){
 var React = require('react');
 
-var Settings = React.createClass({displayName: "Settings",
+var AppActions = require('../actions/AppActions');
 
+var Settings = React.createClass({displayName: "Settings",
+	handleBtnClick: function() {
+		AppActions.showMainScrn('Show Main Screen');
+	},
 	render: function() {
 		 if (!this.props.visible) {
 		 	console.log("Settings is off");
@@ -21763,7 +21802,7 @@ var Settings = React.createClass({displayName: "Settings",
 
 module.exports = Settings;
 
-},{"react":188}],202:[function(require,module,exports){
+},{"../actions/AppActions":189,"react":188}],202:[function(require,module,exports){
 module.exports = {
 	RECEIVE_USERS: "RECEIVE_USERS",
 	LOGIN_SUBMIT: "LOGIN_SUBMIT",
@@ -21956,7 +21995,7 @@ function setArticleScrn(visible) {
 	_infoOneVisible=false;
 	_infoTwoVisible=false;
 }
-function setQueryScrn(_visible) {
+function setQueryScrn(visible) {
 	_mainScrnVisible = false;
 	_articleScrnVisible=false;
 	_articleListVisible=false;
@@ -21968,7 +22007,7 @@ function setQueryScrn(_visible) {
 	_infoOneVisible=false;
 	_infoTwoVisible=false;
 };
-function setSettings(_visible) {
+function setSettings(visible) {
 	_mainScrnVisible = false;
 	_articleScrnVisible=false;
 	_articleListVisible=false;

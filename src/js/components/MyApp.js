@@ -23,10 +23,21 @@ var MyApp = React.createClass({
 		return { 
 				};
 	  },
+	showDashboard: function() {
+		AppActions.showDashboard("Show Dashboard");
+	},
+	showQueries: function() {
+		AppActions.showQueryList("Show Queries");
+	},
+	showSettings: function() {
+		AppActions.showSettings("Show Settings");
+	},
     logout() {
 
         AppActions.showLogin();
-    },
+	},
+	
+	
 	render: function() {
 		 if (!this.props.visible) {
 		 	console.log("MyApp Form is off");
@@ -38,12 +49,12 @@ var MyApp = React.createClass({
                  User: {this.props.userID}
 					<p> You have been officially authorized</p>
 				<div className="navBar">
-										
-					<span className="navBtn">Btn 4</span>
-					<span className="navBtn">Btn 3</span>
-					<span className="navBtn">Btn 2</span>
-					<span className="navBtn">Btn 1</span>
 
+			<span className="navBtn" onClick={this.logout}>Btn 1</span>
+					<span className="navBtn" onClick={this.showSettings}>Btn 2</span>
+					<span className="navBtn" onClick={this.showQueries}>Btn 3</span>
+					<span className="navBtn" onClick={this.showDashboard}>Btn 4</span>
+					
 				</div>
 				<br/><br/>
 				<MainScrn visible={this.props.mainScrnVisible} />

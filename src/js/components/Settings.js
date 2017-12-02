@@ -1,7 +1,11 @@
 var React = require('react');
 
-var Settings = React.createClass({
+var AppActions = require('../actions/AppActions');
 
+var Settings = React.createClass({
+	handleBtnClick: function() {
+		AppActions.showMainScrn('Show Main Screen');
+	},
 	render: function() {
 		 if (!this.props.visible) {
 		 	console.log("Settings is off");
