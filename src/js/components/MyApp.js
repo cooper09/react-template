@@ -34,10 +34,8 @@ var MyApp = React.createClass({
 		AppActions.showSettings("Show Settings");
 	},
     logout() {
-
         AppActions.showLogin();
 	},
-	
 	
 	render: function() {
 		 if (!this.props.visible) {
@@ -47,6 +45,8 @@ var MyApp = React.createClass({
 	
 		console.log('MyApp - current top25 Articles: ',  this.props.articles );
 		console.log('MyApp - current article: ',  this.props.article);
+
+		var title = this.props.articleListTitle;
 
 	return (
 			<div>
@@ -62,7 +62,7 @@ var MyApp = React.createClass({
 				</div>
 				<br/><br/>
 				<MainScrn visible={this.props.mainScrnVisible} articles={this.props.articles }/>
-				<ArticleList visible={this.props.articleListVisible} articles={this.props.articles}/>
+				<ArticleList visible={this.props.articleListVisible} articles={this.props.articles} title={title}/>
 				<InfoOne visible={this.props.infoOneVisible} />
 				<InfoTwo visible={this.props.infoTwoVisible} />
 				<NewQuery visible={this.props.newQueryVisible} />

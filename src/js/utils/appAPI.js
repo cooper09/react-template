@@ -46,5 +46,17 @@ module.exports = {
 			var data = response.data;
 			AppActions.loadQueries(data);
 		});  
+	},
+	// locate a particlar query using its link
+	findQuery: function(url) {
+		console.log("findQuery Response: ", url );
+			axios.get(url)
+			.then(function(response){
+					console.log("findQuery: " ,response.data); // ex.: { user: 'Your User'}
+	
+					var data = response.data;
+					AppActions.showArticleList(data,"query");
+				});//end axios get
 	}
+	
 }; //end exports

@@ -21317,11 +21317,12 @@ showMainScrn: function (data) {
       data: data
     	})
   },
-showArticleList: function (data) {
-    console.log("AppActions.showArticleList: ", data );
+showArticleList: function (data, title) {
+    console.log("AppActions.showArticleList: ", data," title: ", title  );
       AppDispatcher.handleViewAction({
         actionType: AppConstants.SHOW_ARTICLELIST,
-        data: data
+        data: data,
+        title: title
         })
     },
 showArticleScrn: function (data) {
@@ -21437,6 +21438,7 @@ var App = React.createClass({displayName: "App",
 
 		console.log("App - Current UserID: ", this.state.appVisible );
 		console.log("App - Current Article on Queue: ", this.state.articleScrnVisible );
+		console.log("App - Current Article List Title: ", this.state.articleListVisible.title );
 		return(
 			React.createElement("div", null, 
 				React.createElement(LoginForm, {visible: this.state.loginVisible, name: this.state.app[0], password: this.state.app[1], admin: this.state.app[2], users: this.state.users}), 
@@ -21445,7 +21447,8 @@ var App = React.createClass({displayName: "App",
 					articles: this.state.articles, 
 					queries: this.state.queries, 
 					mainScrnVisible: this.state.mainScrnVisible, 
-					articleListVisible: this.state.articleListVisible, 
+					articleListVisible: this.state.articleListVisible.visible, 
+					articleListTitle: this.state.articleListVisible.title, 
 					infoOneVisible: this.state.infoOneVisible, 
 					infoTwoVisible: this.state.infoTwoVisible, 
 					newQueryVisible: this.state.newQueryVisible, 
@@ -21564,7 +21567,7 @@ var ArticleList = React.createClass({displayName: "ArticleList",
 				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, 
 				React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home"), 
 					React.createElement("div", null, 
-						React.createElement("center", null, React.createElement("b", null, React.createElement("i", null, "Top 25 Article Results for Today's HeadLine: \"", articles.query, "\""))), 
+						React.createElement("center", null, React.createElement("b", null, React.createElement("i", null, this.props.title, ": \"", articles.query, "\""))), 
 						React.createElement("br", null), React.createElement("br", null), 
 						React.createElement("div", {className: "articles"}, 
 							React.createElement(ArticleLink, {num: num, key: articles.query, text: articles.txt, url: articles.src, className: "article"})
@@ -21650,7 +21653,9 @@ var InfoOne = React.createClass({displayName: "InfoOne",
 	handleBtnClick: function() {
 		AppActions.showMainScrn('Show Main Screen');
 	},
-
+	partTwo: function() {
+		AppActions.showInfoTwo('Show InfoTwo Screen');
+	},
 	render: function() {
 		 if (!this.props.visible) {
 		 	console.log("InfoOne is off");
@@ -21658,8 +21663,12 @@ var InfoOne = React.createClass({displayName: "InfoOne",
         }
 		return (
 			React.createElement("div", null, 
-				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "InfoOne", 
-				React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home")
+				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "InfoOne.js", 
+				React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home"), 
+					React.createElement("div", null, 	
+						React.createElement("h3", null, "User Instructions Go Here..."), 
+						React.createElement("button", {onClick: this.partTwo, className: "homeBtn"}, "Next")
+					)
 				)
 			)
 			);
@@ -21671,8 +21680,16 @@ module.exports = InfoOne;
 },{"../actions/AppActions":190,"react":188}],197:[function(require,module,exports){
 var React = require('react');
 
+var AppActions = require('../actions/AppActions');
+
 var InfoTwo = React.createClass({displayName: "InfoTwo",
 
+	handleBtnClick: function() {
+		AppActions.showMainScrn('Show Main Screen');
+	},
+	handleNewQuery: function() {
+		AppActions.showNewQuery('Show New Query Screen');
+	},
 	render: function() {
 		 if (!this.props.visible) {
 		 	console.log("InfoTwo is off");
@@ -21683,7 +21700,11 @@ var InfoTwo = React.createClass({displayName: "InfoTwo",
 			React.createElement("div", null, 
 				
 				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "InfoTwo", 
-				React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home")
+					React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home"), 
+					React.createElement("br", null), 
+					"More Instructions if Necessary...", 
+					React.createElement("br", null), React.createElement("br", null), 
+					React.createElement("button", {onClick: this.handleNewQuery, className: "homeBtn"}, "New Query")
 				)
 			)
 			);
@@ -21692,7 +21713,7 @@ var InfoTwo = React.createClass({displayName: "InfoTwo",
 
 module.exports = InfoTwo;
 
-},{"react":188}],198:[function(require,module,exports){
+},{"../actions/AppActions":190,"react":188}],198:[function(require,module,exports){
 var React = require('react');
 var AppAPI = require('../utils/appAPI.js');
 var AppActions = require('../actions/AppActions');
@@ -21771,7 +21792,7 @@ var MainScrn = React.createClass({displayName: "MainScrn",
     
 	top25: function() {
         console.log("MainScrn - Show top25 Articles List")
-		AppActions.showArticleList(this.props.articles);
+		AppActions.showArticleList(this.props.articles,"Top 25");
 	},
 	myQueries: function() {
         console.log("MainScrn - Show MyQueries")
@@ -21842,10 +21863,8 @@ var MyApp = React.createClass({displayName: "MyApp",
 		AppActions.showSettings("Show Settings");
 	},
     logout() {
-
         AppActions.showLogin();
 	},
-	
 	
 	render: function() {
 		 if (!this.props.visible) {
@@ -21855,6 +21874,8 @@ var MyApp = React.createClass({displayName: "MyApp",
 	
 		console.log('MyApp - current top25 Articles: ',  this.props.articles );
 		console.log('MyApp - current article: ',  this.props.article);
+
+		var title = this.props.articleListTitle;
 
 	return (
 			React.createElement("div", null, 
@@ -21870,7 +21891,7 @@ var MyApp = React.createClass({displayName: "MyApp",
 				), 
 				React.createElement("br", null), React.createElement("br", null), 
 				React.createElement(MainScrn, {visible: this.props.mainScrnVisible, articles: this.props.articles}), 
-				React.createElement(ArticleList, {visible: this.props.articleListVisible, articles: this.props.articles}), 
+				React.createElement(ArticleList, {visible: this.props.articleListVisible, articles: this.props.articles, title: title}), 
 				React.createElement(InfoOne, {visible: this.props.infoOneVisible}), 
 				React.createElement(InfoTwo, {visible: this.props.infoTwoVisible}), 
 				React.createElement(NewQuery, {visible: this.props.newQueryVisible}), 
@@ -21889,9 +21910,12 @@ module.exports = MyApp;
 
 },{"../actions/AppActions":190,"../utils/appAPI.js":209,"./ArticleList.js":193,"./ArticleScrn.js":194,"./Dashboard.js":195,"./InfoOne.js":196,"./InfoTwo.js":197,"./MainScrn.js":199,"./NewQuery.js":201,"./QueryList.js":202,"./Settings.js":203,"react":188}],201:[function(require,module,exports){
 var React = require('react');
+var AppActions = require('../actions/AppActions');
 
 var NewQuery = React.createClass({displayName: "NewQuery",
-
+	handleBtnClick: function() {
+		AppActions.showMainScrn('Show Main Screen');
+	},
 	render: function() {
 		 if (!this.props.visible) {
 		 	console.log("NewQuery is off");
@@ -21911,18 +21935,22 @@ var NewQuery = React.createClass({displayName: "NewQuery",
 
 module.exports = NewQuery;
 
-},{"react":188}],202:[function(require,module,exports){
+},{"../actions/AppActions":190,"react":188}],202:[function(require,module,exports){
 var React = require('react');
 
 var AppActions = require('../actions/AppActions');
+var AppAPI = require('../utils/appApi.js');
+var ArticleList = require('./ArticleList.js');
+
 
 var QueryList = React.createClass({displayName: "QueryList",
 
-	
 	handleBtnClick: function() {
 		AppActions.showMainScrn('Show Main Screen');
 	},
-
+	handleNewQuery: function() {
+		AppActions.showNewQuery('Show New Query Screen');
+	},
 	render: function() {
 		 if (!this.props.visible) {
 		 	console.log("QueryList is off");
@@ -21946,18 +21974,42 @@ var QueryList = React.createClass({displayName: "QueryList",
 				
 				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "QueryList", 
 				React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home"), 
-					React.createElement("div", null
-						
-					)
+					React.createElement("div", null, 
+					 
+						queryArr.map(function(queryArr) {
+							++num;
+							return  React.createElement("div", {style: style, key: num, onClick: handleQueryClick.bind(this, num, queryArr)}, 
+									React.createElement("b", null, "Id"), ": ", queryArr.query_id, " Query: ", queryArr.query, " ", React.createElement("button", {className: "deleteBtn", onClick: deleteQueryClick.bind(this, queryArr.query_id)}, "Delete"), 
+									React.createElement("br", null), " Result endpoint: ", queryArr.result_endpoint
+							)
+						}) 
+
+					
+					), 
+					React.createElement("button", {onClick: this.handleNewQuery, className: "bottomBtn"}, "New Query")
 				)
 			)
 			);
+		
+			function handleQueryClick (num, arr){
+				//cooper s - use jquery to open/close each items content....
+				console.log("nandleQueryClick: ", arr );
+				AppAPI.findQuery(arr.result_endpoint );
+			}//end handleItemClick
+
+			function deleteQueryClick(id) {
+				console.log("Delete this little goody: ", id);
+				AppAPI.deleteQuery(id);
+				alert("Query id: " + id +" will be deleted!");
+				AppActions.showQueries('Show Queries Screen');
+			}//end deleteItemClick
+
 	}//end render
 });//end QueryList
 
 module.exports = QueryList;
 
-},{"../actions/AppActions":190,"react":188}],203:[function(require,module,exports){
+},{"../actions/AppActions":190,"../utils/appApi.js":210,"./ArticleList.js":193,"react":188}],203:[function(require,module,exports){
 var React = require('react');
 
 var AppActions = require('../actions/AppActions');
@@ -22072,6 +22124,8 @@ var _articleContent = {
 	text : "dummy Text"
 };
 
+var _listTitle = "test title";
+
 var _queryContent;
 
 // Method to load product data from mock API
@@ -22118,8 +22172,8 @@ function setMainScrn(visible) {
 	_infoTwoVisible=false;
 }
 
-function setArticleList(visible) {
-	console.log("setArticleList: ", visible );
+function setArticleList(visible, articles, title) {
+	console.log("setArticleList: ", visible, " title: ", title  );
 	_mainScrnVisible = false;
 	_articleScrnVisible=false;
 	_articleListVisible=visible;
@@ -22130,6 +22184,7 @@ function setArticleList(visible) {
 	_settingsVisible=false;
 	_infoOneVisible=false;
 	_infoTwoVisible=false;
+	_listTitle = title;
 }
 function setInfoOne(visible) {
 	_mainScrnVisible = false;
@@ -22179,7 +22234,7 @@ function setDashboard(visible) {
 	_infoOneVisible=false;
 	_infoTwoVisible=false;
 }
-function setQueryList(visible, articles) {
+function setQueryList(visible, articles, title) {
 	_mainScrnVisible = false;
 	_articleScrnVisible=false;
 	_articleListVisible=false;
@@ -22191,6 +22246,7 @@ function setQueryList(visible, articles) {
 	_infoOneVisible=false;
 	_infoTwoVisible=false;
 	_articles=articles;
+	_listTitle = title;
 }
 function setArticleScrn(visible, articleNo, text ) {
 	_mainScrnVisible = false;
@@ -22271,7 +22327,7 @@ var AppStore = assign({}, EventEmitter.prototype, {
 			articleNo: _articleContent.articleNo,
 			article: _articleContent.text
 		}
-		return _articleScrnObj;
+		return  _articleScrnObj;
 	},
 	getInfoOneVisible: function (){
 		return _infoOneVisible;
@@ -22284,7 +22340,12 @@ var AppStore = assign({}, EventEmitter.prototype, {
 	},
 	getArticleListVisible: function (){
 		console.log('getArticleListVisible: ', _articleListVisible );
-		return _articleListVisible;
+		var _articleListObj = {
+			visible: _articleListVisible,
+			title: _listTitle
+		}
+		console.log('getArticleListObj: ', _articleListObj );		
+		return _articleListObj;
 	},
 	getQueryListVisible: function () {
 		return _queryListVisible;
@@ -22347,10 +22408,12 @@ AppDispatcher.register(function(payload){
 			setMainScrn(_visible);
 		break;
 		case "SHOW_ARTICLELIST":
-		    console.log("AppStore.SHOW_ARTICLELIST: ", action.data )
+			console.log("AppStore.SHOW_ARTICLELIST: ", action.data );
+			console.log("AppStore.SHOW_ARTICLELIST TITLE: ", action.title )
 			_visible = true;
 			_articles = action.data;
-			setArticleList(_visible, _articles);
+			_title = action.title;
+			setArticleList(_visible, _articles, _title );
 		break;
 		case "SHOW_INFOONE":
 			_visible = true;
@@ -22445,7 +22508,19 @@ module.exports = {
 			var data = response.data;
 			AppActions.loadQueries(data);
 		});  
+	},
+	// locate a particlar query using its link
+	findQuery: function(url) {
+		console.log("findQuery Response: ", url );
+			axios.get(url)
+			.then(function(response){
+					console.log("findQuery: " ,response.data); // ex.: { user: 'Your User'}
+	
+					var data = response.data;
+					AppActions.showArticleList(data,"query");
+				});//end axios get
 	}
+	
 }; //end exports
 
 },{"../actions/AppActions":190,"axios":1}],209:[function(require,module,exports){
@@ -22497,7 +22572,83 @@ module.exports = {
 			var data = response.data;
 			AppActions.loadQueries(data);
 		});  
+	},
+	// locate a particlar query using its link
+	findQuery: function(url) {
+		console.log("findQuery Response: ", url );
+			axios.get(url)
+			.then(function(response){
+					console.log("findQuery: " ,response.data); // ex.: { user: 'Your User'}
+	
+					var data = response.data;
+					AppActions.showArticleList(data,"query");
+				});//end axios get
 	}
+	
+}; //end exports
+
+},{"../actions/AppActions":190,"axios":1}],210:[function(require,module,exports){
+var AppActions = require('../actions/AppActions');
+var axios = require('axios');
+
+//	var data = JSON.parse(localStorage.getItem('data'));
+//	AppActions.loadArticles(data);
+
+
+module.exports = {
+  // Load Mock Product Data Into localStorage
+
+	 // Load mock product data from localStorage into ProductStore via Action
+  getUsers: function () {
+  	console.log("appAPI.getData: " );
+  	// Performing a GET request
+		axios.get('https://mpoint-users.herokuapp.com/users' )
+	  .then(function(response){
+	    console.log("appAPI.getUsers: " ,response.data); // ex.: { user: 'Your User'}
+			console.log(response.status); // ex.: 200
+			
+			var data = response.data;
+			console.log("getdata response: ", data );
+			data.map(function(data) {
+				console.log(data.name);
+			});
+		
+			AppActions.loadUsers(data);
+	  });
+  },//end getUsers */
+
+  getArticles: function () {
+		console.log("appAPI.getArticles " );
+		axios.get('http://ai-writer.com/mpnt_json_endpoint.php?id=3796&pass=kqPvuQmdab')
+		.then(function(response){
+				console.log("appAPI.getArticles: " ,response.data); // ex.: { user: 'Your User'}
+				console.log("response data: ", response.status); // ex.: 200
+
+				var data = response.data;
+				AppActions.loadArticles(data);
+			});//end axios get
+	},
+	getQueries: function() {
+		console.log("appAPI.getData: " );
+		axios.get('http://ai-writer.com/mpnt_json_endpoint.php?list_queries=1')
+		.then(function(response) {
+			console.log("getQueries Response: ", response.data );
+			var data = response.data;
+			AppActions.loadQueries(data);
+		});  
+	},
+	// locate a particlar query using its link
+	findQuery: function(url) {
+		console.log("findQuery Response: ", url );
+			axios.get(url)
+			.then(function(response){
+					console.log("findQuery: " ,response.data); // ex.: { user: 'Your User'}
+	
+					var data = response.data;
+					AppActions.showArticleList(data,"query");
+				});//end axios get
+	}
+	
 }; //end exports
 
 },{"../actions/AppActions":190,"axios":1}]},{},[206]);

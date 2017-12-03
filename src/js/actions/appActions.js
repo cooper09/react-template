@@ -53,11 +53,12 @@ showMainScrn: function (data) {
       data: data
     	})
   },
-showArticleList: function (data) {
-    console.log("AppActions.showArticleList: ", data );
+showArticleList: function (data, title) {
+    console.log("AppActions.showArticleList: ", data," title: ", title  );
       AppDispatcher.handleViewAction({
         actionType: AppConstants.SHOW_ARTICLELIST,
-        data: data
+        data: data,
+        title: title
         })
     },
 showArticleScrn: function (data) {

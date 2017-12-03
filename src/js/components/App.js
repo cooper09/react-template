@@ -51,6 +51,7 @@ var App = React.createClass({
 
 		console.log("App - Current UserID: ", this.state.appVisible );
 		console.log("App - Current Article on Queue: ", this.state.articleScrnVisible );
+		console.log("App - Current Article List Title: ", this.state.articleListVisible.title );
 		return(
 			<div>
 				<LoginForm  visible={this.state.loginVisible} name={this.state.app[0]} password={this.state.app[1]} admin={this.state.app[2]} users={this.state.users}/>
@@ -59,7 +60,8 @@ var App = React.createClass({
 					articles={this.state.articles}
 					queries={this.state.queries}
 					mainScrnVisible={this.state.mainScrnVisible}
-					articleListVisible={this.state.articleListVisible}
+					articleListVisible={this.state.articleListVisible.visible}
+					articleListTitle={this.state.articleListVisible.title}
 					infoOneVisible={this.state.infoOneVisible}
 					infoTwoVisible={this.state.infoTwoVisible}
 					newQueryVisible={this.state.newQueryVisible}

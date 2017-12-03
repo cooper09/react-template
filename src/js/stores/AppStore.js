@@ -27,6 +27,8 @@ var _articleContent = {
 	text : "dummy Text"
 };
 
+var _listTitle = "test title";
+
 var _queryContent;
 
 // Method to load product data from mock API
@@ -73,8 +75,8 @@ function setMainScrn(visible) {
 	_infoTwoVisible=false;
 }
 
-function setArticleList(visible) {
-	console.log("setArticleList: ", visible );
+function setArticleList(visible, articles, title) {
+	console.log("setArticleList: ", visible, " title: ", title  );
 	_mainScrnVisible = false;
 	_articleScrnVisible=false;
 	_articleListVisible=visible;
@@ -85,6 +87,7 @@ function setArticleList(visible) {
 	_settingsVisible=false;
 	_infoOneVisible=false;
 	_infoTwoVisible=false;
+	_listTitle = title;
 }
 function setInfoOne(visible) {
 	_mainScrnVisible = false;
@@ -134,7 +137,7 @@ function setDashboard(visible) {
 	_infoOneVisible=false;
 	_infoTwoVisible=false;
 }
-function setQueryList(visible, articles) {
+function setQueryList(visible, articles, title) {
 	_mainScrnVisible = false;
 	_articleScrnVisible=false;
 	_articleListVisible=false;
@@ -146,6 +149,7 @@ function setQueryList(visible, articles) {
 	_infoOneVisible=false;
 	_infoTwoVisible=false;
 	_articles=articles;
+	_listTitle = title;
 }
 function setArticleScrn(visible, articleNo, text ) {
 	_mainScrnVisible = false;
@@ -226,7 +230,7 @@ var AppStore = assign({}, EventEmitter.prototype, {
 			articleNo: _articleContent.articleNo,
 			article: _articleContent.text
 		}
-		return _articleScrnObj;
+		return  _articleScrnObj;
 	},
 	getInfoOneVisible: function (){
 		return _infoOneVisible;
@@ -239,7 +243,12 @@ var AppStore = assign({}, EventEmitter.prototype, {
 	},
 	getArticleListVisible: function (){
 		console.log('getArticleListVisible: ', _articleListVisible );
-		return _articleListVisible;
+		var _articleListObj = {
+			visible: _articleListVisible,
+			title: _listTitle
+		}
+		console.log('getArticleListObj: ', _articleListObj );		
+		return _articleListObj;
 	},
 	getQueryListVisible: function () {
 		return _queryListVisible;
@@ -302,10 +311,12 @@ AppDispatcher.register(function(payload){
 			setMainScrn(_visible);
 		break;
 		case "SHOW_ARTICLELIST":
-		    console.log("AppStore.SHOW_ARTICLELIST: ", action.data )
+			console.log("AppStore.SHOW_ARTICLELIST: ", action.data );
+			console.log("AppStore.SHOW_ARTICLELIST TITLE: ", action.title )
 			_visible = true;
 			_articles = action.data;
-			setArticleList(_visible, _articles);
+			_title = action.title;
+			setArticleList(_visible, _articles, _title );
 		break;
 		case "SHOW_INFOONE":
 			_visible = true;

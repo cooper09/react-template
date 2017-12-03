@@ -24,7 +24,7 @@ var ArticleList = React.createClass({
 				<div className='mainScrn center option animated zoomInUp'>
 				<button onClick={this.handleBtnClick} className="homeBtn">Home</button>
 					<div>
-						<center><b><i>Top 25 Article Results for Today's HeadLine: "{articles.query}"</i></b></center>
+						<center><b><i>{this.props.title}: "{articles.query}"</i></b></center>
 						<br/><br/>
 						<div className='articles'>
 							<ArticleLink num={num} key={articles.query} text={articles.txt} url={articles.src} className="article"/> 
