@@ -55,10 +55,11 @@ function setLoginVisible(visible){
 	console.log('AppStore.setLoginVisible - appPageVisible: ', _appPageVisible );
 }
 
-function setAppVisible(visible, userID) {
+function setAppVisible(visible, userID, userName) {
   	_appPageVisible = visible;
 	_loginVisible = false;
 	_userID = userID;
+	_name = userName;
 }
 
 //Make our components come alive!
@@ -217,7 +218,8 @@ var AppStore = assign({}, EventEmitter.prototype, {
 		console.log('AppStore.getAppVisible: ' + _appPageVisible );
 		return {
 					visible: _appPageVisible,
-					userID: _userID
+					userID: _userID,
+					userName: _name
 		}
 	},
 	//All My Store GETS
@@ -302,8 +304,9 @@ AppDispatcher.register(function(payload){
 	 	case 'SHOW_APP':
 	  	  	console.log("Show main application page: ", action.data );
 		  	_visible=true;
-		  	var userID = action.data;
-	      	setAppVisible(_visible, action.data );
+			  var userID = action.data.userId;
+			  var userName = action.data.userName
+	      	setAppVisible(_visible, userID, userName );
 	 	break;
 // where no man has gone before	
 		case "SHOW_MAINSCRN":

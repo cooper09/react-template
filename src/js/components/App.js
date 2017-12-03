@@ -49,13 +49,14 @@ var App = React.createClass({
 		console.log("App - Current list of articles: ", this.state.articles );
 		console.log("App - Current list of queries: ", this.state.queries );
 
-		console.log("App - Current UserID: ", this.state.appVisible );
+		console.log("App - Current UserID: ", this.state.appVisible.userID );
+		console.log("App - Curren User Name: ", this.state.appVisible.userName)
 		console.log("App - Current Article on Queue: ", this.state.articleScrnVisible );
 		console.log("App - Current Article List Title: ", this.state.articleListVisible.title );
 		return(
 			<div>
 				<LoginForm  visible={this.state.loginVisible} name={this.state.app[0]} password={this.state.app[1]} admin={this.state.app[2]} users={this.state.users}/>
-				<MyApp visible={this.state.appVisible.visible} userID={this.state.appVisible.userID}
+				<MyApp visible={this.state.appVisible.visible} userID={this.state.appVisible.userID} name={this.state.appVisible.userName}
 					users = {this.state.users}
 					articles={this.state.articles}
 					queries={this.state.queries}

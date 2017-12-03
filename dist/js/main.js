@@ -21436,13 +21436,14 @@ var App = React.createClass({displayName: "App",
 		console.log("App - Current list of articles: ", this.state.articles );
 		console.log("App - Current list of queries: ", this.state.queries );
 
-		console.log("App - Current UserID: ", this.state.appVisible );
+		console.log("App - Current UserID: ", this.state.appVisible.userID );
+		console.log("App - Curren User Name: ", this.state.appVisible.userName)
 		console.log("App - Current Article on Queue: ", this.state.articleScrnVisible );
 		console.log("App - Current Article List Title: ", this.state.articleListVisible.title );
 		return(
 			React.createElement("div", null, 
 				React.createElement(LoginForm, {visible: this.state.loginVisible, name: this.state.app[0], password: this.state.app[1], admin: this.state.app[2], users: this.state.users}), 
-				React.createElement(MyApp, {visible: this.state.appVisible.visible, userID: this.state.appVisible.userID, 
+				React.createElement(MyApp, {visible: this.state.appVisible.visible, userID: this.state.appVisible.userID, name: this.state.appVisible.userName, 
 					users: this.state.users, 
 					articles: this.state.articles, 
 					queries: this.state.queries, 
@@ -21742,15 +21743,20 @@ var LoginForm = React.createClass({displayName: "LoginForm",
 		var found = false;
 
 		//cooper s -  For development purposes only...remember to change it back...
-		AppActions.showApp('000');
+		//AppActions.showApp('000');
 
 		users.map(function(users) {
 			if (users.name === login ) {
 				//Show The App
 				found = true;
 				var userID = users._id;
-				console.log("Unique User ID: ", userID);
-				//AppActions.showApp(userID);
+				var userName = users.name;
+				var userObj ={
+					userId: users._id,
+					userName: users.name
+				}
+				console.log("Unique User ID: ", userID, " and name: ", userName );
+				AppActions.showApp(userObj);
 			}
 		});
 
@@ -21769,7 +21775,7 @@ var LoginForm = React.createClass({displayName: "LoginForm",
 	console.log("LoginForm - default user: ", this.state.name );
 	return (
 			React.createElement("div", null, 
-				React.createElement("h1", null, " Simple Login Form"), 
+				React.createElement("h1", null, "mPoint HeadLiner Login"), 
 				React.createElement("input", {id: "input", type: "text", onBlur: this.getName, defautValue: this.state.name}), 
 				React.createElement("br", null), 
 				React.createElement("input", {id: "password", type: "password", onBlur: this.getPassword}), 
@@ -21881,15 +21887,13 @@ var MyApp = React.createClass({displayName: "MyApp",
 			React.createElement("div", null, 
 				React.createElement("h1", null, "mPoint Proto"), 
                  "User: ", this.props.userID, 
-					React.createElement("p", null, " You have been officially authorized"), 
+					React.createElement("p", null, " ", this.props.name, ", you have been officially authorized"), 
 				React.createElement("div", {className: "navBar"}, 
 					React.createElement("span", {className: "navBtn", onClick: this.logout}, "X"), 
 					React.createElement("span", {className: "navBtn", onClick: this.showSettings}, "Set"), 
 					React.createElement("span", {className: "navBtn", onClick: this.showQueries}, "Qrs"), 
 					React.createElement("span", {className: "navBtn", onClick: this.showDashboard}, "DB")
-					
 				), 
-				React.createElement("br", null), React.createElement("br", null), 
 				React.createElement(MainScrn, {visible: this.props.mainScrnVisible, articles: this.props.articles}), 
 				React.createElement(ArticleList, {visible: this.props.articleListVisible, articles: this.props.articles, title: title}), 
 				React.createElement(InfoOne, {visible: this.props.infoOneVisible}), 
@@ -22152,10 +22156,11 @@ function setLoginVisible(visible){
 	console.log('AppStore.setLoginVisible - appPageVisible: ', _appPageVisible );
 }
 
-function setAppVisible(visible, userID) {
+function setAppVisible(visible, userID, userName) {
   	_appPageVisible = visible;
 	_loginVisible = false;
 	_userID = userID;
+	_name = userName;
 }
 
 //Make our components come alive!
@@ -22314,7 +22319,8 @@ var AppStore = assign({}, EventEmitter.prototype, {
 		console.log('AppStore.getAppVisible: ' + _appPageVisible );
 		return {
 					visible: _appPageVisible,
-					userID: _userID
+					userID: _userID,
+					userName: _name
 		}
 	},
 	//All My Store GETS
@@ -22399,8 +22405,9 @@ AppDispatcher.register(function(payload){
 	 	case 'SHOW_APP':
 	  	  	console.log("Show main application page: ", action.data );
 		  	_visible=true;
-		  	var userID = action.data;
-	      	setAppVisible(_visible, action.data );
+			  var userID = action.data.userId;
+			  var userName = action.data.userName
+	      	setAppVisible(_visible, userID, userName );
 	 	break;
 // where no man has gone before	
 		case "SHOW_MAINSCRN":
