@@ -12,6 +12,8 @@ function getAppState(){
 	return {
 		app: AppStore.getState(),
 		users: AppStore.getUsers(),
+		articles: AppStore.getArticles(),
+		queries: AppStore.getQueries(),
 		loginVisible: AppStore.getLoginVisible(),
 		appVisible: AppStore.getAppVisible(),
 		// The cool stuff
@@ -42,14 +44,20 @@ var App = React.createClass({
 		AppStore.removeChangeListener(this._onChange);
 	},
 	render: function(){
-		console.log("Current State state: ", this.state.app );
-		console.log("Current list of users: ", this.state.users );
+		console.log("App - Current State state: ", this.state.app );
+		console.log("App - Current list of users: ", this.state.users );
+		console.log("App - Current list of articles: ", this.state.articles );
+		console.log("App - Current list of queries: ", this.state.queries );
 
-		console.log("Current UserID: ", this.state.appVisible  );
+		console.log("App - Current UserID: ", this.state.appVisible );
+		console.log("App - Current Article on Queue: ", this.state.articleScrnVisible );
 		return(
 			<div>
 				<LoginForm  visible={this.state.loginVisible} name={this.state.app[0]} password={this.state.app[1]} admin={this.state.app[2]} users={this.state.users}/>
 				<MyApp visible={this.state.appVisible.visible} userID={this.state.appVisible.userID}
+					users = {this.state.users}
+					articles={this.state.articles}
+					queries={this.state.queries}
 					mainScrnVisible={this.state.mainScrnVisible}
 					articleListVisible={this.state.articleListVisible}
 					infoOneVisible={this.state.infoOneVisible}
@@ -57,7 +65,9 @@ var App = React.createClass({
 					newQueryVisible={this.state.newQueryVisible}
 					dashboardVisible={this.state.dashboardVisible}
 					queryListVisible={this.state.queryListVisible}
-					articleScrnVisible={this.state.articleScrnVisible}
+					articleScrnVisible={this.state.articleScrnVisible.visible}
+					articleNo={this.state.articleScrnVisible.articleNo}
+					article={this.state.articleScrnVisible.article}
 					settingsVisible={this.state.settingsVisible}
 				  />
 			</div>

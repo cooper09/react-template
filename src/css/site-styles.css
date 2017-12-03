@@ -51,8 +51,8 @@ h1 {
   float: left;
   margin-right: 1.69492%;
   display: inline;
-  height: 10em;
-  background-color: transparent;
+  height: 100%;
+  background: #ddd;
   padding: 1em;
   color: #333;
   margin-left: auto;

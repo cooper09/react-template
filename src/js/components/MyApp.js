@@ -18,7 +18,8 @@ var Settings = require('./Settings.js');
 
 
 var MyApp = React.createClass({
-
+	
+	
 	getInitialState: function() {
 		return { 
 				};
@@ -42,29 +43,32 @@ var MyApp = React.createClass({
 		 if (!this.props.visible) {
 		 	console.log("MyApp Form is off");
           return false; 
-	} 	
+	} 
+	
+		console.log('MyApp - current top25 Articles: ',  this.props.articles );
+		console.log('MyApp - current article: ',  this.props.article);
+
 	return (
 			<div>
 				<h1>mPoint Proto</h1>
                  User: {this.props.userID}
 					<p> You have been officially authorized</p>
 				<div className="navBar">
-
-			<span className="navBtn" onClick={this.logout}>Btn 1</span>
-					<span className="navBtn" onClick={this.showSettings}>Btn 2</span>
-					<span className="navBtn" onClick={this.showQueries}>Btn 3</span>
-					<span className="navBtn" onClick={this.showDashboard}>Btn 4</span>
+					<span className="navBtn" onClick={this.logout}>X</span>
+					<span className="navBtn" onClick={this.showSettings}>Set</span>
+					<span className="navBtn" onClick={this.showQueries}>Qrs</span>
+					<span className="navBtn" onClick={this.showDashboard}>DB</span>
 					
 				</div>
 				<br/><br/>
 				<MainScrn visible={this.props.mainScrnVisible} />
-				<ArticleList visible={this.props.articleListVisible} />
+				<ArticleList visible={this.props.articleListVisible} articles={this.props.articles}/>
 				<InfoOne visible={this.props.infoOneVisible} />
 				<InfoTwo visible={this.props.infoTwoVisible} />
 				<NewQuery visible={this.props.newQueryVisible} />
 				<Dashboard visible={this.props.dashboardVisible} />
 				<QueryList visible={this.props.queryListVisible} />
-				<ArticleScrn visible={this.props.articleScrnVisible} />
+				<ArticleScrn visible={this.props.articleScrnVisible} articleNo={this.props.articleNo} article={this.props.article } />
 				<Settings visible={this.props.settingsVisible} />
 				<br/><br/>
 				<button onClick={this.logout}>Log Out</button>

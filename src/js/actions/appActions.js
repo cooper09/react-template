@@ -3,14 +3,34 @@ var AppConstants = require('../constants/AppConstants');
 
 var AppActions = {
 // Receive inital product data
-
+loadTestQueries: function (data) {
+	console.log("AppActions.loadTestQueries: ", data );
+    AppDispatcher.handleViewAction({
+      actionType: AppConstants.RECEIVE_TEST_QUERIES,
+      data: data
+    	})
+	},
 loadUsers: function (data) {
-	console.log("AppActions.loadPages: ", data );
+	console.log("AppActions.loadUsers: ", data );
     AppDispatcher.handleViewAction({
       actionType: AppConstants.RECEIVE_USERS,
       data: data
     	})
-	},
+  },
+loadArticles: function (data) {
+  console.log("AppActions.loadArticles: ", data );
+    AppDispatcher.handleViewAction({
+      actionType: AppConstants.RECEIVE_ARTICLES,
+      data: data
+      })
+   },
+loadQueries: function (data) {
+    console.log("AppActions.loadQueries: ", data );
+      AppDispatcher.handleViewAction({
+        actionType: AppConstants.RECEIVE_QUERIES,
+        data: data
+        })
+ },
 showLogin: function (data) {
     AppDispatcher.handleViewAction({
       actionType: AppConstants.SHOW_LOGIN,

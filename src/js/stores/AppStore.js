@@ -8,6 +8,8 @@ var CHANGE_EVENT = 'change';
 
 //cooper s - a state called _items
 var _users = [];
+var _articles = [];
+var _queries = [];
 
 var _loginVisible = true;
 var _appPageVisible = false
@@ -20,11 +22,28 @@ var _mainScrnVisible = true, _articleScrnVisible=false,_articleListVisible=false
 var _name="John", _password="password", _admin=false;
 var _userID="000";
 
+var _articleContent = {
+	articleNo: "0",
+	text : "dummy Text"
+};
+
+var _queryContent;
+
 // Method to load product data from mock API
 function loadUsers(data) {
   _users = data;
-  console.log("AppStore.loadPageData: ", _users );
+  console.log("AppStore.loadUsers: ", _users );
 }
+
+function loadArticles(data) {
+	_articles = data;
+	console.log("AppStore.loadArticles: ", _articles );
+  }
+
+  function loadQueries(data) {
+	_queries = data;
+	console.log("AppStore.loadQueries: ", _queries );
+  }
 // Set visibility functions for each component
 
 function setLoginVisible(visible){
@@ -127,7 +146,7 @@ function setQueryList(visible) {
 	_infoOneVisible=false;
 	_infoTwoVisible=false;
 }
-function setArticleScrn(visible) {
+function setArticleScrn(visible, articleNo, text ) {
 	_mainScrnVisible = false;
 	_articleScrnVisible=visible;
 	_articleListVisible=false;
@@ -138,6 +157,10 @@ function setArticleScrn(visible) {
 	_settingsVisible=false;
 	_infoOneVisible=false;
 	_infoTwoVisible=false;
+	_articleContent = { 
+		articleNo : articleNo,
+		text : text
+	};
 }
 function setQueryScrn(visible) {
 	_mainScrnVisible = false;
@@ -169,6 +192,12 @@ var AppStore = assign({}, EventEmitter.prototype, {
 	getUsers: function () {
 	    return _users;
 	},
+	getArticles: function () {
+	    return _articles;
+	},
+	getQueries: function () {
+	    return _queries;
+	},
 	getState: function () {
         console.log('Appstore.getState');
         var state = [_name, _password, _admin ]; 
@@ -191,7 +220,12 @@ var AppStore = assign({}, EventEmitter.prototype, {
 		return _mainScrnVisible;
 	},
 	getArticleScrnVisible: function () {
-		return _articleScrnVisible;
+	   var _articleScrnObj = {
+			visible: _articleScrnVisible,
+			articleNo: _articleContent.articleNo,
+			article: _articleContent.text
+		}
+		return _articleScrnObj;
 	},
 	getInfoOneVisible: function (){
 		return _infoOneVisible;
@@ -238,8 +272,16 @@ AppDispatcher.register(function(payload){
 
 		// Respond to RECEIVE_DATA action
 	    case 'RECEIVE_USERS':
-			console.log("AppStore - Receiving Data: ", action.data );	    
+			console.log("AppStore - Receiving users: ", action.data );	    
 	      	loadUsers(action.data);
+		break;
+		case 'RECEIVE_ARTICLES':
+			console.log("AppStore - Receiving articles: ", action.data );	    
+			loadArticles(action.data);
+		break;
+		case 'RECEIVE_QUERIES':
+			console.log("AppStore - Receiving queries: ", action.data );	    
+			loadQueries(action.data);
 		break;
 // SHOWS
 		case 'SHOW_LOGIN':
@@ -283,8 +325,11 @@ AppDispatcher.register(function(payload){
 			setQueryList(_visible);
 		break;
 		case "SHOW_ARTICLESCRN":
+			console.log("Show ArticleScrn with data: ", action.data );
+			var _no = action.data.articleNo;
+			var _text = action.data.text;	
 			_visible = true;
-			setArticleScrn(_visible);
+			setArticleScrn(_visible, _no, _text );
 		break;
 		case "SHOW_QUERYSCRN":
 			_visible = true;

@@ -21219,19 +21219,82 @@ module.exports = warning;
 module.exports = require('./lib/React');
 
 },{"./lib/React":56}],189:[function(require,module,exports){
+
+
+module.exports = {
+  // Load Mock Product Data Into localStorage
+  init: function () {
+    console.log("QueryData.init");
+    localStorage.clear();
+    localStorage.setItem('data', JSON.stringify([
+      {
+        id: 'Query One',
+        title: 'Adtech Conquers the World',
+        articles: [
+            'article1',
+            'article2',
+            'article3'
+        ],     
+        url:"http://mpointinc.com/"
+      },
+      {
+        id: 'Query Two',
+        title: 'Blah Blah Blah',
+        articles: [
+            'article11',
+            'article12',
+            'article13'
+        ],     
+        url:"http://mpointinc.com/"
+      },
+      {
+        id: 'Query Three',
+        title: 'PlaceHolder 3',
+        articles: [
+            'articleA',
+            'articleB',
+            'articleC'
+        ],     
+        url:"http://mpointinc.com/"
+      }
+    ]));
+  } 
+}
+
+},{}],190:[function(require,module,exports){
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var AppConstants = require('../constants/AppConstants');
 
 var AppActions = {
 // Receive inital product data
-
+loadTestQueries: function (data) {
+	console.log("AppActions.loadTestQueries: ", data );
+    AppDispatcher.handleViewAction({
+      actionType: AppConstants.RECEIVE_TEST_QUERIES,
+      data: data
+    	})
+	},
 loadUsers: function (data) {
-	console.log("AppActions.loadPages: ", data );
+	console.log("AppActions.loadUsers: ", data );
     AppDispatcher.handleViewAction({
       actionType: AppConstants.RECEIVE_USERS,
       data: data
     	})
-	},
+  },
+loadArticles: function (data) {
+  console.log("AppActions.loadArticles: ", data );
+    AppDispatcher.handleViewAction({
+      actionType: AppConstants.RECEIVE_ARTICLES,
+      data: data
+      })
+   },
+loadQueries: function (data) {
+    console.log("AppActions.loadQueries: ", data );
+      AppDispatcher.handleViewAction({
+        actionType: AppConstants.RECEIVE_QUERIES,
+        data: data
+        })
+ },
 showLogin: function (data) {
     AppDispatcher.handleViewAction({
       actionType: AppConstants.SHOW_LOGIN,
@@ -21320,7 +21383,7 @@ showSettings: function (data) {
 }//end AppActions
 module.exports = AppActions;
 
-},{"../constants/AppConstants":202,"../dispatcher/AppDispatcher":203}],190:[function(require,module,exports){
+},{"../constants/AppConstants":204,"../dispatcher/AppDispatcher":205}],191:[function(require,module,exports){
 var React = require('react');
 var AppActions = require('../actions/AppActions');
 var AppStore = require('../stores/AppStore');
@@ -21335,6 +21398,8 @@ function getAppState(){
 	return {
 		app: AppStore.getState(),
 		users: AppStore.getUsers(),
+		articles: AppStore.getArticles(),
+		queries: AppStore.getQueries(),
 		loginVisible: AppStore.getLoginVisible(),
 		appVisible: AppStore.getAppVisible(),
 		// The cool stuff
@@ -21365,14 +21430,20 @@ var App = React.createClass({displayName: "App",
 		AppStore.removeChangeListener(this._onChange);
 	},
 	render: function(){
-		console.log("Current State state: ", this.state.app );
-		console.log("Current list of users: ", this.state.users );
+		console.log("App - Current State state: ", this.state.app );
+		console.log("App - Current list of users: ", this.state.users );
+		console.log("App - Current list of articles: ", this.state.articles );
+		console.log("App - Current list of queries: ", this.state.queries );
 
-		console.log("Current UserID: ", this.state.appVisible  );
+		console.log("App - Current UserID: ", this.state.appVisible );
+		console.log("App - Current Article on Queue: ", this.state.articleScrnVisible );
 		return(
 			React.createElement("div", null, 
 				React.createElement(LoginForm, {visible: this.state.loginVisible, name: this.state.app[0], password: this.state.app[1], admin: this.state.app[2], users: this.state.users}), 
 				React.createElement(MyApp, {visible: this.state.appVisible.visible, userID: this.state.appVisible.userID, 
+					users: this.state.users, 
+					articles: this.state.articles, 
+					queries: this.state.queries, 
 					mainScrnVisible: this.state.mainScrnVisible, 
 					articleListVisible: this.state.articleListVisible, 
 					infoOneVisible: this.state.infoOneVisible, 
@@ -21380,7 +21451,9 @@ var App = React.createClass({displayName: "App",
 					newQueryVisible: this.state.newQueryVisible, 
 					dashboardVisible: this.state.dashboardVisible, 
 					queryListVisible: this.state.queryListVisible, 
-					articleScrnVisible: this.state.articleScrnVisible, 
+					articleScrnVisible: this.state.articleScrnVisible.visible, 
+					articleNo: this.state.articleScrnVisible.articleNo, 
+					article: this.state.articleScrnVisible.article, 
 					settingsVisible: this.state.settingsVisible}
 				  )
 			)
@@ -21396,10 +21469,79 @@ var App = React.createClass({displayName: "App",
 
 module.exports = App;
 
-},{"../actions/AppActions":189,"../stores/AppStore":205,"./LoginForm.js":196,"./MyApp.js":198,"react":188}],191:[function(require,module,exports){
+},{"../actions/AppActions":190,"../stores/AppStore":207,"./LoginForm.js":198,"./MyApp.js":200,"react":188}],192:[function(require,module,exports){
+var React = require('react');
+var AppActions = require('../actions/AppActions');
+
+var ArticleLink = React.createClass({displayName: "ArticleLink",
+
+	componentDidMount: function () {
+		console.log("component mounted: ", this.props.num );
+	},
+	render: function() {
+
+	var num = "content" + this.props.num;
+	console.log("current Content No: ", num );
+	var len = this.props.text.length;
+
+	var textArr = [];
+
+	for (var i=1; i < len ; i++ ) {
+		textArr[i] = this.props.text[i];
+	}  
+
+	// because each content item is created on the fly, each one's class name
+	// is unique. To handle this a "universal styling is applied here..."
+	var style = {
+		padding: '0.25em',
+		cursor: 'pointer', 
+		margin: '1em'
+	}
+
+	var open = false;
+	var num = 0;
+	var test = "hello";
+
+		return (
+			
+			React.createElement("div", {className: "articleLink"}, 
+				
+
+					textArr.map((value, num) => {
+							return (
+								React.createElement("div", {key: num, style: style, onClick: handleItemClick.bind(this, num, value)}, value)
+							);
+						})
+				 
+			)
+			)
+
+			function handleItemClick (num, textArr ){
+				//cooper s - use jquery to open/close each items content....
+                console.log("Article Clicked 2: "+ num);
+                console.log("Article Content: ", textArr );
+					//alert("Article Clicked: " + e.target.className + " contentNum: " + this.props.num );
+                    
+                    var articleObj = {
+                        articleNo : num,
+                        text : textArr
+                    }
+					var articleNo = num;
+
+					AppActions.showArticleScrn(articleObj);
+			}
+	}//end render
+
+
+});//end ComponentTwo
+
+module.exports = ArticleLink;
+
+},{"../actions/AppActions":190,"react":188}],193:[function(require,module,exports){
 var React = require('react');
 
 var AppActions = require('../actions/AppActions');
+var ArticleLink = require('./ArticleLink.js');
 
 var ArticleList = React.createClass({displayName: "ArticleList",
 
@@ -21411,12 +21553,23 @@ var ArticleList = React.createClass({displayName: "ArticleList",
 		 	console.log("ArticleList is off");
           return false;
         }
+		console.log('AriticleList - our current list of articles: ', this.props.articles );
+		var articles = [];
+		articles = this.props.articles;
+		var num = 0;
 
 		return (
 			React.createElement("div", null, 
 				
-				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "ArticleList", 
-				React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home")
+				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, 
+				React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home"), 
+					React.createElement("div", null, 
+						React.createElement("center", null, React.createElement("b", null, React.createElement("i", null, "Top 25 Article Results for Today's HeadLine: \"", articles.query, "\""))), 
+						React.createElement("br", null), React.createElement("br", null), 
+						React.createElement("div", {className: "articles"}, 
+							React.createElement(ArticleLink, {num: num, key: articles.query, text: articles.txt, url: articles.src, className: "article"})
+						)
+					)
 				)
 			)
 			);
@@ -21425,21 +21578,32 @@ var ArticleList = React.createClass({displayName: "ArticleList",
 
 module.exports = ArticleList;
 
-},{"../actions/AppActions":189,"react":188}],192:[function(require,module,exports){
+},{"../actions/AppActions":190,"./ArticleLink.js":192,"react":188}],194:[function(require,module,exports){
 var React = require('react');
+var AppActions = require('../actions/AppActions');
 
 var ArticleScrn = React.createClass({displayName: "ArticleScrn",
-
+	handleBtnClick: function() {
+		AppActions.showMainScrn('Show Main Screen');
+	},
 	render: function() {
 		 if (!this.props.visible) {
 		 	console.log("ArticleScrn is off");
           return false;
         }
 
+		console.log("ArticleScrn - our article: ", this.props.article );
+		var articleNo = this.props.articleNo;
+		var article = this.props.article;
+
 		return (
 			React.createElement("div", null, 
 				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "ArticleScrn", 
-					React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home")
+					React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home"), 
+					React.createElement("div", null, 
+						"Selected article: ", articleNo, React.createElement("br", null), 
+						article
+					)
 				)
 			)
 			);
@@ -21448,7 +21612,7 @@ var ArticleScrn = React.createClass({displayName: "ArticleScrn",
 
 module.exports = ArticleScrn;
 
-},{"react":188}],193:[function(require,module,exports){
+},{"../actions/AppActions":190,"react":188}],195:[function(require,module,exports){
 var React = require('react');
 
 var AppActions = require('../actions/AppActions');
@@ -21476,7 +21640,7 @@ var Dashboard = React.createClass({displayName: "Dashboard",
 
 module.exports = Dashboard;
 
-},{"../actions/AppActions":189,"react":188}],194:[function(require,module,exports){
+},{"../actions/AppActions":190,"react":188}],196:[function(require,module,exports){
 var React = require('react');
 
 var AppActions = require('../actions/AppActions');
@@ -21504,7 +21668,7 @@ var InfoOne = React.createClass({displayName: "InfoOne",
 
 module.exports = InfoOne;
 
-},{"../actions/AppActions":189,"react":188}],195:[function(require,module,exports){
+},{"../actions/AppActions":190,"react":188}],197:[function(require,module,exports){
 var React = require('react');
 
 var InfoTwo = React.createClass({displayName: "InfoTwo",
@@ -21528,7 +21692,7 @@ var InfoTwo = React.createClass({displayName: "InfoTwo",
 
 module.exports = InfoTwo;
 
-},{"react":188}],196:[function(require,module,exports){
+},{"react":188}],198:[function(require,module,exports){
 var React = require('react');
 var AppAPI = require('../utils/appAPI.js');
 var AppActions = require('../actions/AppActions');
@@ -21597,7 +21761,7 @@ var LoginForm = React.createClass({displayName: "LoginForm",
 
 module.exports = LoginForm;
 
-},{"../actions/AppActions":189,"../utils/appAPI.js":207,"react":188}],197:[function(require,module,exports){
+},{"../actions/AppActions":190,"../utils/appAPI.js":209,"react":188}],199:[function(require,module,exports){
 var React = require('react');
 
 var AppActions = require('../actions/AppActions');
@@ -21641,7 +21805,7 @@ var MainScrn = React.createClass({displayName: "MainScrn",
 
 module.exports = MainScrn;
 
-},{"../actions/AppActions":189,"react":188}],198:[function(require,module,exports){
+},{"../actions/AppActions":190,"react":188}],200:[function(require,module,exports){
 var React = require('react');
 var AppAPI = require('../utils/appAPI.js');
 var AppActions = require('../actions/AppActions');
@@ -21662,7 +21826,8 @@ var Settings = require('./Settings.js');
 
 
 var MyApp = React.createClass({displayName: "MyApp",
-
+	
+	
 	getInitialState: function() {
 		return { 
 				};
@@ -21686,29 +21851,32 @@ var MyApp = React.createClass({displayName: "MyApp",
 		 if (!this.props.visible) {
 		 	console.log("MyApp Form is off");
           return false; 
-	} 	
+	} 
+	
+		console.log('MyApp - current top25 Articles: ',  this.props.articles );
+		console.log('MyApp - current article: ',  this.props.article);
+
 	return (
 			React.createElement("div", null, 
 				React.createElement("h1", null, "mPoint Proto"), 
                  "User: ", this.props.userID, 
 					React.createElement("p", null, " You have been officially authorized"), 
 				React.createElement("div", {className: "navBar"}, 
-
-			React.createElement("span", {className: "navBtn", onClick: this.logout}, "Btn 1"), 
-					React.createElement("span", {className: "navBtn", onClick: this.showSettings}, "Btn 2"), 
-					React.createElement("span", {className: "navBtn", onClick: this.showQueries}, "Btn 3"), 
-					React.createElement("span", {className: "navBtn", onClick: this.showDashboard}, "Btn 4")
+					React.createElement("span", {className: "navBtn", onClick: this.logout}, "X"), 
+					React.createElement("span", {className: "navBtn", onClick: this.showSettings}, "Set"), 
+					React.createElement("span", {className: "navBtn", onClick: this.showQueries}, "Qrs"), 
+					React.createElement("span", {className: "navBtn", onClick: this.showDashboard}, "DB")
 					
 				), 
 				React.createElement("br", null), React.createElement("br", null), 
 				React.createElement(MainScrn, {visible: this.props.mainScrnVisible}), 
-				React.createElement(ArticleList, {visible: this.props.articleListVisible}), 
+				React.createElement(ArticleList, {visible: this.props.articleListVisible, articles: this.props.articles}), 
 				React.createElement(InfoOne, {visible: this.props.infoOneVisible}), 
 				React.createElement(InfoTwo, {visible: this.props.infoTwoVisible}), 
 				React.createElement(NewQuery, {visible: this.props.newQueryVisible}), 
 				React.createElement(Dashboard, {visible: this.props.dashboardVisible}), 
 				React.createElement(QueryList, {visible: this.props.queryListVisible}), 
-				React.createElement(ArticleScrn, {visible: this.props.articleScrnVisible}), 
+				React.createElement(ArticleScrn, {visible: this.props.articleScrnVisible, articleNo: this.props.articleNo, article: this.props.article}), 
 				React.createElement(Settings, {visible: this.props.settingsVisible}), 
 				React.createElement("br", null), React.createElement("br", null), 
 				React.createElement("button", {onClick: this.logout}, "Log Out")
@@ -21719,7 +21887,7 @@ var MyApp = React.createClass({displayName: "MyApp",
 
 module.exports = MyApp;
 
-},{"../actions/AppActions":189,"../utils/appAPI.js":207,"./ArticleList.js":191,"./ArticleScrn.js":192,"./Dashboard.js":193,"./InfoOne.js":194,"./InfoTwo.js":195,"./MainScrn.js":197,"./NewQuery.js":199,"./QueryList.js":200,"./Settings.js":201,"react":188}],199:[function(require,module,exports){
+},{"../actions/AppActions":190,"../utils/appAPI.js":209,"./ArticleList.js":193,"./ArticleScrn.js":194,"./Dashboard.js":195,"./InfoOne.js":196,"./InfoTwo.js":197,"./MainScrn.js":199,"./NewQuery.js":201,"./QueryList.js":202,"./Settings.js":203,"react":188}],201:[function(require,module,exports){
 var React = require('react');
 
 var NewQuery = React.createClass({displayName: "NewQuery",
@@ -21743,7 +21911,7 @@ var NewQuery = React.createClass({displayName: "NewQuery",
 
 module.exports = NewQuery;
 
-},{"react":188}],200:[function(require,module,exports){
+},{"react":188}],202:[function(require,module,exports){
 var React = require('react');
 
 var AppActions = require('../actions/AppActions');
@@ -21774,7 +21942,7 @@ var QueryList = React.createClass({displayName: "QueryList",
 
 module.exports = QueryList;
 
-},{"../actions/AppActions":189,"react":188}],201:[function(require,module,exports){
+},{"../actions/AppActions":190,"react":188}],203:[function(require,module,exports){
 var React = require('react');
 
 var AppActions = require('../actions/AppActions');
@@ -21802,9 +21970,12 @@ var Settings = React.createClass({displayName: "Settings",
 
 module.exports = Settings;
 
-},{"../actions/AppActions":189,"react":188}],202:[function(require,module,exports){
+},{"../actions/AppActions":190,"react":188}],204:[function(require,module,exports){
 module.exports = {
+	RECEIVE_TEST_QUERIES: "RECEIVE_TEST_QUERIES",
+	RECEIVE_QUERIES: "RECEIVE_QUERIES",
 	RECEIVE_USERS: "RECEIVE_USERS",
+	RECEIVE_ARTICLES: "RECEIVE_ARTICLES",
 	LOGIN_SUBMIT: "LOGIN_SUBMIT",
 	SHOW_LOGIN: "SHOW_LOGIN",
 	SHOW_APP: "SHOW_APP",
@@ -21822,7 +21993,7 @@ module.exports = {
 
 }
 
-},{}],203:[function(require,module,exports){
+},{}],205:[function(require,module,exports){
 var Dispatcher = require('flux').Dispatcher;
 var assign = require('object-assign');
 
@@ -21838,22 +22009,25 @@ var AppDispatcher = assign(new Dispatcher(),{
 
 module.exports = AppDispatcher;
 
-},{"flux":28,"object-assign":31}],204:[function(require,module,exports){
+},{"flux":28,"object-assign":31}],206:[function(require,module,exports){
 var App = require('./components/App');
 var React = require('react');
 var ReactDOM = require('react-dom');
 
+var QueryData = require('./QueryData.js');
 var AppAPI = require('./utils/appAPI');
 
-//PageData.init();
-AppAPI.getData();
+QueryData.init();
+AppAPI.getUsers();
+AppAPI.getArticles();
+AppAPI.getQueries();
 
 ReactDOM.render(
 	React.createElement(App, null),
 	document.getElementById('app')
 );
 
-},{"./components/App":190,"./utils/appAPI":207,"react":188,"react-dom":32}],205:[function(require,module,exports){
+},{"./QueryData.js":189,"./components/App":191,"./utils/appAPI":209,"react":188,"react-dom":32}],207:[function(require,module,exports){
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var AppConstants = require('../constants/AppConstants');
 var EventEmitter = require('events').EventEmitter;
@@ -21864,6 +22038,8 @@ var CHANGE_EVENT = 'change';
 
 //cooper s - a state called _items
 var _users = [];
+var _articles = [];
+var _queries = [];
 
 var _loginVisible = true;
 var _appPageVisible = false
@@ -21876,11 +22052,28 @@ var _mainScrnVisible = true, _articleScrnVisible=false,_articleListVisible=false
 var _name="John", _password="password", _admin=false;
 var _userID="000";
 
+var _articleContent = {
+	articleNo: "0",
+	text : "dummy Text"
+};
+
+var _queryContent;
+
 // Method to load product data from mock API
 function loadUsers(data) {
   _users = data;
-  console.log("AppStore.loadPageData: ", _users );
+  console.log("AppStore.loadUsers: ", _users );
 }
+
+function loadArticles(data) {
+	_articles = data;
+	console.log("AppStore.loadArticles: ", _articles );
+  }
+
+  function loadQueries(data) {
+	_queries = data;
+	console.log("AppStore.loadQueries: ", _queries );
+  }
 // Set visibility functions for each component
 
 function setLoginVisible(visible){
@@ -21983,7 +22176,7 @@ function setQueryList(visible) {
 	_infoOneVisible=false;
 	_infoTwoVisible=false;
 }
-function setArticleScrn(visible) {
+function setArticleScrn(visible, articleNo, text ) {
 	_mainScrnVisible = false;
 	_articleScrnVisible=visible;
 	_articleListVisible=false;
@@ -21994,6 +22187,10 @@ function setArticleScrn(visible) {
 	_settingsVisible=false;
 	_infoOneVisible=false;
 	_infoTwoVisible=false;
+	_articleContent = { 
+		articleNo : articleNo,
+		text : text
+	};
 }
 function setQueryScrn(visible) {
 	_mainScrnVisible = false;
@@ -22025,6 +22222,12 @@ var AppStore = assign({}, EventEmitter.prototype, {
 	getUsers: function () {
 	    return _users;
 	},
+	getArticles: function () {
+	    return _articles;
+	},
+	getQueries: function () {
+	    return _queries;
+	},
 	getState: function () {
         console.log('Appstore.getState');
         var state = [_name, _password, _admin ]; 
@@ -22047,7 +22250,12 @@ var AppStore = assign({}, EventEmitter.prototype, {
 		return _mainScrnVisible;
 	},
 	getArticleScrnVisible: function () {
-		return _articleScrnVisible;
+	   var _articleScrnObj = {
+			visible: _articleScrnVisible,
+			articleNo: _articleContent.articleNo,
+			article: _articleContent.text
+		}
+		return _articleScrnObj;
 	},
 	getInfoOneVisible: function (){
 		return _infoOneVisible;
@@ -22094,8 +22302,16 @@ AppDispatcher.register(function(payload){
 
 		// Respond to RECEIVE_DATA action
 	    case 'RECEIVE_USERS':
-			console.log("AppStore - Receiving Data: ", action.data );	    
+			console.log("AppStore - Receiving users: ", action.data );	    
 	      	loadUsers(action.data);
+		break;
+		case 'RECEIVE_ARTICLES':
+			console.log("AppStore - Receiving articles: ", action.data );	    
+			loadArticles(action.data);
+		break;
+		case 'RECEIVE_QUERIES':
+			console.log("AppStore - Receiving queries: ", action.data );	    
+			loadQueries(action.data);
 		break;
 // SHOWS
 		case 'SHOW_LOGIN':
@@ -22139,8 +22355,11 @@ AppDispatcher.register(function(payload){
 			setQueryList(_visible);
 		break;
 		case "SHOW_ARTICLESCRN":
+			console.log("Show ArticleScrn with data: ", action.data );
+			var _no = action.data.articleNo;
+			var _text = action.data.text;	
 			_visible = true;
-			setArticleScrn(_visible);
+			setArticleScrn(_visible, _no, _text );
 		break;
 		case "SHOW_QUERYSCRN":
 			_visible = true;
@@ -22159,70 +22378,108 @@ AppDispatcher.register(function(payload){
 
 module.exports = AppStore;
 
-},{"../constants/AppConstants":202,"../dispatcher/AppDispatcher":203,"../utils/AppAPI.js":206,"events":26,"object-assign":31}],206:[function(require,module,exports){
+},{"../constants/AppConstants":204,"../dispatcher/AppDispatcher":205,"../utils/AppAPI.js":208,"events":26,"object-assign":31}],208:[function(require,module,exports){
 var AppActions = require('../actions/AppActions');
 var axios = require('axios');
 
+//	var data = JSON.parse(localStorage.getItem('data'));
+//	AppActions.loadArticles(data);
+
+
 module.exports = {
+  // Load Mock Product Data Into localStorage
 
 	 // Load mock product data from localStorage into ProductStore via Action
-  getData: function () {
+  getUsers: function () {
   	console.log("appAPI.getData: " );
   	// Performing a GET request
-
 		axios.get('https://mpoint-users.herokuapp.com/users' )
 	  .then(function(response){
-	    console.log("appAPI.getData: " ,response.data); // ex.: { user: 'Your User'}
+	    console.log("appAPI.getUsers: " ,response.data); // ex.: { user: 'Your User'}
 			console.log(response.status); // ex.: 200
 			
 			var data = response.data;
 			console.log("getdata response: ", data );
 			data.map(function(data) {
 				console.log(data.name);
-			})
+			});
 		
 			AppActions.loadUsers(data);
-		
-		 function foundIt() {
-			return true;
-		}
-
 	  });
-  }//end getData
+  },//end getUsers */
 
+  getArticles: function () {
+		console.log("appAPI.getArticles " );
+		axios.get('http://ai-writer.com/mpnt_json_endpoint.php?id=3796&pass=kqPvuQmdab')
+		.then(function(response){
+				console.log("appAPI.getArticles: " ,response.data); // ex.: { user: 'Your User'}
+				console.log("response data: ", response.status); // ex.: 200
+
+				var data = response.data;
+				AppActions.loadArticles(data);
+			});//end axios get
+	},
+	getQueries: function() {
+		console.log("appAPI.getData: " );
+		axios.get('http://ai-writer.com/mpnt_json_endpoint.php?list_queries=1')
+		.then(function(response) {
+			console.log("getQueries Response: ", response.data );
+			var data = response.data;
+			AppActions.loadQueries(data);
+		});  
+	}
 }; //end exports
 
-},{"../actions/AppActions":189,"axios":1}],207:[function(require,module,exports){
+},{"../actions/AppActions":190,"axios":1}],209:[function(require,module,exports){
 var AppActions = require('../actions/AppActions');
 var axios = require('axios');
 
+//	var data = JSON.parse(localStorage.getItem('data'));
+//	AppActions.loadArticles(data);
+
+
 module.exports = {
+  // Load Mock Product Data Into localStorage
 
 	 // Load mock product data from localStorage into ProductStore via Action
-  getData: function () {
+  getUsers: function () {
   	console.log("appAPI.getData: " );
   	// Performing a GET request
-
 		axios.get('https://mpoint-users.herokuapp.com/users' )
 	  .then(function(response){
-	    console.log("appAPI.getData: " ,response.data); // ex.: { user: 'Your User'}
+	    console.log("appAPI.getUsers: " ,response.data); // ex.: { user: 'Your User'}
 			console.log(response.status); // ex.: 200
 			
 			var data = response.data;
 			console.log("getdata response: ", data );
 			data.map(function(data) {
 				console.log(data.name);
-			})
+			});
 		
 			AppActions.loadUsers(data);
-		
-		 function foundIt() {
-			return true;
-		}
-
 	  });
-  }//end getData
+  },//end getUsers */
 
+  getArticles: function () {
+		console.log("appAPI.getArticles " );
+		axios.get('http://ai-writer.com/mpnt_json_endpoint.php?id=3796&pass=kqPvuQmdab')
+		.then(function(response){
+				console.log("appAPI.getArticles: " ,response.data); // ex.: { user: 'Your User'}
+				console.log("response data: ", response.status); // ex.: 200
+
+				var data = response.data;
+				AppActions.loadArticles(data);
+			});//end axios get
+	},
+	getQueries: function() {
+		console.log("appAPI.getData: " );
+		axios.get('http://ai-writer.com/mpnt_json_endpoint.php?list_queries=1')
+		.then(function(response) {
+			console.log("getQueries Response: ", response.data );
+			var data = response.data;
+			AppActions.loadQueries(data);
+		});  
+	}
 }; //end exports
 
-},{"../actions/AppActions":189,"axios":1}]},{},[204]);
+},{"../actions/AppActions":190,"axios":1}]},{},[206]);
