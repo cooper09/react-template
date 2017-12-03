@@ -7,7 +7,7 @@ var MainScrn = React.createClass({
     
 	top25: function() {
         console.log("MainScrn - Show top25 Articles List")
-		AppActions.showArticleList('Top 25');
+		AppActions.showArticleList(this.props.articles);
 	},
 	myQueries: function() {
         console.log("MainScrn - Show MyQueries")

@@ -21771,7 +21771,7 @@ var MainScrn = React.createClass({displayName: "MainScrn",
     
 	top25: function() {
         console.log("MainScrn - Show top25 Articles List")
-		AppActions.showArticleList('Top 25');
+		AppActions.showArticleList(this.props.articles);
 	},
 	myQueries: function() {
         console.log("MainScrn - Show MyQueries")
@@ -21869,13 +21869,13 @@ var MyApp = React.createClass({displayName: "MyApp",
 					
 				), 
 				React.createElement("br", null), React.createElement("br", null), 
-				React.createElement(MainScrn, {visible: this.props.mainScrnVisible}), 
+				React.createElement(MainScrn, {visible: this.props.mainScrnVisible, articles: this.props.articles}), 
 				React.createElement(ArticleList, {visible: this.props.articleListVisible, articles: this.props.articles}), 
 				React.createElement(InfoOne, {visible: this.props.infoOneVisible}), 
 				React.createElement(InfoTwo, {visible: this.props.infoTwoVisible}), 
 				React.createElement(NewQuery, {visible: this.props.newQueryVisible}), 
 				React.createElement(Dashboard, {visible: this.props.dashboardVisible}), 
-				React.createElement(QueryList, {visible: this.props.queryListVisible}), 
+				React.createElement(QueryList, {visible: this.props.queryListVisible, queries: this.props.queries}), 
 				React.createElement(ArticleScrn, {visible: this.props.articleScrnVisible, articleNo: this.props.articleNo, article: this.props.article}), 
 				React.createElement(Settings, {visible: this.props.settingsVisible}), 
 				React.createElement("br", null), React.createElement("br", null), 
@@ -21929,11 +21929,26 @@ var QueryList = React.createClass({displayName: "QueryList",
           return false;
         }
 
+		console.log('QueryList - queries: ', this.props.queries );
+		var queryArr = [];
+		var len = this.props.queries.length;
+		queryArr = this.props.queries;
+
+		var num=0;
+
+		var style = {
+			padding: '0.25em',
+			cursor: 'pointer', 
+			margin: '1em'
+		}
 		return (
 			React.createElement("div", null, 
 				
 				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "QueryList", 
-				React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home")
+				React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home"), 
+					React.createElement("div", null
+						
+					)
 				)
 			)
 			);
@@ -22164,7 +22179,7 @@ function setDashboard(visible) {
 	_infoOneVisible=false;
 	_infoTwoVisible=false;
 }
-function setQueryList(visible) {
+function setQueryList(visible, articles) {
 	_mainScrnVisible = false;
 	_articleScrnVisible=false;
 	_articleListVisible=false;
@@ -22175,6 +22190,7 @@ function setQueryList(visible) {
 	_settingsVisible=false;
 	_infoOneVisible=false;
 	_infoTwoVisible=false;
+	_articles=articles;
 }
 function setArticleScrn(visible, articleNo, text ) {
 	_mainScrnVisible = false;
@@ -22331,8 +22347,10 @@ AppDispatcher.register(function(payload){
 			setMainScrn(_visible);
 		break;
 		case "SHOW_ARTICLELIST":
+		    console.log("AppStore.SHOW_ARTICLELIST: ", action.data )
 			_visible = true;
-			setArticleList(_visible);
+			_articles = action.data;
+			setArticleList(_visible, _articles);
 		break;
 		case "SHOW_INFOONE":
 			_visible = true;

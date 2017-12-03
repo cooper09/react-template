@@ -61,13 +61,13 @@ var MyApp = React.createClass({
 					
 				</div>
 				<br/><br/>
-				<MainScrn visible={this.props.mainScrnVisible} />
+				<MainScrn visible={this.props.mainScrnVisible} articles={this.props.articles }/>
 				<ArticleList visible={this.props.articleListVisible} articles={this.props.articles}/>
 				<InfoOne visible={this.props.infoOneVisible} />
 				<InfoTwo visible={this.props.infoTwoVisible} />
 				<NewQuery visible={this.props.newQueryVisible} />
 				<Dashboard visible={this.props.dashboardVisible} />
-				<QueryList visible={this.props.queryListVisible} />
+				<QueryList visible={this.props.queryListVisible} queries={this.props.queries } />
 				<ArticleScrn visible={this.props.articleScrnVisible} articleNo={this.props.articleNo} article={this.props.article } />
 				<Settings visible={this.props.settingsVisible} />
 				<br/><br/>

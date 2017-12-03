@@ -134,7 +134,7 @@ function setDashboard(visible) {
 	_infoOneVisible=false;
 	_infoTwoVisible=false;
 }
-function setQueryList(visible) {
+function setQueryList(visible, articles) {
 	_mainScrnVisible = false;
 	_articleScrnVisible=false;
 	_articleListVisible=false;
@@ -145,6 +145,7 @@ function setQueryList(visible) {
 	_settingsVisible=false;
 	_infoOneVisible=false;
 	_infoTwoVisible=false;
+	_articles=articles;
 }
 function setArticleScrn(visible, articleNo, text ) {
 	_mainScrnVisible = false;
@@ -301,8 +302,10 @@ AppDispatcher.register(function(payload){
 			setMainScrn(_visible);
 		break;
 		case "SHOW_ARTICLELIST":
+		    console.log("AppStore.SHOW_ARTICLELIST: ", action.data )
 			_visible = true;
-			setArticleList(_visible);
+			_articles = action.data;
+			setArticleList(_visible, _articles);
 		break;
 		case "SHOW_INFOONE":
 			_visible = true;
