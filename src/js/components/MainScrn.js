@@ -11,7 +11,7 @@ var MainScrn = React.createClass({
 	},
 	myQueries: function() {
         console.log("MainScrn - Show MyQueries")
-		AppActions.showQueryList('My Queries');
+		AppActions.showQueryList(this.props.articles);
     },
 	info: function() {
         console.log("MainScrn - Show info")

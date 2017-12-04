@@ -27,8 +27,8 @@ var MyApp = React.createClass({
 	showDashboard: function() {
 		AppActions.showDashboard("Show Dashboard");
 	},
-	showQueries: function() {
-		AppActions.showQueryList("Show Queries");
+	showNewQuery: function() {
+		AppActions.showNewQuery("Show Queries");
 	},
 	showSettings: function() {
 		AppActions.showSettings("Show Settings");
@@ -56,10 +56,10 @@ var MyApp = React.createClass({
                  User: {this.props.userID}
 					<p> {this.props.name}, you have been officially authorized</p>
 				<div className="navBar">
-					<span className="navBtn" onClick={this.logout}>X</span>
-					<span className="navBtn" onClick={this.showSettings}>Set</span>
-					<span className="navBtn" onClick={this.showQueries}>Qrs</span>
-					<span className="navBtn" onClick={this.showDashboard}>DB</span>
+					<span className="navBtn" onClick={this.logout}><img src='img/error.svg'/></span>
+					<span className="navBtn" onClick={this.showSettings}><img src='img/settings.svg'/></span>
+					<span className="navBtn" onClick={this.showNewQuery}><img src='img/network.svg'/></span>
+					<span className="navBtn" onClick={this.showDashboard}><img src='img/magnifying-glass.svg'/></span>
 				</div>
 				<MainScrn visible={this.props.mainScrnVisible} articles={this.props.articles }/>
 				<ArticleList visible={this.props.articleListVisible} articles={this.props.articles} title={title}/>

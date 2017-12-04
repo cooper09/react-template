@@ -21422,7 +21422,18 @@ var App = React.createClass({displayName: "App",
 		return getAppState();
 
 	},
+	componentWillMount : function () {
+			this.state.articles = {
+				"txt": [
+					"loading article"
+				],
+				"src":[
+					"loading source"
+				],
+				"query": "dummy articles"
+			} //end default article data 
 
+		},	
 	componentDidMount: function(){
 		AppStore.addChangeListener(this._onChange);
 	},
@@ -21438,7 +21449,7 @@ var App = React.createClass({displayName: "App",
 
 		console.log("App - Current UserID: ", this.state.appVisible.userID );
 		console.log("App - Curren User Name: ", this.state.appVisible.userName)
-		console.log("App - Current Article on Queue: ", this.state.articleScrnVisible );
+		console.log("App - Current Article on Queue: ", this.state.articleScrnVisible.article );
 		console.log("App - Current Article List Title: ", this.state.articleListVisible.title );
 		return(
 			React.createElement("div", null, 
@@ -21806,7 +21817,7 @@ var LoginForm = React.createClass({displayName: "LoginForm",
 	console.log("LoginForm - default user: ", this.state.name );
 	return (
 			React.createElement("div", null, 
-				React.createElement("h1", null, "mPoint HeadLiner Login"), 
+				React.createElement("h1", null, "mPoint HeadLiner Login 2"), 
 				React.createElement("input", {id: "input", type: "text", onBlur: this.getName, defautValue: this.state.name}), 
 				React.createElement("br", null), 
 				React.createElement("input", {id: "password", type: "password", onBlur: this.getPassword}), 
@@ -21833,7 +21844,7 @@ var MainScrn = React.createClass({displayName: "MainScrn",
 	},
 	myQueries: function() {
         console.log("MainScrn - Show MyQueries")
-		AppActions.showQueryList('My Queries');
+		AppActions.showQueryList(this.props.articles);
     },
 	info: function() {
         console.log("MainScrn - Show info")
@@ -21891,8 +21902,8 @@ var MyApp = React.createClass({displayName: "MyApp",
 	showDashboard: function() {
 		AppActions.showDashboard("Show Dashboard");
 	},
-	showQueries: function() {
-		AppActions.showQueryList("Show Queries");
+	showNewQuery: function() {
+		AppActions.showNewQuery("Show Queries");
 	},
 	showSettings: function() {
 		AppActions.showSettings("Show Settings");
@@ -21920,10 +21931,10 @@ var MyApp = React.createClass({displayName: "MyApp",
                  "User: ", this.props.userID, 
 					React.createElement("p", null, " ", this.props.name, ", you have been officially authorized"), 
 				React.createElement("div", {className: "navBar"}, 
-					React.createElement("span", {className: "navBtn", onClick: this.logout}, "X"), 
-					React.createElement("span", {className: "navBtn", onClick: this.showSettings}, "Set"), 
-					React.createElement("span", {className: "navBtn", onClick: this.showQueries}, "Qrs"), 
-					React.createElement("span", {className: "navBtn", onClick: this.showDashboard}, "DB")
+					React.createElement("span", {className: "navBtn", onClick: this.logout}, React.createElement("img", {src: "img/error.svg"})), 
+					React.createElement("span", {className: "navBtn", onClick: this.showSettings}, React.createElement("img", {src: "img/settings.svg"})), 
+					React.createElement("span", {className: "navBtn", onClick: this.showNewQuery}, React.createElement("img", {src: "img/network.svg"})), 
+					React.createElement("span", {className: "navBtn", onClick: this.showDashboard}, React.createElement("img", {src: "img/magnifying-glass.svg"}))
 				), 
 				React.createElement(MainScrn, {visible: this.props.mainScrnVisible, articles: this.props.articles}), 
 				React.createElement(ArticleList, {visible: this.props.articleListVisible, articles: this.props.articles, title: title}), 
@@ -21951,10 +21962,27 @@ module.exports = MyApp;
 },{"../actions/AppActions":190,"../utils/appAPI.js":209,"./ArticleList.js":193,"./ArticleScrn.js":194,"./Dashboard.js":195,"./InfoOne.js":196,"./InfoTwo.js":197,"./MainScrn.js":199,"./NewQuery.js":201,"./QueryList.js":202,"./Settings.js":203,"react":188}],201:[function(require,module,exports){
 var React = require('react');
 var AppActions = require('../actions/AppActions');
+var appAPI = require('../utils/appAPI.js');
 
 var NewQuery = React.createClass({displayName: "NewQuery",
+	getInitialState: function() {	
+		return { value: ''};
+	},
 	handleBtnClick: function() {
 		AppActions.showMainScrn('Show Main Screen');
+	},
+	handleChange: function (evt) {
+		//console.log("This is where: ", evt.target.value);
+		this.setState({value: evt.target.value});
+	  },
+	  handleSearchBtnClick: function() {
+		console.log("SelectedSite- query: ", this.state.value );
+		appAPI.postQuery(this.state.value );
+		// cooper s - do we add jquery here or stay "reactified..."
+		//$('#query').val('');
+		this.setState({value: ""});
+		alert("Your query has been submitted. Please wait for your email notification for the results to appear in your Query list.\n\nThank you.")
+		this.setState({value: ''});
 	},
 	render: function() {
 		 if (!this.props.visible) {
@@ -21965,9 +21993,13 @@ var NewQuery = React.createClass({displayName: "NewQuery",
 		return (
 			React.createElement("div", null, 
 				
-				React.createElement("div", {className: "mainScrn center option animated fadeIn"}, "NewQuery", 
-					React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home")
-					
+				React.createElement("div", {className: "mainScrn center option animated fadeIn"}, 
+					React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home"), 
+					React.createElement("label", null, "Enter New Headline Search: "), 
+					React.createElement("textarea", {name: "body", cols: "30", rows: "10", id: "query", className: "textArea", 
+										onChange: this.handleChange, 
+										value: this.state.value}), React.createElement("br", null), 
+					React.createElement("button", {onClick: this.handleSearchBtnClick, className: "bottomBtn"}, "Start Query")
 				)
 			)
 			);
@@ -21976,7 +22008,7 @@ var NewQuery = React.createClass({displayName: "NewQuery",
 
 module.exports = NewQuery;
 
-},{"../actions/AppActions":190,"react":188}],202:[function(require,module,exports){
+},{"../actions/AppActions":190,"../utils/appAPI.js":209,"react":188}],202:[function(require,module,exports){
 var React = require('react');
 
 var AppActions = require('../actions/AppActions');
@@ -22385,7 +22417,7 @@ var AppStore = assign({}, EventEmitter.prototype, {
 		console.log('getArticleListVisible: ', _articleListVisible );
 		var _articleListObj = {
 			visible: _articleListVisible,
-			title: _listTitle
+			title: "test"
 		}
 		console.log('getArticleListObj: ', _articleListObj );		
 		return _articleListObj;
@@ -22476,8 +22508,11 @@ AppDispatcher.register(function(payload){
 			setDashboard(_visible);
 		break;
 		case "SHOW_QUERYLIST":
+		console.log("AppStore.ShowQueryList: ", action.data );
 			_visible = true;
-			setQueryList(_visible);
+			_articles = action.data;
+			_title = " Your Personal Query List ";
+			setQueryList(_visible, _articles, _title );
 		break;
 		case "SHOW_ARTICLESCRN":
 			console.log("Show ArticleScrn with data: ", action.data );
@@ -22561,9 +22596,17 @@ module.exports = {
 					console.log("findQuery: " ,response.data); // ex.: { user: 'Your User'}
 	
 					var data = response.data;
-					AppActions.showArticleList(data,"query");
+					AppActions.showArticleList(data);
 				});//end axios get
-	}
+	},
+		// cooper s - post a new query
+		postQuery: function(query) {
+			//alert("appAPI.postQuery: ", query );
+			axios.get('http://ai-writer.com/mpnt_json_endpoint.php?add_query='+query+'&word_count=500')
+			.then(function(response) {
+				console.log("postQuery Response: ", response );
+			});  
+		}//end postQuery
 	
 }; //end exports
 
@@ -22625,9 +22668,17 @@ module.exports = {
 					console.log("findQuery: " ,response.data); // ex.: { user: 'Your User'}
 	
 					var data = response.data;
-					AppActions.showArticleList(data,"query");
+					AppActions.showArticleList(data);
 				});//end axios get
-	}
+	},
+		// cooper s - post a new query
+		postQuery: function(query) {
+			//alert("appAPI.postQuery: ", query );
+			axios.get('http://ai-writer.com/mpnt_json_endpoint.php?add_query='+query+'&word_count=500')
+			.then(function(response) {
+				console.log("postQuery Response: ", response );
+			});  
+		}//end postQuery
 	
 }; //end exports
 
@@ -22689,9 +22740,17 @@ module.exports = {
 					console.log("findQuery: " ,response.data); // ex.: { user: 'Your User'}
 	
 					var data = response.data;
-					AppActions.showArticleList(data,"query");
+					AppActions.showArticleList(data);
 				});//end axios get
-	}
+	},
+		// cooper s - post a new query
+		postQuery: function(query) {
+			//alert("appAPI.postQuery: ", query );
+			axios.get('http://ai-writer.com/mpnt_json_endpoint.php?add_query='+query+'&word_count=500')
+			.then(function(response) {
+				console.log("postQuery Response: ", response );
+			});  
+		}//end postQuery
 	
 }; //end exports
 

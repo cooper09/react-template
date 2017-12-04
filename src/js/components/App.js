@@ -35,7 +35,18 @@ var App = React.createClass({
 		return getAppState();
 
 	},
+	componentWillMount : function () {
+			this.state.articles = {
+				"txt": [
+					"loading article"
+				],
+				"src":[
+					"loading source"
+				],
+				"query": "dummy articles"
+			} //end default article data 
 
+		},	
 	componentDidMount: function(){
 		AppStore.addChangeListener(this._onChange);
 	},
@@ -51,7 +62,7 @@ var App = React.createClass({
 
 		console.log("App - Current UserID: ", this.state.appVisible.userID );
 		console.log("App - Curren User Name: ", this.state.appVisible.userName)
-		console.log("App - Current Article on Queue: ", this.state.articleScrnVisible );
+		console.log("App - Current Article on Queue: ", this.state.articleScrnVisible.article );
 		console.log("App - Current Article List Title: ", this.state.articleListVisible.title );
 		return(
 			<div>

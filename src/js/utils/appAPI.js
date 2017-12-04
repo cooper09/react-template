@@ -55,8 +55,16 @@ module.exports = {
 					console.log("findQuery: " ,response.data); // ex.: { user: 'Your User'}
 	
 					var data = response.data;
-					AppActions.showArticleList(data,"query");
+					AppActions.showArticleList(data);
 				});//end axios get
-	}
+	},
+		// cooper s - post a new query
+		postQuery: function(query) {
+			//alert("appAPI.postQuery: ", query );
+			axios.get('http://ai-writer.com/mpnt_json_endpoint.php?add_query='+query+'&word_count=500')
+			.then(function(response) {
+				console.log("postQuery Response: ", response );
+			});  
+		}//end postQuery
 	
 }; //end exports

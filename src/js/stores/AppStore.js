@@ -247,7 +247,7 @@ var AppStore = assign({}, EventEmitter.prototype, {
 		console.log('getArticleListVisible: ', _articleListVisible );
 		var _articleListObj = {
 			visible: _articleListVisible,
-			title: _listTitle
+			title: "test"
 		}
 		console.log('getArticleListObj: ', _articleListObj );		
 		return _articleListObj;
@@ -338,8 +338,11 @@ AppDispatcher.register(function(payload){
 			setDashboard(_visible);
 		break;
 		case "SHOW_QUERYLIST":
+		console.log("AppStore.ShowQueryList: ", action.data );
 			_visible = true;
-			setQueryList(_visible);
+			_articles = action.data;
+			_title = " Your Personal Query List ";
+			setQueryList(_visible, _articles, _title );
 		break;
 		case "SHOW_ARTICLESCRN":
 			console.log("Show ArticleScrn with data: ", action.data );

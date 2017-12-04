@@ -58,7 +58,7 @@ var LoginForm = React.createClass({
 	console.log("LoginForm - default user: ", this.state.name );
 	return (
 			<div>
-				<h1>mPoint HeadLiner Login</h1>
+				<h1>mPoint HeadLiner Login 2</h1>
 				<input id="input" type="text" onBlur={this.getName} defautValue={this.state.name} />
 				<br/>
 				<input id="password" type="password" onBlur={this.getPassword}/>
