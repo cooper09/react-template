@@ -14,8 +14,9 @@ var NewQuery = React.createClass({
 		return (
 			<div>
 				
-				<div className='mainScrn center option animated zoomInUp'>NewQuery
-				<button onClick={this.handleBtnClick} className="homeBtn">Home</button>
+				<div className='mainScrn center option animated fadeIn'>NewQuery
+					<button onClick={this.handleBtnClick} className="homeBtn">Home</button>
+					
 				</div>
 			</div>
 			);

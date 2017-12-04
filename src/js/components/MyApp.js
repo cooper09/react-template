@@ -47,10 +47,12 @@ var MyApp = React.createClass({
 		console.log('MyApp - current article: ',  this.props.article);
 
 		var title = this.props.articleListTitle;
+		var url = this.props.articles.src[this.props.articleNo];
+		console.log("MyApp - current article url: ", url );
 
 	return (
 			<div>
-				<h1>mPoint Proto</h1>
+				<h1>mPoint HeadLiner</h1>
                  User: {this.props.userID}
 					<p> {this.props.name}, you have been officially authorized</p>
 				<div className="navBar">
@@ -66,7 +68,12 @@ var MyApp = React.createClass({
 				<NewQuery visible={this.props.newQueryVisible} />
 				<Dashboard visible={this.props.dashboardVisible} />
 				<QueryList visible={this.props.queryListVisible} queries={this.props.queries } />
-				<ArticleScrn visible={this.props.articleScrnVisible} articleNo={this.props.articleNo} article={this.props.article } />
+				<ArticleScrn visible={this.props.articleScrnVisible} articleNo={this.props.articleNo}
+					article={this.props.article }
+					query={this.props.articles.query} 
+					url={url}
+					articles={this.props.articles}
+					/>
 				<Settings visible={this.props.settingsVisible} />
 				<br/><br/>
 				<button onClick={this.logout}>Log Out</button>

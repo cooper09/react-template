@@ -21,7 +21,7 @@ var ArticleList = React.createClass({
 		return (
 			<div>
 				
-				<div className='mainScrn center option animated zoomInUp'>
+				<div className='mainScrn center option animated fadeIn'>
 				<button onClick={this.handleBtnClick} className="homeBtn">Home</button>
 					<div>
 						<center><b><i>{this.props.title}: "{articles.query}"</i></b></center>

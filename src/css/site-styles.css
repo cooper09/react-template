@@ -68,11 +68,13 @@ h1 {
   margin-right: 1.69492%;
   display: inline;
   background: aqua;
+  height: 4em;
   position: absolute;
   left: 33%;
+  padding: 1em;
 }
 
-/* line 52, ../sass/partials/_main.sass */
+/* line 53, ../sass/partials/_main.sass */
 .navBar {
   width: 32.20339%;
   float: left;
@@ -87,7 +89,7 @@ h1 {
   bottom: 6em;
 }
 @media (max-width: 651px) {
-  /* line 52, ../sass/partials/_main.sass */
+  /* line 53, ../sass/partials/_main.sass */
   .navBar {
     width: 100%;
     float: left;
@@ -96,7 +98,7 @@ h1 {
   }
 }
 
-/* line 65, ../sass/partials/_main.sass */
+/* line 66, ../sass/partials/_main.sass */
 .mainBtn {
   width: 32.20339%;
   float: left;
@@ -108,7 +110,7 @@ h1 {
   cursor: pointer;
 }
 
-/* line 72, ../sass/partials/_main.sass */
+/* line 73, ../sass/partials/_main.sass */
 .homeBtn {
   width: 15.25424%;
   float: left;
@@ -119,7 +121,7 @@ h1 {
   cursor: pointer;
 }
 
-/* line 78, ../sass/partials/_main.sass */
+/* line 79, ../sass/partials/_main.sass */
 .navBtn {
   width: 15.25424%;
   float: left;
@@ -130,4 +132,13 @@ h1 {
   background: aqua;
   float: right;
   cursor: pointer;
+}
+
+/* line 87, ../sass/partials/_main.sass */
+.textArea {
+  width: 32.20339%;
+  float: left;
+  margin-right: 1.69492%;
+  display: inline;
+  background: white;
 }

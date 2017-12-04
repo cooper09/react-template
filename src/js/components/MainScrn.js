@@ -7,7 +7,7 @@ var MainScrn = React.createClass({
     
 	top25: function() {
         console.log("MainScrn - Show top25 Articles List")
-		AppActions.showArticleList(this.props.articles,"Top 25");
+		AppActions.showArticleList(this.props.articles,"Top 25 Articles for Headline ");
 	},
 	myQueries: function() {
         console.log("MainScrn - Show MyQueries")
@@ -25,9 +25,7 @@ var MainScrn = React.createClass({
 
 		return (
 			<div>
-				
-				<div className='mainScrn center option animated zoomInUp'>MainScrn
-                    <br/><br/>
+				<div className='mainScrn center option animated fadeIn'>MainScrn
                     <div className="centerPiece">
                         <button className="mainBtn" onClick={this.top25}>Top 25 Articles</button><br/>
                         <button className="mainBtn" onClick={this.myQueries}>My Queries</button><br/>

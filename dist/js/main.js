@@ -21565,7 +21565,7 @@ var ArticleList = React.createClass({displayName: "ArticleList",
 		return (
 			React.createElement("div", null, 
 				
-				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, 
+				React.createElement("div", {className: "mainScrn center option animated fadeIn"}, 
 				React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home"), 
 					React.createElement("div", null, 
 						React.createElement("center", null, React.createElement("b", null, React.createElement("i", null, this.props.title, ": \"", articles.query, "\""))), 
@@ -21590,6 +21590,9 @@ var ArticleScrn = React.createClass({displayName: "ArticleScrn",
 	handleBtnClick: function() {
 		AppActions.showMainScrn('Show Main Screen');
 	},
+	articleBtnClick: function() {
+		AppActions.showArticleList(this.props.articles,"Top 25 Articles for Headline ");
+	},
 	render: function() {
 		 if (!this.props.visible) {
 		 	console.log("ArticleScrn is off");
@@ -21599,18 +21602,46 @@ var ArticleScrn = React.createClass({displayName: "ArticleScrn",
 		console.log("ArticleScrn - our article: ", this.props.article );
 		var articleNo = this.props.articleNo;
 		var article = this.props.article;
+		var query = this.props.query;
+		var url = this.props.url;
+		var image = "img/articleOne.jpg";
 
 		return (
 			React.createElement("div", null, 
-				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "ArticleScrn", 
+				React.createElement("div", {className: "mainScrn center option animated fadeIn"}, "ArticleScrn", 
 					React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home"), 
+					React.createElement("button", {onClick: this.articleBtnClick, className: "homeBtn"}, "Top Headlines"), 
 					React.createElement("div", null, 
 						"Selected article: ", articleNo, React.createElement("br", null), 
-						article
+						"Query: ", query, React.createElement("br", null), 
+						"Article: ", React.createElement("form", null, 
+									React.createElement("textarea", {name: "body", rows: "10", className: "textArea", 
+											//onChange={this.handleChange({copy})}
+											defaultValue: article})
+								), 
+						React.createElement("button", {onClick: handleDelBtnClick.bind(this), className: "scrnBtn"}, "Delete"), 
+						React.createElement("button", {onClick: handleSaveBtnClick.bind(this, {article}), className: "scrnBtn"}, "Save")
+					), 
+					React.createElement("div", null, 
+						React.createElement("i", null, "Original Article"), React.createElement("br", null), 
+						React.createElement("a", {href: url, target: "_blank", className: "link"}, url)
+					), 
+					React.createElement("div", null, 
+					React.createElement("i", null, "Original Graphic"), 
+						React.createElement("br", null), React.createElement("br", null), 
+						React.createElement("img", {src: image})
 					)
 				)
 			)
 			);
+
+			function handleSaveBtnClick (copy ){
+				alert("Saving Article");
+			}//end handle SaveBtnClick
+			function handleDelBtnClick (copy ){
+				alert("Deleting Article");
+			}//end handle SaveBtnClick
+			
 	}//end render
 });//end ArticleScrn
 
@@ -21634,7 +21665,7 @@ var Dashboard = React.createClass({displayName: "Dashboard",
 		return (
 			React.createElement("div", null, 
 				
-				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "Dashboard", 
+				React.createElement("div", {className: "mainScrn center option animated fadeIn"}, "Dashboard", 
 				React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home")
 				)
 			)
@@ -21700,7 +21731,7 @@ var InfoTwo = React.createClass({displayName: "InfoTwo",
 		return (
 			React.createElement("div", null, 
 				
-				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "InfoTwo", 
+				React.createElement("div", {className: "mainScrn center option animated fadeIn"}, "InfoTwo", 
 					React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home"), 
 					React.createElement("br", null), 
 					"More Instructions if Necessary...", 
@@ -21798,7 +21829,7 @@ var MainScrn = React.createClass({displayName: "MainScrn",
     
 	top25: function() {
         console.log("MainScrn - Show top25 Articles List")
-		AppActions.showArticleList(this.props.articles,"Top 25");
+		AppActions.showArticleList(this.props.articles,"Top 25 Articles for Headline ");
 	},
 	myQueries: function() {
         console.log("MainScrn - Show MyQueries")
@@ -21816,9 +21847,7 @@ var MainScrn = React.createClass({displayName: "MainScrn",
 
 		return (
 			React.createElement("div", null, 
-				
-				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "MainScrn", 
-                    React.createElement("br", null), React.createElement("br", null), 
+				React.createElement("div", {className: "mainScrn center option animated fadeIn"}, "MainScrn", 
                     React.createElement("div", {className: "centerPiece"}, 
                         React.createElement("button", {className: "mainBtn", onClick: this.top25}, "Top 25 Articles"), React.createElement("br", null), 
                         React.createElement("button", {className: "mainBtn", onClick: this.myQueries}, "My Queries"), React.createElement("br", null), 
@@ -21882,10 +21911,12 @@ var MyApp = React.createClass({displayName: "MyApp",
 		console.log('MyApp - current article: ',  this.props.article);
 
 		var title = this.props.articleListTitle;
+		var url = this.props.articles.src[this.props.articleNo];
+		console.log("MyApp - current article url: ", url );
 
 	return (
 			React.createElement("div", null, 
-				React.createElement("h1", null, "mPoint Proto"), 
+				React.createElement("h1", null, "mPoint HeadLiner"), 
                  "User: ", this.props.userID, 
 					React.createElement("p", null, " ", this.props.name, ", you have been officially authorized"), 
 				React.createElement("div", {className: "navBar"}, 
@@ -21901,7 +21932,12 @@ var MyApp = React.createClass({displayName: "MyApp",
 				React.createElement(NewQuery, {visible: this.props.newQueryVisible}), 
 				React.createElement(Dashboard, {visible: this.props.dashboardVisible}), 
 				React.createElement(QueryList, {visible: this.props.queryListVisible, queries: this.props.queries}), 
-				React.createElement(ArticleScrn, {visible: this.props.articleScrnVisible, articleNo: this.props.articleNo, article: this.props.article}), 
+				React.createElement(ArticleScrn, {visible: this.props.articleScrnVisible, articleNo: this.props.articleNo, 
+					article: this.props.article, 
+					query: this.props.articles.query, 
+					url: url, 
+					articles: this.props.articles}
+					), 
 				React.createElement(Settings, {visible: this.props.settingsVisible}), 
 				React.createElement("br", null), React.createElement("br", null), 
 				React.createElement("button", {onClick: this.logout}, "Log Out")
@@ -21929,8 +21965,9 @@ var NewQuery = React.createClass({displayName: "NewQuery",
 		return (
 			React.createElement("div", null, 
 				
-				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "NewQuery", 
-				React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home")
+				React.createElement("div", {className: "mainScrn center option animated fadeIn"}, "NewQuery", 
+					React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home")
+					
 				)
 			)
 			);
@@ -21976,7 +22013,7 @@ var QueryList = React.createClass({displayName: "QueryList",
 		return (
 			React.createElement("div", null, 
 				
-				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "QueryList", 
+				React.createElement("div", {className: "mainScrn center option animated fadeIn"}, "QueryList", 
 				React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home"), 
 					React.createElement("div", null, 
 					 
@@ -22031,7 +22068,7 @@ var Settings = React.createClass({displayName: "Settings",
 		return (
 			React.createElement("div", null, 
 				
-				React.createElement("div", {className: "mainScrn center option animated zoomInUp"}, "Settings", 
+				React.createElement("div", {className: "mainScrn center option animated fadeIn"}, "Settings", 
 				React.createElement("button", {onClick: this.handleBtnClick, className: "homeBtn"}, "Home")
 				)
 			)

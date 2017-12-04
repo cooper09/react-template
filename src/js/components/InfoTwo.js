@@ -19,7 +19,7 @@ var InfoTwo = React.createClass({
 		return (
 			<div>
 				
-				<div className='mainScrn center option animated zoomInUp'>InfoTwo
+				<div className='mainScrn center option animated fadeIn'>InfoTwo
 					<button onClick={this.handleBtnClick} className="homeBtn">Home</button>
 					<br/>
 					More Instructions if Necessary...
